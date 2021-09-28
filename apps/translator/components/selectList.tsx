@@ -3,13 +3,9 @@ import { Listbox, Transition } from "@headlessui/react"
 import { ReactElement } from "react"
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
 
-import { useAppDispatch } from "../app/hooks"
-import { setLanguage } from "../app/translatorSlice"
-
-export type SelectListItemType = { title: string };
-
+import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { selectAvailableLanguages, setLanguage } from "../app/translatorSlice"
 interface SelectListProps {
-  listItems: Array<SelectListItemType>
   selected: string
 }
 
@@ -17,8 +13,10 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ")
 }
 
-const SelectList = ({ listItems, selected }: SelectListProps): ReactElement => {
+const SelectList = ({ selected }: SelectListProps): ReactElement => {
   const dispatch = useAppDispatch()
+
+  const availableLanguages = useAppSelector(selectAvailableLanguages)
 
   return (
     <Listbox
@@ -46,16 +44,16 @@ const SelectList = ({ listItems, selected }: SelectListProps): ReactElement => {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm language-options-list">
-                {listItems.map((listItem) => (
+                {availableLanguages.map((item) => (
                   <Listbox.Option
-                    key={listItem.title}
+                    key={item}
                     className={({ active }) =>
                       classNames(
                         active ? "text-white bg-indigo-600" : "text-gray-900",
                         "cursor-default select-none relative py-2 pl-3 pr-9 language-option"
                       )
                     }
-                    value={listItem.title}
+                    value={item.toLowerCase()}
                   >
                     {({ selected, active }) => (
                       <>
@@ -65,7 +63,7 @@ const SelectList = ({ listItems, selected }: SelectListProps): ReactElement => {
                             "block text-2xl"
                           )}
                         >
-                          {listItem.title}
+                          {item}
                         </span>
 
                         {selected ? (

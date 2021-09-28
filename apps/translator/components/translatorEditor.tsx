@@ -13,7 +13,7 @@ import {
   setError,
 } from '../app/translatorSlice';
 import { defaultText } from '../constants';
-import AboveEditor from './aboveEditor';
+import { AboveEditor } from '.';
 
 const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
   const dispatch = useAppDispatch();
@@ -69,7 +69,7 @@ const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
   };
 
   return (
-    <div className="md:flex pt-4 h-1/2 gap-2 flex-col">
+    <div className="md:flex pt-4 h-3/5 gap-2 flex-col">
       <AboveEditor selectedLanguage={selected} translated={translated} />
 
       <div className="flex h-full">

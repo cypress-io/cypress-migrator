@@ -51,7 +51,7 @@ const AvailableCodemods = ({
 }): ReactElement => {
   return (
     <>
-      <h2 className="text-3xl leading-6 font-bold text-gray-900 mb-4">
+      <h2 className="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">
         {selectedLanguage} Translations
       </h2>
       {allCodeMods?.map((codeMod: string, i: number) => (

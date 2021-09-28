@@ -1,6 +1,5 @@
 import { ReactElement } from "react"
-import LanguagePills from "./languagePills"
-import CopyButton from "./copyButton"
+import { LanguagePills, CopyButton} from '.';
 
 const AboveEditor = ({
   selectedLanguage,

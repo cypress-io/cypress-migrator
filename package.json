@@ -16,6 +16,7 @@
     "@nrwl/node": "^12.9.0",
     "@reduxjs/toolkit": "^1.6.1",
     "@tailwindcss/typography": "^0.4.1",
+    "@testing-library/jest-dom": "^5.14.1",
     "autoprefixer": "^10.3.6",
     "core-js": "^3.6.5",
     "gray-matter": "^4.0.3",
@@ -28,6 +29,7 @@
     "react-redux": "^7.2.5",
     "regenerator-runtime": "0.13.7",
     "remark-gfm": "^2.0.0",
+    "remark-html": "^14.0.1",
     "remark-markdown": "^0.0.1",
     "tailwindcss": "^2.2.16",
     "tslib": "^2.0.0"

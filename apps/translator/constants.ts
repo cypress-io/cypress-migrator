@@ -1,8 +1,4 @@
-export const navigation = [
-    { title: "Documentation", url: "https://docs.cypress.io" },
-  ]
-  
-  export const defaultText = {
+export const defaultText = {
     protractor: `describe('Cypress Docs', () => {
       it('should show the correct site title and redirect url', () => {
         browser.driver.get('https://docs.cypress.io/');

@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react"
-import Toast from "./toast"
+import { Toast } from ".";
 import { ClipboardCopyIcon } from "@heroicons/react/outline"
 
 const CopyButton = ({ translated }: { translated: string }): ReactElement => {

@@ -1,13 +1,9 @@
-import { ReactElement, useState } from "react"
+import { ReactElement } from "react"
 import Head from "next/head"
 
 import { useAppSelector } from "../app/hooks"
 import { selectLanguage } from "../app/translatorSlice"
-
-import Navigation from "../components/navigation"
-import SelectList from "../components/selectList"
-import TranslateEditor from "../components/translatorEditor"
-import AvailableCodeMods from "../components/availableCodemods"
+import { Navigation, SelectList, TranslateEditor, AvailableCodeMods } from "../components"
 import { getAllCodeMods } from "../api"
 
 const Translator = ({
@@ -38,7 +34,6 @@ const Translator = ({
             <p className="text-3xl">Translate</p>
             <div className="px-3">
               <SelectList
-                listItems={[{ title: "protractor" }]}
                 selected={selectedLanguage}
               />
             </div>
