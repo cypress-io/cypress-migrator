@@ -1,29 +1,32 @@
 import { JSCodeshift } from 'jscodeshift';
+
 import {
-  getPropertyName,
-  isSelector,
-  replaceCyContainsSelector,
-  replaceCySelector,
-} from '../utils';
-import {
-  cyContainLocators,
-  CyGetLocators,
   cyGetLocators,
+  cyContainLocators,
   supportedAssertionTypes,
   unsupportedLocators,
+  CyGetLocators,
 } from './constants';
+import {
+  isSelector,
+  getPropertyName,
+  replaceCySelector,
+  replaceCyContainsSelector,
+} from '../utils';
 
+// transform cyGetLocators items into cy.get()
+// transform cyContainLocators items into cy.contains()
 export function handleCyGetTransform(
   j: JSCodeshift,
   path: any,
-  propertyName: CyGetLocators
+  propertyName: string
 ): any {
   // if $$ is after another expression, transform it into .find()
   // otherwise, transform $, $$, and by locators as documented
   if (propertyName === '$$' && path.value?.callee.object) {
     path.value.callee.property.name = 'find';
   } else {
-    if (cyGetLocators.includes(propertyName)) {
+    if (cyGetLocators.includes(propertyName as CyGetLocators)) {
       return j(path).replaceWith((path: any) => {
         return replaceCySelector(j, path.value, 'get', propertyName);
       });

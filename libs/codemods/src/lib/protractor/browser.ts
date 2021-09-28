@@ -1,10 +1,15 @@
 import { JSCodeshift } from 'jscodeshift';
-import { errorMessage, getIdentifier, replaceCySelector } from '../utils';
+
 import {
   browserMethodTransforms,
   supportedBrowserMethods,
   unsupportedBrowserMethods,
 } from './constants';
+import {
+  errorMessage,
+  getIdentifier,
+  replaceCySelector,
+} from '../utils';
 
 export function removeUnsupportedBrowserMethods(
   report: (msg: string) => void,
@@ -53,14 +58,6 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: any): any {
         return j(path).replaceWith((path) => {
           const waitTransform = replaceCySelector(j, path.value, 'wait');
 
-          waitTransform.comments = [
-            j.commentLine(
-              ' Refer to https://on.cypress.io/wait for more information.',
-              true,
-              false
-            ),
-          ];
-
           return waitTransform;
         });
       }
@@ -94,8 +91,7 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: any): any {
                     ? j.identifier(node.callee.object.arguments[0].name)
                     : j.stringLiteral(
                         transformedArg && transformedArg.arguments[0]
-                          ? // TODO I had to use ['value'] instead of .value after migrating to nx. I'm assuming it is a difference in the strictness of Typescript but its worth looking into in the future
-                            transformedArg.arguments[0]['value']
+                          ? transformedArg.arguments[0].value
                           : node.callee.object.arguments[0].arguments[0].value
                       ),
                 ]

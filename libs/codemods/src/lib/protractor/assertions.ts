@@ -1,20 +1,27 @@
 import { JSCodeshift } from 'jscodeshift';
+
 import {
-  errorMessage,
-  findElementInExpression,
+  supportedAssertionTypes,
+  assertionTransforms,
+  cyGetLocators,
+  cyContainLocators,
+  CyGetLocators,
+} from './constants';
+import {
+  getPropertyName,
   getAssertionTarget,
   getAssertionTargetType,
-  getPropertyName,
   hasProperty,
-  replaceCyContainsSelector,
   replaceCySelector,
+  findElementInExpression,
+  errorMessage,
+  replaceCyContainsSelector,
 } from '../utils';
-import {
-  assertionTransforms,
-  cyContainLocators,
-  cyGetLocators,
-  supportedAssertionTypes,
-} from './constants';
+
+// transform cyGetLocators items into cy.get()
+// transform cyContainLocators items into cy.contains()
+//
+// exclude non-locators and assertions from this group
 
 export function transformAssertions(
   j: JSCodeshift,
@@ -38,14 +45,14 @@ export function transformAssertions(
         if (assertionTarget.type === 'Identifier') {
           return assertionTarget;
         } else if (assertionTarget.callee) {
-          if (assertionTarget.callee.property.name === 'title') {
+          if (assertionTarget.callee.object.name === 'cy') {
             return j.callExpression(
               j.memberExpression(
-                j.identifier('cy'),
-                j.identifier('title'),
+                assertionTarget.callee.object,
+                assertionTarget.callee.property,
                 false
               ),
-              []
+              assertionTarget.arguments.length ? assertionTarget.arguments : []
             );
           }
           return assertionTarget.callee.object;
@@ -144,9 +151,9 @@ export function transformAssertions(
     })
     .forEach((path: any) => {
       if (path.value.callee.object.callee) {
-        const propertyName = getPropertyName(path.value.callee.object.callee);
+        const propertyName = getPropertyName(path.value.callee.object.callee)
 
-        if (propertyName && !['its', 'title'].includes(propertyName)) {
+        if (propertyName && cyGetLocators.includes(propertyName as CyGetLocators)) {
           path.value.callee.object = replaceCySelector(
             j,
             path.value.callee.object,

@@ -39,5 +39,9 @@ describe('Assertions', () => {
     it('should transform getText()', () => {
       cy.get('#user-name').should('have.text', 'Joe Smith');
     });
+
+    it('should transform browser assertions', () => {
+      cy.location('href').should('equal', 'https://docs.cypress.io/guides/overview/why-cypress');
+    });
   });
   

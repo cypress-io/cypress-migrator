@@ -39,5 +39,11 @@ describe('Assertions', () => {
     it('should transform getText()', () => {
       expect(element(by.id('user-name')).getText()).toBe('Joe Smith');
     });
+
+    it('should transform browser assertions', () => {
+      expect(browser.getCurrentUrl()).toEqual(
+        'https://docs.cypress.io/guides/overview/why-cypress'
+      );
+    });
   });
   

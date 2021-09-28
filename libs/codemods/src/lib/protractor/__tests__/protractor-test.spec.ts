@@ -40,7 +40,6 @@ describe('protractor', () => {
   cy.reload()
   cy.go('forward')
   cy.go('back')
-  // Refer to https://on.cypress.io/wait for more information.
   cy.wait(5000)
   cy.title()
   cy.location('href')
