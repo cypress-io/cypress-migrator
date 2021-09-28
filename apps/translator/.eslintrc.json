@@ -18,6 +18,13 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "react/display-name": "off",
+        "react/no-children-prop": "off"
+      }
     }
   ],
   "env": {

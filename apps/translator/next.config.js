@@ -1,15 +1,24 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withNx = require('@nrwl/next/plugins/with-nx');
+/** @type {import('next').NextConfig} */
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    domains: ['tailwindui.com', 'images.unsplash.com'],
+  },
+  //webpack5: false,
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      child_process: false,
+      net: false,
+      crypto: false,
+    };
 
-/**
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
- **/
-const nextConfig = {
-  nx: {
-    // Set this to true if you would like to to use SVGR
-    // See: https://github.com/gregberge/svgr
-    svgr: false,
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      process: 'process/browser',
+    };
+
+    return config;
   },
 };
-
-module.exports = withNx(nextConfig);

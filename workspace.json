@@ -1,6 +1,39 @@
 {
   "version": 2,
   "projects": {
+    "codemods": {
+      "root": "libs/codemods",
+      "sourceRoot": "libs/codemods/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/codemods/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/codemods"],
+          "options": {
+            "jestConfig": "libs/codemods/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/codemods",
+            "tsConfig": "libs/codemods/tsconfig.lib.json",
+            "packageJson": "libs/codemods/package.json",
+            "main": "libs/codemods/src/index.ts",
+            "assets": ["libs/codemods/*.md"]
+          }
+        }
+      }
+    },
     "translator": {
       "root": "apps/translator",
       "sourceRoot": "apps/translator",
