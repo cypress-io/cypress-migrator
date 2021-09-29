@@ -16,6 +16,7 @@ const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement =>
         <title>Cypress Translator | Interactive Code Transformer</title>
         <meta property="og:title" content="Cypress Translator | Interactive Code Transformer" key="title" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+        <link rel="shortcut icon" href="public/favicon.ico" type="image/x-icon" />
       </Head>
 
       <Navigation />
