@@ -1,11 +1,11 @@
-import { ReactElement } from "react"
-import { LanguagePills, CopyButton} from '.';
+import { ReactElement } from 'react'
+import { LanguagePills, CopyButton } from '.'
 
 const AboveEditor = ({
   selectedLanguage,
   translated,
 }: {
-  selectedLanguage: "Protractor" | string
+  selectedLanguage: 'Protractor' | string
   translated: string
 }): ReactElement => {
   return (

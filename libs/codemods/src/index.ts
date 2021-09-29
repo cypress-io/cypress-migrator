@@ -1,23 +1,23 @@
-import { DiffArrayItem, createDiffArray } from './lib/utils';
-import protractorTransformer from './lib/protractor';
-import * as jscodeshift from 'jscodeshift/dist/core';
+import { DiffArrayItem, createDiffArray } from './lib/utils'
+import protractorTransformer from './lib/protractor'
+import * as jscodeshift from 'jscodeshift/dist/core'
 interface TransformResult {
-  output: string | undefined;
-  diff: DiffArrayItem[];
+  output: string | undefined
+  diff: DiffArrayItem[]
   error?: {
-    message: string;
-    level: 'warning' | 'error' | 'info';
-  };
+    message: string
+    level: 'warning' | 'error' | 'info'
+  }
 }
 
 interface TransformProps {
-  input: string;
-  warningMessage?: string;
-  notSupportedMessage?: string;
-  errorMessage?: string;
+  input: string
+  warningMessage?: string
+  notSupportedMessage?: string
+  errorMessage?: string
 }
 
-export const parser = 'babel';
+export const parser = 'babel'
 
 export default function applyTransforms({
   input,
@@ -39,8 +39,8 @@ export default function applyTransforms({
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         report: () => {},
       },
-      {}
-    );
+      {},
+    )
 
     // if the transform does not exist for some reason.
     if (typeof transform === 'undefined') {
@@ -48,7 +48,7 @@ export default function applyTransforms({
         output: undefined,
         diff: [],
         error: { message: warningMessage, level: 'warning' },
-      };
+      }
     } else if (typeof transform === 'string') {
       // else if it is a string, determine if it has length or not.
       // an empty string implies that it was removed and not supported.
@@ -56,7 +56,7 @@ export default function applyTransforms({
         return {
           output: transform.trim(),
           diff: createDiffArray(input, transform),
-        };
+        }
       } else {
         return {
           output: undefined,
@@ -65,16 +65,16 @@ export default function applyTransforms({
             message: notSupportedMessage,
             level: 'info',
           },
-        };
+        }
       }
     } else {
-      throw new Error();
+      throw new Error()
     }
   } catch {
     return {
       output: undefined,
       diff: [],
       error: { message: errorMessage, level: 'error' },
-    };
+    }
   }
 }

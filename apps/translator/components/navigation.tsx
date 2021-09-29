@@ -1,16 +1,16 @@
-import { ReactElement } from "react"
-import Image from "next/image"
-import logo from "../public/logo.png";
+import { ReactElement } from 'react'
+import Image from 'next/image'
+import logo from '../public/logo.png'
 
-import { useAppSelector } from "../app/hooks";
-import { selectLanguage } from "../app/translatorSlice";
+import { useAppSelector } from '../app/hooks'
+import { selectLanguage } from '../app/translatorSlice'
 
 const Navigation = (): ReactElement => {
-  const selectedLanguage: string = useAppSelector(selectLanguage);
-  const navLinks = [{ title: "Cypress Docs", url: "https://docs.cypress.io"}];
+  const selectedLanguage: string = useAppSelector(selectLanguage)
+  const navLinks = [{ title: 'Cypress Docs', url: 'https://docs.cypress.io' }]
   const migrationGuides = {
-    protractor: { url: 'https://on.cypress.io/protractor-to-cypress'}
-  };
+    protractor: { url: 'https://on.cypress.io/protractor-to-cypress' },
+  }
 
   return (
     <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">

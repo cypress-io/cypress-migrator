@@ -3,8 +3,8 @@
 // const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 // const transform = require('../index.ts');
 
-import * as jscodeshiftTestUtils from 'jscodeshift/dist/testUtils';
-import * as transform from '../index';
+import * as jscodeshiftTestUtils from 'jscodeshift/dist/testUtils'
+import * as transform from '../index'
 
 describe('protractor', () => {
   const browserMethodsInput = `
@@ -31,7 +31,7 @@ describe('protractor', () => {
   browser.waitForAngularEnabled()
   browser.pause()
   browser.getId()
-  `;
+  `
 
   const browserMethodsOutput = `
   cy.visit()
@@ -47,7 +47,7 @@ describe('protractor', () => {
   cy.debug()
   cy.get('.list')
   cy.get('.list')
-  `;
+  `
 
   // test removing protractor imports codemod
   jscodeshiftTestUtils.defineInlineTest(
@@ -55,28 +55,22 @@ describe('protractor', () => {
     {},
     browserMethodsInput,
     browserMethodsOutput,
-    'transform browser methods'
-  );
+    'transform browser methods',
+  )
 
   jscodeshiftTestUtils.defineTest(__dirname, '.', null, 'assertions', {
     parser: 'ts',
-  });
+  })
   jscodeshiftTestUtils.defineTest(__dirname, '.', null, 'element-locators', {
     parser: 'ts',
-  });
-  jscodeshiftTestUtils.defineTest(
-    __dirname,
-    '.',
-    null,
-    'element-interactions',
-    {
-      parser: 'ts',
-    }
-  );
+  })
+  jscodeshiftTestUtils.defineTest(__dirname, '.', null, 'element-interactions', {
+    parser: 'ts',
+  })
   jscodeshiftTestUtils.defineTest(__dirname, '.', null, 'page-object', {
     parser: 'ts',
-  });
+  })
   jscodeshiftTestUtils.defineTest(__dirname, '.', null, 'example-tests', {
     parser: 'ts',
-  });
-});
+  })
+})

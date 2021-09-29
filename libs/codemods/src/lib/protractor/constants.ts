@@ -1,5 +1,5 @@
-export type ProtractorSelectors = 'by' | '$' | '$$';
-export const protractorSelectors: ProtractorSelectors[] = ['by', '$', '$$'];
+export type ProtractorSelectors = 'by' | '$' | '$$'
+export const protractorSelectors: ProtractorSelectors[] = ['by', '$', '$$']
 
 // protractor locators that resolve to cy.get
 export type CyGetLocators =
@@ -12,7 +12,7 @@ export type CyGetLocators =
   | 'model'
   | 'binding'
   | '$$'
-  | 'options';
+  | 'options'
 export const cyGetLocators: CyGetLocators[] = [
   'className',
   'css',
@@ -24,7 +24,7 @@ export const cyGetLocators: CyGetLocators[] = [
   'binding',
   '$$',
   'options',
-];
+]
 
 // protractor locators that resolve to cy.contains
 export type CyContainLocatorsKeys =
@@ -32,36 +32,33 @@ export type CyContainLocatorsKeys =
   | 'partialButtonText'
   | 'linkText'
   | 'partialLinkText'
-  | 'cssContainingText';
-export type CyContainLocatorsValues = 'button' | 'a' | '';
+  | 'cssContainingText'
+export type CyContainLocatorsValues = 'button' | 'a' | ''
 export type CyContainLocators = {
-  [key in CyContainLocatorsKeys]: CyContainLocatorsValues;
-};
+  [key in CyContainLocatorsKeys]: CyContainLocatorsValues
+}
 export const cyContainLocators: CyContainLocators = {
   buttonText: 'button',
   partialButtonText: 'button',
   linkText: 'a',
   partialLinkText: 'a',
   cssContainingText: '',
-};
+}
 
-export type UnsupportedLocators = 'xpath';
-export const unsupportedLocators: UnsupportedLocators[] = ['xpath'];
+export type UnsupportedLocators = 'xpath'
+export const unsupportedLocators: UnsupportedLocators[] = ['xpath']
 
 // protractor browser methods and their cy equivalents
-export type NonLocatorMethodTransformsKeys =
-  | 'takeScreenshot'
-  | 'getDriver'
-  | 'sendKeys';
-export type NonLocatorMethodTransformsValues = 'screenshot' | 'parent' | 'type';
+export type NonLocatorMethodTransformsKeys = 'takeScreenshot' | 'getDriver' | 'sendKeys'
+export type NonLocatorMethodTransformsValues = 'screenshot' | 'parent' | 'type'
 export type NonLocatorMethodTransforms = {
-  [key in NonLocatorMethodTransformsKeys]: NonLocatorMethodTransformsValues;
-};
+  [key in NonLocatorMethodTransformsKeys]: NonLocatorMethodTransformsValues
+}
 export const nonLocatorMethodTransforms: NonLocatorMethodTransforms = {
   takeScreenshot: 'screenshot',
   getDriver: 'parent',
   sendKeys: 'type',
-};
+}
 
 export type SupportedBrowserMethods =
   | 'get'
@@ -77,7 +74,7 @@ export type SupportedBrowserMethods =
   | 'perform'
   | 'getCurrentUrl'
   | 'debugger'
-  | 'findElement';
+  | 'findElement'
 export const supportedBrowserMethods: SupportedBrowserMethods[] = [
   'get',
   'wait',
@@ -93,7 +90,7 @@ export const supportedBrowserMethods: SupportedBrowserMethods[] = [
   'getCurrentUrl',
   'debugger',
   'findElement',
-];
+]
 
 // protractor browser methods and their cy equivalents
 export type BrowserMethodTransformsKeys =
@@ -105,7 +102,7 @@ export type BrowserMethodTransformsKeys =
   | 'setLocation'
   | 'setLocation'
   | 'debugger'
-  | 'findElement';
+  | 'findElement'
 export type BrowserMethodTransformsValues =
   | 'visit'
   | 'reload'
@@ -113,10 +110,10 @@ export type BrowserMethodTransformsValues =
   | 'dblclick'
   | 'scrollIntoView'
   | 'get'
-  | 'debug';
+  | 'debug'
 export type BrowserMethodTransforms = {
-  [key in BrowserMethodTransformsKeys]: BrowserMethodTransformsValues;
-};
+  [key in BrowserMethodTransformsKeys]: BrowserMethodTransformsValues
+}
 export const browserMethodTransforms: BrowserMethodTransforms = {
   get: 'visit',
   refresh: 'reload',
@@ -126,7 +123,7 @@ export const browserMethodTransforms: BrowserMethodTransforms = {
   setLocation: 'get',
   debugger: 'debug',
   findElement: 'get',
-};
+}
 
 export type UnsupportedBrowserMethods =
   | 'restart'
@@ -135,7 +132,7 @@ export type UnsupportedBrowserMethods =
   | 'waitForAngularEnabled'
   | 'setScriptTimeout'
   | 'pause'
-  | 'getId';
+  | 'getId'
 export const unsupportedBrowserMethods: UnsupportedBrowserMethods[] = [
   'restart',
   'restartSync',
@@ -144,15 +141,9 @@ export const unsupportedBrowserMethods: UnsupportedBrowserMethods[] = [
   'setScriptTimeout',
   'pause',
   'getId',
-];
+]
 
-export type SupportedAssertionTypes =
-  | 'toBe'
-  | 'toEqual'
-  | 'toBeTrue'
-  | 'toBeFalse'
-  | 'toBeTruthy'
-  | 'toBeFalsy';
+export type SupportedAssertionTypes = 'toBe' | 'toEqual' | 'toBeTrue' | 'toBeFalse' | 'toBeTruthy' | 'toBeFalsy'
 export const supportedAssertionTypes: SupportedAssertionTypes[] = [
   'toBe',
   'toEqual',
@@ -160,7 +151,7 @@ export const supportedAssertionTypes: SupportedAssertionTypes[] = [
   'toBeFalse',
   'toBeTruthy',
   'toBeFalsy',
-];
+]
 
 // jasmine matchers to transform
 export type AssertionTransformsKeys =
@@ -170,7 +161,7 @@ export type AssertionTransformsKeys =
   | 'isDisplayed'
   | 'isPresent'
   | 'isSelected'
-  | 'isEnabled';
+  | 'isEnabled'
 export type AssertionTransformsValues =
   | 'deepEqual'
   | 'equal'
@@ -178,10 +169,10 @@ export type AssertionTransformsValues =
   | 'be.visible'
   | 'exist'
   | 'be.selected'
-  | 'be.enabled';
+  | 'be.enabled'
 export type AssertionTransforms = {
-  [key in AssertionTransformsKeys]: AssertionTransformsValues;
-};
+  [key in AssertionTransformsKeys]: AssertionTransformsValues
+}
 export const assertionTransforms: AssertionTransforms = {
   toBe: 'deepEqual',
   toEqual: 'equal',
@@ -190,4 +181,4 @@ export const assertionTransforms: AssertionTransforms = {
   isPresent: 'exist',
   isSelected: 'be.selected',
   isEnabled: 'be.enabled',
-};
+}

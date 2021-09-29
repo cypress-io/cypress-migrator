@@ -125,7 +125,7 @@ const testElement = by.id('test-element');
 Using this codemod, these now get wrapped in an arrow function so that they work within Cypress like this:
 
 ```javascript
-const testElement = () => cy.get('#test-element');
+const testElement = () => cy.get('#test-element')
 ```
 
 #### Multiple Browsers

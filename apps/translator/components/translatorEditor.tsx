@@ -1,31 +1,22 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
-import { DiffEditor, useMonaco } from '@monaco-editor/react';
-import { ArrowCircleRightIcon } from '@heroicons/react/solid';
-import cypressCodemods from '@cypress-dx/codemods';
+import { ReactElement, useEffect, useRef, useState } from 'react'
+import { DiffEditor, useMonaco } from '@monaco-editor/react'
+import { ArrowCircleRightIcon } from '@heroicons/react/solid'
+import cypressCodemods from '@cypress-dx/codemods'
 
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import {
-  selectError,
-  selectModified,
-  setOriginal,
-  setModified,
-  setDiff,
-  setError,
-} from '../app/translatorSlice';
-import { defaultText } from '../constants';
-import { AboveEditor } from '.';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { selectError, selectModified, setOriginal, setModified, setDiff, setError } from '../app/translatorSlice'
+import { defaultText } from '../constants'
+import { AboveEditor } from '.'
 
 const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
-  const dispatch = useAppDispatch();
-  const translated = useAppSelector(selectModified);
-  const error = useAppSelector(selectError);
+  const dispatch = useAppDispatch()
+  const translated = useAppSelector(selectModified)
+  const error = useAppSelector(selectError)
 
-  const [value, setValue] = useState<string | undefined>(
-    defaultText[selected.toLowerCase()]
-  );
+  const [value, setValue] = useState<string | undefined>(defaultText[selected.toLowerCase()])
 
-  const diffEditorRef = useRef(null);
-  const monaco = useMonaco();
+  const diffEditorRef = useRef(null)
+  const monaco = useMonaco()
 
   useEffect(() => {
     if (monaco) {
@@ -41,32 +32,32 @@ const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
           'editorLineNumber.foreground': '#747994',
           'editorLineNumber.activeForeground': '#747994',
         },
-      });
+      })
 
-      monaco.editor.setTheme('cypress-light');
+      monaco.editor.setTheme('cypress-light')
     }
-  }, [monaco]);
+  }, [monaco])
 
   const handleEditorMount = (editor) => {
-    diffEditorRef.current = editor;
+    diffEditorRef.current = editor
 
-    const originalEditor = editor.getOriginalEditor();
+    const originalEditor = editor.getOriginalEditor()
     originalEditor.onDidChangeModelContent(() => {
-      setValue(originalEditor.getValue());
-    });
-  };
+      setValue(originalEditor.getValue())
+    })
+  }
 
   const translateEditorValue = (): void => {
-    const codemodResult = cypressCodemods({ input: value });
+    const codemodResult = cypressCodemods({ input: value })
 
-    dispatch(setOriginal(value));
-    dispatch(setModified(codemodResult.output));
-    dispatch(setDiff(codemodResult.diff));
+    dispatch(setOriginal(value))
+    dispatch(setModified(codemodResult.output))
+    dispatch(setDiff(codemodResult.diff))
 
     if (codemodResult.error) {
-      dispatch(setError(codemodResult.error));
+      dispatch(setError(codemodResult.error))
     }
-  };
+  }
 
   return (
     <div className="md:flex pt-4 h-3/5 gap-2 flex-col">
@@ -102,14 +93,11 @@ const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
           onClick={translateEditorValue}
         >
           Translate to Cypress
-          <ArrowCircleRightIcon
-            className="ml-2 -mr-1 h-5 w-5"
-            aria-hidden="true"
-          />
+          <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TranslateEditor;
+export default TranslateEditor

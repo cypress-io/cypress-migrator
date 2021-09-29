@@ -1,6 +1,6 @@
-import { ReactElement } from "react"
-import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import { ReactElement } from 'react'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 
 const tableComponent = {
   table: ({ children, ...props }) => (
@@ -18,26 +18,15 @@ const tableComponent = {
   ),
   thead: ({ ...props }) => <thead className="bg-gray-50" {...props} />,
   th: ({ children }) => (
-    <th
-      scope="col"
-      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-    >
+    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
       {children}
     </th>
   ),
-  tbody: ({ ...props }) => (
-    <tbody className="bg-white divide-y divide-gray-200" {...props} />
-  ),
-  td: ({ children }) => (
-    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-      {children}
-    </td>
-  ),
+  tbody: ({ ...props }) => <tbody className="bg-white divide-y divide-gray-200" {...props} />,
+  td: ({ children }) => <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{children}</td>,
   h2: ({ children, ...props }) => (
     <div className="pb-2 border-b border-gray-200">
-      <h2 className="text-lg leading-6 font-medium text-gray-900">
-        {children}
-      </h2>
+      <h2 className="text-lg leading-6 font-medium text-gray-900">{children}</h2>
     </div>
   ),
 }
@@ -51,16 +40,9 @@ const AvailableCodemods = ({
 }): ReactElement => {
   return (
     <>
-      <h2 className="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">
-        {selectedLanguage} Translations
-      </h2>
+      <h2 className="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">{selectedLanguage} Translations</h2>
       {allCodeMods?.map((codeMod: string, i: number) => (
-        <ReactMarkdown
-          key={i}
-          plugins={[gfm]}
-          children={codeMod}
-          components={tableComponent}
-        />
+        <ReactMarkdown key={i} plugins={[gfm]} children={codeMod} components={tableComponent} />
       ))}
     </>
   )

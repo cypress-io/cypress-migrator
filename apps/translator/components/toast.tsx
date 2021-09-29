@@ -1,7 +1,7 @@
-import { Fragment, ReactElement, useEffect, useState } from "react"
-import { XIcon } from "@heroicons/react/solid"
-import { Transition } from "@headlessui/react"
-import { CheckCircleIcon } from "@heroicons/react/outline"
+import { Fragment, ReactElement, useEffect, useState } from 'react'
+import { XIcon } from '@heroicons/react/solid'
+import { Transition } from '@headlessui/react'
+import { CheckCircleIcon } from '@heroicons/react/outline'
 
 const Toast = ({
   title,
@@ -18,7 +18,7 @@ const Toast = ({
     setTimeout(() => {
       hide()
     }, 5000)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const hide = (): void => {
@@ -47,10 +47,7 @@ const Toast = ({
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <CheckCircleIcon
-                      className="h-6 w-6 text-green-400"
-                      aria-hidden="true"
-                    />
+                    <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-900">{title}</p>

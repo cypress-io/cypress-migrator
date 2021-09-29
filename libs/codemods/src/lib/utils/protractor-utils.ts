@@ -1,15 +1,10 @@
-import * as chalk from 'chalk';
-import {
-  CallExpression,
-  Identifier,
-  JSCodeshift,
-  MemberExpression,
-} from 'jscodeshift';
-import { protractorSelectors } from '../protractor/constants';
+import * as chalk from 'chalk'
+import { CallExpression, Identifier, JSCodeshift, MemberExpression } from 'jscodeshift'
+import { protractorSelectors } from '../protractor/constants'
 
 type ReplacementValues = {
-  [key: string]: string;
-};
+  [key: string]: string
+}
 
 /**
  * Check to see if path is a selector.
@@ -19,33 +14,33 @@ type ReplacementValues = {
  */
 export function isSelector(path: any | undefined): boolean {
   if (!path) {
-    return false;
+    return false
   }
 
   return (
     (path.object && protractorSelectors.includes(path.object.name)) ||
     (path.property && protractorSelectors.includes(path.property.name)) ||
     protractorSelectors.includes(path.name)
-  );
+  )
 }
 
 export function getAssertionTarget(node: any): any {
   if (node.type === 'Identifier') {
-    return node;
+    return node
   }
 
-  return node.arguments ? node.arguments[0] : getAssertionTarget(node.object);
+  return node.arguments ? node.arguments[0] : getAssertionTarget(node.object)
 }
 
 export function getAssertionTargetType(node: any): string {
   if (!node.callee && node.type === 'Identifier') {
-    return node.name;
+    return node.name
   }
   if (node.callee.type === 'MemberExpression' && node.callee.property) {
-    return node.callee.property.name;
+    return node.callee.property.name
   }
 
-  return getAssertionTargetType(node.arguments[0]);
+  return getAssertionTargetType(node.arguments[0])
 }
 
 /**
@@ -57,12 +52,10 @@ export function getAssertionTargetType(node: any): string {
  */
 export function getIdentifier(path?: any): Identifier | null {
   if (!path) {
-    return null;
+    return null
   }
 
-  return path.type === 'Identifier'
-    ? path
-    : getIdentifier(path.callee?.object || path.object);
+  return path.type === 'Identifier' ? path : getIdentifier(path.callee?.object || path.object)
 }
 
 /**
@@ -73,15 +66,13 @@ export function getIdentifier(path?: any): Identifier | null {
  */
 export function getPropertyName(path: MemberExpression): string | undefined {
   if (path && path.property) {
-    const prop = path.property;
-    return (prop as Identifier).name;
+    const prop = path.property
+    return (prop as Identifier).name
   }
 }
 
 export function findElementInExpression(path: any, elementName: string): any {
-  return path[elementName]
-    ? path[elementName]
-    : findElementInExpression(path.callee, elementName);
+  return path[elementName] ? path[elementName] : findElementInExpression(path.callee, elementName)
 }
 /**
  * Determine if node has specific property
@@ -91,11 +82,7 @@ export function findElementInExpression(path: any, elementName: string): any {
  * @returns boolean
  */
 export function hasProperty(node: any, name: string): boolean {
-  return (
-    node.type === 'MemberExpression' &&
-    node.property &&
-    node.property.name === name
-  );
+  return node.type === 'MemberExpression' && node.property && node.property.name === name
 }
 
 /**
@@ -105,15 +92,11 @@ export function hasProperty(node: any, name: string): boolean {
  * @param  {any} args[]
  * @returns any
  */
-export function setProperty(
-  node: any,
-  property: Identifier,
-  args?: any[]
-): any {
-  node.callee.property = property;
-  node.arguments = args ?? [];
+export function setProperty(node: any, property: Identifier, args?: any[]): any {
+  node.callee.property = property
+  node.arguments = args ?? []
 
-  return node;
+  return node
 }
 
 /**
@@ -125,7 +108,7 @@ export function setProperty(
  * @returns any
  */
 export function removeByPath(root: any, expression: any, path: any): any {
-  return root.find(expression, path).remove();
+  return root.find(expression, path).remove()
 }
 
 /**
@@ -143,9 +126,9 @@ export function replaceValue(value: string, selector?: string): string {
     model: `[ng-model="${value}"]`,
     binding: `[ng-bind="${value}"]`,
     options: `[ng-options="${value}"]`,
-  };
+  }
 
-  return selector && replacements[selector] ? replacements[selector] : value;
+  return selector && replacements[selector] ? replacements[selector] : value
 }
 
 /**
@@ -156,13 +139,8 @@ export function replaceValue(value: string, selector?: string): string {
  * @param  {string} method
  * @param  {string} selector?
  */
-export function replaceCySelector(
-  j: JSCodeshift,
-  path: any,
-  method: string,
-  selector?: string
-): CallExpression {
-  const nodeArgs = path.arguments;
+export function replaceCySelector(j: JSCodeshift, path: any, method: string, selector?: string): CallExpression {
+  const nodeArgs = path.arguments
 
   return j.callExpression(
     j.memberExpression(j.identifier('cy'), j.identifier(method), false),
@@ -172,53 +150,39 @@ export function replaceCySelector(
             ? j.stringLiteral(replaceValue(nodeArgs[0].value, selector))
             : nodeArgs[0],
         ]
-      : []
-  );
+      : [],
+  )
 }
 
 export function replaceCyContainsSelector(
   j: JSCodeshift,
   propertyName: string,
   transformedPropertyName: string,
-  args: any
+  args: any,
 ) {
   return j.callExpression(
     j.memberExpression(
-      j.callExpression(
-        j.memberExpression(j.identifier('cy'), j.identifier('get'), false),
-        [
-          propertyName === 'cssContainingText'
-            ? args[0]
-            : j.stringLiteral(transformedPropertyName),
-        ]
-      ),
+      j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('get'), false), [
+        propertyName === 'cssContainingText' ? args[0] : j.stringLiteral(transformedPropertyName),
+      ]),
       j.identifier('contains'),
-      false
+      false,
     ),
-    [propertyName === 'cssContainingText' ? args[1] : args[0]]
-  );
+    [propertyName === 'cssContainingText' ? args[1] : args[0]],
+  )
 }
 
-export function errorMessage(
-  message: string,
-  expr: any,
-  file: { source: string }
-): string {
-  const source = file.source.split('\n');
-  const line = source.slice(expr.loc.start.line - 1, expr.loc.end.line)[0];
-  const expression = line.slice(0, expr.loc.end.column);
+export function errorMessage(message: string, expr: any, file: { source: string }): string {
+  const source = file.source.split('\n')
+  const line = source.slice(expr.loc.start.line - 1, expr.loc.end.line)[0]
+  const expression = line.slice(0, expr.loc.end.column)
 
-  const chalkErrorMessage = chalk.bold.red;
+  const chalkErrorMessage = chalk.bold.red
 
-  const logMessage = chalkErrorMessage(message);
+  const logMessage = chalkErrorMessage(message)
 
   const fullMessage =
-    '\n\n' +
-    `> ${expression}\n` +
-    ' '.repeat(expr.loc.start.column + 2) +
-    '^\n\n' +
-    logMessage +
-    '\n\n';
+    '\n\n' + `> ${expression}\n` + ' '.repeat(expr.loc.start.column + 2) + '^\n\n' + logMessage + '\n\n'
 
-  return fullMessage;
+  return fullMessage
 }
