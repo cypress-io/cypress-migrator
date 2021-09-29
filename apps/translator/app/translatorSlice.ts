@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import type { AppState } from "./store"
+import type { AppState } from './store'
 
 export interface IError {
   message: string
-  level: "warning" | "error" | "info"
+  level: 'warning' | 'error' | 'info'
 }
 export interface IDiffArrayItem {
   original: string
@@ -15,7 +15,7 @@ export interface IDiffArrayItem {
   }[]
 }
 
-export type AvailableLanguages = 'Protractor';
+export type AvailableLanguages = 'Protractor'
 export interface ITranslatorState {
   language: string
   availableLanguages: AvailableLanguages[]
@@ -26,8 +26,8 @@ export interface ITranslatorState {
 }
 
 export const initialState: ITranslatorState = {
-  language: "protractor",
-  availableLanguages: ["Protractor"],
+  language: 'protractor',
+  availableLanguages: ['Protractor'],
   original: null,
   modified: null,
   diffArray: [],
@@ -35,7 +35,7 @@ export const initialState: ITranslatorState = {
 }
 
 export const translatorSlice = createSlice({
-  name: "translator",
+  name: 'translator',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -57,12 +57,10 @@ export const translatorSlice = createSlice({
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError } =
-  translatorSlice.actions
+export const { setLanguage, setOriginal, setModified, setDiff, setError } = translatorSlice.actions
 
 export const selectLanguage = (state: AppState) => state.translator.language
-export const selectAvailableLanguages = (state: AppState) =>
-  state.translator.availableLanguages
+export const selectAvailableLanguages = (state: AppState) => state.translator.availableLanguages
 export const selectOriginal = (state: AppState) => state.translator.original
 export const selectModified = (state: AppState) => state.translator.modified
 export const selectDiff = (state: AppState) => state.translator.diffArray

@@ -12,13 +12,13 @@ module.exports = {
       child_process: false,
       net: false,
       crypto: false,
-    };
+    }
 
     config.resolve.alias = {
       ...config.resolve.alias,
       process: 'process/browser',
-    };
+    }
 
-    return config;
+    return config
   },
-};
+}

@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore } from '@reduxjs/toolkit'
 
-import translatorReducer from "./translatorSlice"
+import translatorReducer from './translatorSlice'
 
 export function makeStore() {
   return configureStore({

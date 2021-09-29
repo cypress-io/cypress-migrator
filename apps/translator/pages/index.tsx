@@ -1,28 +1,20 @@
-import { ReactElement } from "react"
-import Head from "next/head"
+import { ReactElement } from 'react'
+import Head from 'next/head'
 
-import { useAppSelector } from "../app/hooks"
-import { selectLanguage } from "../app/translatorSlice"
-import { Navigation, SelectList, TranslateEditor, AvailableCodeMods } from "../components"
-import { getAllCodeMods } from "../api"
+import { useAppSelector } from '../app/hooks'
+import { selectLanguage } from '../app/translatorSlice'
+import { Navigation, SelectList, TranslateEditor, AvailableCodeMods } from '../components'
+import { getAllCodeMods } from '../api'
 
-const Translator = ({
-  allCodeMods,
-}: {
-  allCodeMods: string[]
-}): ReactElement => {
+const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => {
   // default to protractor until we have other options.
   const selectedLanguage = useAppSelector(selectLanguage)
 
   return (
-    <div className={"h-full"}>
+    <div className={'h-full'}>
       <Head>
         <title>Cypress Translator | Interactive Code Transformer</title>
-        <meta
-          property="og:title"
-          content="Cypress Translator | Interactive Code Transformer"
-          key="title"
-        />
+        <meta property="og:title" content="Cypress Translator | Interactive Code Transformer" key="title" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
 
@@ -33,9 +25,7 @@ const Translator = ({
           <div className="flex items-center justify-center pb-6">
             <p className="text-3xl">Translate</p>
             <div className="px-3">
-              <SelectList
-                selected={selectedLanguage}
-              />
+              <SelectList selected={selectedLanguage} />
             </div>
 
             <p className="text-3xl"> code to Cypress.</p>
@@ -43,10 +33,7 @@ const Translator = ({
 
           <TranslateEditor selected={selectedLanguage} />
 
-          <AvailableCodeMods
-            selectedLanguage={selectedLanguage}
-            allCodeMods={allCodeMods}
-          />
+          <AvailableCodeMods selectedLanguage={selectedLanguage} allCodeMods={allCodeMods} />
         </div>
       </main>
     </div>

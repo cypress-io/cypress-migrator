@@ -1,6 +1,6 @@
-import { ReactElement, useState } from "react"
-import { Toast } from ".";
-import { ClipboardCopyIcon } from "@heroicons/react/outline"
+import { ReactElement, useState } from 'react'
+import { Toast } from '.'
+import { ClipboardCopyIcon } from '@heroicons/react/outline'
 
 const CopyButton = ({ translated }: { translated: string }): ReactElement => {
   const [showCopiedAlert, setShowCopiedAlert] = useState(false)
