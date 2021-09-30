@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { AppState } from '.'
+import { defaultText } from '../constants'
 
 export interface IError {
   message: string
@@ -33,7 +34,7 @@ export interface ITranslatorState {
 export const initialState: ITranslatorState = {
   language: 'protractor',
   availableLanguages: ['Protractor'],
-  original: null,
+  original: defaultText['protractor'],
   modified: null,
   diffArray: [],
   error: undefined,
