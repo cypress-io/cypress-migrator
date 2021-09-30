@@ -32,12 +32,8 @@ const tableComponent = {
   ),
 }
 
-const AvailableCodemods = ({
-  allCodeMods,
-}: {
-  allCodeMods: string[]
-}): ReactElement => {
-  const selectedLanguage = useAppSelector(selectLanguage);
+const AvailableCodemods = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => {
+  const selectedLanguage = useAppSelector(selectLanguage)
   return (
     <>
       <h2 className="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">{selectedLanguage} Translations</h2>

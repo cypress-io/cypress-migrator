@@ -15,7 +15,11 @@ export interface IDiffArrayItem {
   }[]
 }
 
-export type AvailableLanguages = 'Protractor';
+export type AvailableLanguages = 'Protractor'
+
+export interface INotifications {
+  copied: boolean
+}
 export interface ITranslatorState {
   language: string
   availableLanguages: AvailableLanguages[]
@@ -23,6 +27,7 @@ export interface ITranslatorState {
   modified: string
   diffArray: IDiffArrayItem[]
   error?: IError
+  notifications: INotifications
 }
 
 export const initialState: ITranslatorState = {
@@ -32,6 +37,9 @@ export const initialState: ITranslatorState = {
   modified: null,
   diffArray: [],
   error: undefined,
+  notifications: {
+    copied: false,
+  },
 }
 
 export const translatorSlice = createSlice({
@@ -54,10 +62,14 @@ export const translatorSlice = createSlice({
     setError: (state, action: PayloadAction<IError>) => {
       state.error = action.payload
     },
+    setCopiedNotification: (state, action: PayloadAction<boolean>) => {
+      state.notifications.copied = action.payload
+    },
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError } = translatorSlice.actions
+export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification } =
+  translatorSlice.actions
 
 export const selectLanguage = (state: AppState) => state.translator.language
 export const selectAvailableLanguages = (state: AppState) => state.translator.availableLanguages
@@ -65,5 +77,7 @@ export const selectOriginal = (state: AppState) => state.translator.original
 export const selectModified = (state: AppState) => state.translator.modified
 export const selectDiff = (state: AppState) => state.translator.diffArray
 export const selectError = (state: AppState) => state.translator.error
+export const selectNotifications = (state: AppState) => state.translator.notifications
+export const selectCopiedNotification = (state: AppState) => state.translator.notifications.copied
 
 export default translatorSlice.reducer

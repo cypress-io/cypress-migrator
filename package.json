@@ -77,7 +77,7 @@
   },
   "lint-staged": {
     "*.{js,json,css,scss,md,ts,html}": [
-      "yarn format --uncommitted"
+      "yarn format:write --all"
     ]
   }
 }

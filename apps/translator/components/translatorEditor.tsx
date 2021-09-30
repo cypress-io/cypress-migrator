@@ -3,7 +3,18 @@ import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
 
-import { selectError, selectModified, setOriginal, setModified, setDiff, setError, selectLanguage, selectOriginal, useAppDispatch, useAppSelector } from '../app'
+import {
+  selectError,
+  selectModified,
+  setOriginal,
+  setModified,
+  setDiff,
+  setError,
+  selectLanguage,
+  selectOriginal,
+  useAppDispatch,
+  useAppSelector,
+} from '../app'
 import { defaultText } from '../constants'
 import { AboveEditor } from '.'
 
@@ -11,9 +22,9 @@ const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const translated = useAppSelector(selectModified)
   const error = useAppSelector(selectError)
-  const original: string = useAppSelector(selectOriginal);
-  const modified: string = useAppSelector(selectModified);
-  const selectedLanguage = useAppSelector(selectLanguage);
+  const original: string = useAppSelector(selectOriginal)
+  const modified: string = useAppSelector(selectModified)
+  const selectedLanguage = useAppSelector(selectLanguage)
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -41,7 +52,7 @@ const TranslateEditor = (): ReactElement => {
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
     const originalEditor = editor.getOriginalEditor()
-    dispatch(setOriginal(originalEditor.getValue()));
+    dispatch(setOriginal(originalEditor.getValue()))
   }
 
   const translateEditorValue = (): void => {
