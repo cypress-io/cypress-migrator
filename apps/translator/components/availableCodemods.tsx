@@ -1,8 +1,7 @@
 import { ReactElement } from 'react'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
-import { useAppSelector } from '../app/hooks'
-import { selectLanguage } from '../app/translatorSlice'
+import { useAppSelector, selectLanguage } from '../app'
 
 const tableComponent = {
   table: ({ children, ...props }) => (

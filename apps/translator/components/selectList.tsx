@@ -3,8 +3,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { ReactElement } from 'react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { selectAvailableLanguages, selectLanguage, setLanguage } from '../app/translatorSlice'
+import { selectAvailableLanguages, selectLanguage, setLanguage, useAppDispatch, useAppSelector } from '../app'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')

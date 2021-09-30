@@ -1,8 +1,7 @@
 import { ReactElement } from 'react'
 import Head from 'next/head'
 
-import { useAppSelector } from '../app/hooks'
-import { selectLanguage } from '../app/translatorSlice'
+import { selectLanguage, useAppSelector } from '../app'
 import { Navigation, SelectList, TranslateEditor, AvailableCodeMods } from '../components'
 import { getAllCodeMods } from '../api'
 

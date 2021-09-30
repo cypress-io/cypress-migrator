@@ -1,7 +1,6 @@
 import { ReactElement } from 'react'
 import { LanguagePills, CopyButton } from '.'
-import { useAppSelector } from '../app/hooks'
-import { selectLanguage } from '../app/translatorSlice'
+import { useAppSelector, selectLanguage } from '../app'
 
 const AboveEditor = ({
   translated,

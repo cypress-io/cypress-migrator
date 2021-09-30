@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import type { AppState } from './store'
+import type { AppState } from '.'
 
 export interface IError {
   message: string
@@ -15,7 +15,7 @@ export interface IDiffArrayItem {
   }[]
 }
 
-export type AvailableLanguages = 'Protractor' | string;
+export type AvailableLanguages = 'Protractor';
 export interface ITranslatorState {
   language: string
   availableLanguages: AvailableLanguages[]
