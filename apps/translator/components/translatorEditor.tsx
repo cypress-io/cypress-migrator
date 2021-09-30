@@ -3,7 +3,6 @@ import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
 
-import {  } from '../app/hooks'
 import { selectError, selectModified, setOriginal, setModified, setDiff, setError, selectLanguage, selectOriginal, useAppDispatch, useAppSelector } from '../app'
 import { defaultText } from '../constants'
 import { AboveEditor } from '.'
