@@ -4,16 +4,17 @@ import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { selectError, selectModified, setOriginal, setModified, setDiff, setError } from '../app/translatorSlice'
+import { selectError, selectModified, setOriginal, setModified, setDiff, setError, selectLanguage, selectDiff, selectOriginal } from '../app/translatorSlice'
 import { defaultText } from '../constants'
 import { AboveEditor } from '.'
 
-const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
+const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const translated = useAppSelector(selectModified)
   const error = useAppSelector(selectError)
-
-  const [value, setValue] = useState<string | undefined>(defaultText[selected.toLowerCase()])
+  const original: string = useAppSelector(selectOriginal);
+  const modified: string = useAppSelector(selectModified);
+  const selectedLanguage = useAppSelector(selectLanguage);
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -40,17 +41,14 @@ const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
 
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
-
     const originalEditor = editor.getOriginalEditor()
-    originalEditor.onDidChangeModelContent(() => {
-      setValue(originalEditor.getValue())
-    })
+    dispatch(setOriginal(originalEditor.getValue()));
   }
 
   const translateEditorValue = (): void => {
-    const codemodResult = cypressCodemods({ input: value })
+    const codemodResult = cypressCodemods({ input: original })
 
-    dispatch(setOriginal(value))
+    dispatch(setOriginal(original))
     dispatch(setModified(codemodResult.output))
     dispatch(setDiff(codemodResult.diff))
 
@@ -61,13 +59,13 @@ const TranslateEditor = ({ selected }: { selected: string }): ReactElement => {
 
   return (
     <div className="md:flex pt-4 h-3/5 gap-2 flex-col">
-      <AboveEditor selectedLanguage={selected} translated={translated} />
+      <AboveEditor translated={translated} />
 
       <div className="flex h-full">
         <div className="px-4 py-4 sm:px-0 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
             language="javascript"
-            original={defaultText[selected.toLowerCase()]}
+            original={defaultText[selectedLanguage]}
             modified={!error && translated}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}

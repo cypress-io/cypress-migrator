@@ -15,7 +15,7 @@ export interface IDiffArrayItem {
   }[]
 }
 
-export type AvailableLanguages = 'Protractor'
+export type AvailableLanguages = 'Protractor' | string;
 export interface ITranslatorState {
   language: string
   availableLanguages: AvailableLanguages[]

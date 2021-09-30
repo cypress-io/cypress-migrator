@@ -4,27 +4,25 @@ import { ReactElement } from 'react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { selectAvailableLanguages, setLanguage } from '../app/translatorSlice'
-interface SelectListProps {
-  selected: string
-}
+import { selectAvailableLanguages, selectLanguage, setLanguage } from '../app/translatorSlice'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-const SelectList = ({ selected }: SelectListProps): ReactElement => {
+const SelectList = (): ReactElement => {
   const dispatch = useAppDispatch()
 
+  const selectedLanguage = useAppSelector(selectLanguage);
   const availableLanguages = useAppSelector(selectAvailableLanguages)
 
   return (
-    <Listbox value={selected} onChange={(value) => dispatch(setLanguage(value))}>
+    <Listbox value={selectedLanguage} onChange={(value) => dispatch(setLanguage(value))}>
       {({ open }) => (
         <>
           <div className="mt-1 relative">
             <Listbox.Button className="language-selected bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <span className="block text-2xl capitalize">{selected}</span>
+              <span className="block text-2xl capitalize">{selectedLanguage}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>

@@ -7,7 +7,6 @@ import { Navigation, SelectList, TranslateEditor, AvailableCodeMods } from '../c
 import { getAllCodeMods } from '../api'
 
 const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => {
-  // default to protractor until we have other options.
   const selectedLanguage = useAppSelector(selectLanguage)
 
   return (
@@ -26,15 +25,15 @@ const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement =>
           <div className="flex items-center justify-center pb-6">
             <p className="text-3xl">Translate</p>
             <div className="px-3">
-              <SelectList selected={selectedLanguage} />
+              <SelectList />
             </div>
 
             <p className="text-3xl"> code to Cypress.</p>
           </div>
 
-          <TranslateEditor selected={selectedLanguage} />
+          <TranslateEditor  />
 
-          <AvailableCodeMods selectedLanguage={selectedLanguage} allCodeMods={allCodeMods} />
+          <AvailableCodeMods allCodeMods={allCodeMods} />
         </div>
       </main>
     </div>
