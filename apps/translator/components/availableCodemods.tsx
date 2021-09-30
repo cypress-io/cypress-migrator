@@ -1,6 +1,7 @@
 import { ReactElement } from 'react'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
+import { useAppSelector, selectLanguage } from '../app'
 
 const tableComponent = {
   table: ({ children, ...props }) => (
@@ -33,11 +34,10 @@ const tableComponent = {
 
 const AvailableCodemods = ({
   allCodeMods,
-  selectedLanguage,
 }: {
   allCodeMods: string[]
-  selectedLanguage: string
 }): ReactElement => {
+  const selectedLanguage = useAppSelector(selectLanguage);
   return (
     <>
       <h2 className="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">{selectedLanguage} Translations</h2>

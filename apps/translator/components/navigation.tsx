@@ -2,8 +2,7 @@ import { ReactElement } from 'react'
 import Image from 'next/image'
 import logo from '../public/logo.png'
 
-import { useAppSelector } from '../app/hooks'
-import { selectLanguage } from '../app/translatorSlice'
+import { useAppSelector, selectLanguage } from '../app'
 
 const Navigation = (): ReactElement => {
   const selectedLanguage: string = useAppSelector(selectLanguage)
