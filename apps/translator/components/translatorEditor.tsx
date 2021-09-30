@@ -52,7 +52,10 @@ const TranslateEditor = (): ReactElement => {
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
     const originalEditor = editor.getOriginalEditor()
-    dispatch(setOriginal(originalEditor.getValue()))
+
+    originalEditor.onDidChangeModelContent(() => {
+      dispatch(setOriginal(originalEditor.getValue()));
+    })
   }
 
   const translateEditorValue = (): void => {
