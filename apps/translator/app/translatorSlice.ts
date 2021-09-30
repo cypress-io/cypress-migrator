@@ -20,9 +20,10 @@ export type AvailableLanguages = 'Protractor'
 
 export interface INotifications {
   copied: boolean
+  noTranslationsMade: boolean
 }
 export interface ITranslatorState {
-  language: string
+  language: AvailableLanguages
   availableLanguages: AvailableLanguages[]
   original: string
   modified: string
@@ -32,7 +33,7 @@ export interface ITranslatorState {
 }
 
 export const initialState: ITranslatorState = {
-  language: 'protractor',
+  language: 'Protractor',
   availableLanguages: ['Protractor'],
   original: defaultText['protractor'],
   modified: null,
@@ -40,6 +41,7 @@ export const initialState: ITranslatorState = {
   error: undefined,
   notifications: {
     copied: false,
+    noTranslationsMade: false
   },
 }
 
@@ -48,7 +50,7 @@ export const translatorSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setLanguage: (state, action: PayloadAction<string>) => {
+    setLanguage: (state, action: PayloadAction<AvailableLanguages>) => {
       state.language = action.payload
     },
     setOriginal: (state, action: PayloadAction<string>) => {
@@ -57,28 +59,49 @@ export const translatorSlice = createSlice({
     setModified: (state, action: PayloadAction<string>) => {
       state.modified = action.payload
     },
-    setDiff: (state, action: PayloadAction<IDiffArrayItem[]>) => {
-      state.diffArray = action.payload
-    },
+    setDiff: (state, action: PayloadAction<IDiffArrayItem[]>) => ({
+      ...state,
+      diffArray: action.payload,
+      notifications: {
+        ...state.notifications,
+        noTranslationsMade: !checkIfTranslationsHaveBeenMade(action.payload)
+      }
+    }),
     setError: (state, action: PayloadAction<IError>) => {
       state.error = action.payload
     },
-    setCopiedNotification: (state, action: PayloadAction<boolean>) => {
-      state.notifications.copied = action.payload
-    },
+    setCopiedNotification: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      notifications: {
+        ...initialState.notifications,
+        copied: action.payload
+      }
+    }),
+    setNoTranslationsMade: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      notifications: {
+        ...initialState.notifications,
+        noTranslationsMade: action.payload
+      }
+    })
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification } =
+export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade } =
   translatorSlice.actions
 
-export const selectLanguage = (state: AppState) => state.translator.language
-export const selectAvailableLanguages = (state: AppState) => state.translator.availableLanguages
-export const selectOriginal = (state: AppState) => state.translator.original
-export const selectModified = (state: AppState) => state.translator.modified
-export const selectDiff = (state: AppState) => state.translator.diffArray
-export const selectError = (state: AppState) => state.translator.error
-export const selectNotifications = (state: AppState) => state.translator.notifications
-export const selectCopiedNotification = (state: AppState) => state.translator.notifications.copied
+export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
+export const selectAvailableLanguages = (state: AppState): AvailableLanguages[] => state.translator.availableLanguages
+export const selectOriginal = (state: AppState): string => state.translator.original
+export const selectModified = (state: AppState): string => state.translator.modified
+export const selectDiff = (state: AppState): IDiffArrayItem[] => state.translator.diffArray
+export const selectError = (state: AppState): IError => state.translator.error
+export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
+export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
+export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.notifications.noTranslationsMade
 
 export default translatorSlice.reducer
+
+
+export const checkIfTranslationsHaveBeenMade = (diffArray: IDiffArrayItem[]): boolean => 
+  diffArray.length > 0 && diffArray.some(diff => diff.api.length > 0)

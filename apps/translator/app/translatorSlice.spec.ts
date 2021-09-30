@@ -1,3 +1,5 @@
+import { isJsxText } from 'typescript'
+import { checkIfTranslationsHaveBeenMade, IDiffArrayItem, selectNoTranslationsMade } from '.'
 import reducer, {
   IError,
   initialState,
@@ -21,8 +23,8 @@ describe('translatorSlice', () => {
   })
 
   it('should correctly set language in state', () => {
-    const nextState = reducer(initialState, setLanguage('test'))
-    expect(selectLanguage({ translator: nextState })).toEqual('test')
+    const nextState = reducer(initialState, setLanguage('Protractor'))
+    expect(selectLanguage({ translator: nextState })).toEqual('Protractor')
   })
 
   it('should correctly set modified in state', () => {
@@ -35,7 +37,7 @@ describe('translatorSlice', () => {
     expect(selectOriginal({ translator: nextState })).toEqual("by.className('this-class')")
   })
 
-  it('should correctly set diff in state', () => {
+  it('should correctly set diff in state and sets noTranslationsMade flag to false when translations found', () => {
     const diffArray = [
       {
         original: "by.className('this-class')",
@@ -50,7 +52,21 @@ describe('translatorSlice', () => {
     ]
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
+    expect(selectNoTranslationsMade({ translator: nextState })).toBeFalsy();
   })
+
+  it('should correct set diff in state and setNoTranslationsMade flag to true when none found', () => {
+    const diffArray = [
+      {
+        original: "by.invalidTranslation('this-class')",
+        modified: "by.invalidTranslation('this-class')",
+        api: [],
+      }
+    ];
+    const nextState = reducer(initialState, setDiff(diffArray));
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray);
+    expect(selectNoTranslationsMade({ translator: nextState })).toBeTruthy()
+  });
 
   it('should correctly set error in state', () => {
     const error: IError = {
@@ -60,5 +76,29 @@ describe('translatorSlice', () => {
 
     const nextState = reducer(initialState, setError(error))
     expect(selectError({ translator: nextState })).toEqual(error)
+  })
+
+  describe('checkIfTranslationsHaveBeenMade', () => {
+    it('returns true given diffArray includes at least one api item', () => {
+      // arrange
+      const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: [{ command: 'testing()', url: 'www.cypress.io'}]}];
+      
+      // act
+      const actual = checkIfTranslationsHaveBeenMade(diffArray);
+
+      // assert
+      expect(actual).toBeTruthy();
+    });
+
+    it('returns false given diffArray has an empty api array', () => {
+      // arrange
+      const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: []}];
+
+      // act
+      const actual = checkIfTranslationsHaveBeenMade(diffArray);
+
+      // assert
+      expect(actual).toBeFalsy();
+    });
   })
 })
