@@ -6,7 +6,7 @@ module.exports = {
   },
   distDir: '.dist',
   target: 'serverless',
-  
+
   //webpack5: false,
   webpack: (config) => {
     config.resolve.fallback = {

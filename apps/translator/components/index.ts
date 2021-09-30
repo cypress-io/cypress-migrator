@@ -6,5 +6,16 @@ import Navigation from './navigation'
 import SelectList from './selectList'
 import Toast from './toast'
 import TranslateEditor from './translatorEditor'
+import Notifications from './notifications'
 
-export { AboveEditor, AvailableCodeMods, CopyButton, LanguagePills, Navigation, SelectList, Toast, TranslateEditor }
+export {
+  AboveEditor,
+  AvailableCodeMods,
+  CopyButton,
+  LanguagePills,
+  Navigation,
+  SelectList,
+  Toast,
+  TranslateEditor,
+  Notifications,
+}

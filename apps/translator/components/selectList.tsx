@@ -12,7 +12,7 @@ function classNames(...classes: string[]) {
 const SelectList = (): ReactElement => {
   const dispatch = useAppDispatch()
 
-  const selectedLanguage = useAppSelector(selectLanguage);
+  const selectedLanguage = useAppSelector(selectLanguage)
   const availableLanguages = useAppSelector(selectAvailableLanguages)
 
   return (

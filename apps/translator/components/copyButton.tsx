@@ -1,16 +1,15 @@
 import { ReactElement, useState } from 'react'
-import { Toast } from '.'
 import { ClipboardCopyIcon } from '@heroicons/react/outline'
+import { selectModified, setCopiedNotification, useAppDispatch, useAppSelector } from '../app'
 
-const CopyButton = ({ translated }: { translated: string }): ReactElement => {
-  const [showCopiedAlert, setShowCopiedAlert] = useState(false)
+const CopyButton = (): ReactElement => {
+  const translated = useAppSelector(selectModified)
+  const dispatch = useAppDispatch()
 
   const copyToClipboard = (): void => {
     navigator.clipboard.writeText(translated)
-    setShowCopiedAlert(true)
+    dispatch(setCopiedNotification(true))
   }
-
-  const hideToastAlert = (): void => setShowCopiedAlert(false)
 
   return (
     <div className="flex justify-end">
@@ -25,13 +24,6 @@ const CopyButton = ({ translated }: { translated: string }): ReactElement => {
         <ClipboardCopyIcon className="h-5 w-5 text-gray-500" />
         Copy
       </button>
-      {showCopiedAlert && (
-        <Toast
-          title="Sucessfully copied!"
-          message="You sucessfully copied the Cypress translation to clipboard"
-          hideToastAlert={hideToastAlert}
-        />
-      )}
     </div>
   )
 }
