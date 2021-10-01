@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { selectCopiedNotification, selectNoTranslationsMade, setCopiedNotification, setNoTranslationsMade, useAppDispatch, useAppSelector } from '../app'
+import { selectBrowserWaitTranslated, selectCopiedNotification, selectNoTranslationsMade, setBrowserWaitTranslated, setCopiedNotification, setNoTranslationsMade, useAppDispatch, useAppSelector } from '../app'
 import { Toast } from '../components'
 
 const CopiedNotification = (): ReactElement => {
@@ -42,8 +42,29 @@ const NoTranslationsMadeNotification = (): ReactElement => {
   )
 }
 
+const BrowserWaitTranslatedNotification = (): ReactElement => {
+  const showBrowserWaitTranslated = useAppSelector(selectBrowserWaitTranslated);
+  const dispatch = useAppDispatch();
+  const toggleOffBrowserWaitTranslated = () => {
+    dispatch(setBrowserWaitTranslated(false))
+  }
+  return (
+    <>
+      { showBrowserWaitTranslated ? (
+        <Toast
+          title="Potential Anti-Pattern Found"
+          message="You typically should not need to use hard code waits in your test code. Learn more about about cy.wait and retry-ability from the <a class='text-yellow-500 text-underline' href='https://on.cypress.io/wait' target='_blank'>Cypress Docs.</a>"
+          alertType="Warning"
+          hideToastAlert={toggleOffBrowserWaitTranslated}
+        />
+      ): null}
+    </>
+  )
+}
+
 const Notifications = (): ReactElement => <>
   <CopiedNotification />
   <NoTranslationsMadeNotification />
+  <BrowserWaitTranslatedNotification />
 </>
 export default Notifications
