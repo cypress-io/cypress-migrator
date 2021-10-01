@@ -1,5 +1,5 @@
 import { isJsxText } from 'typescript'
-import { checkIfTranslationsHaveBeenMade, IDiffArrayItem, selectNoTranslationsMade } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayItem, selectBrowserWaitTranslated, selectNoTranslationsMade } from '.'
 import reducer, {
   IError,
   initialState,
@@ -55,7 +55,7 @@ describe('translatorSlice', () => {
     expect(selectNoTranslationsMade({ translator: nextState })).toBeFalsy();
   })
 
-  it('should correct set diff in state and setNoTranslationsMade flag to true when none found', () => {
+  it('should correctly set diff in state and setNoTranslationsMade flag to true when none found', () => {
     const diffArray = [
       {
         original: "by.invalidTranslation('this-class')",
@@ -67,6 +67,42 @@ describe('translatorSlice', () => {
     expect(selectDiff({ translator: nextState })).toEqual(diffArray);
     expect(selectNoTranslationsMade({ translator: nextState })).toBeTruthy()
   });
+
+  it('should correctly set the browserWaitTranslated notifications flag to true when one found in diff', () => {
+    const diffArray = [
+     {
+      original: "browser.wait(1000)",
+      modified: "cy.wait(1000)",
+      api: [
+        {
+          command: 'wait',
+          url: ''
+        }
+      ],
+     }
+    ];
+    const nextState = reducer(initialState, setDiff(diffArray));
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray);
+    expect(selectBrowserWaitTranslated({ translator: nextState })).toBeTruthy()
+  })
+
+  it('should correctly set the browserWaitTranslated notifications flag to false when none found in diff', () => {
+    const diffArray = [
+     {
+      original: "by.invalidTranslation('this-class')",
+      modified: "cy.get('this-class')",
+      api: [
+        {
+          command: 'get',
+          url: ''
+        }
+      ],
+     }
+    ];
+    const nextState = reducer(initialState, setDiff(diffArray));
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray);
+    expect(selectBrowserWaitTranslated({ translator: nextState })).toBeFalsy()
+  })
 
   it('should correctly set error in state', () => {
     const error: IError = {
@@ -101,4 +137,17 @@ describe('translatorSlice', () => {
       expect(actual).toBeFalsy();
     });
   })
+
+  describe('checkIfBrowserWaitTranslationMade', () => {
+    it('returns true if diffArray includes an API item for browser.wait', () => {
+      // arrange
+      const diffArray: IDiffArrayItem[] = [{ original: 'browser.wait(1000)', modified: 'cy.wait(1000)', api: [{ command: 'wait', url: 'https://on.cypress.io/wait'}]}];
+
+      // act
+      const actual = checkIfBrowserWaitTranslationMade(diffArray);
+
+      // assert
+      expect(actual).toBeTruthy();
+    });
+  });
 })

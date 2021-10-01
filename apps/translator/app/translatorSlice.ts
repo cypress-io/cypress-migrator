@@ -21,6 +21,7 @@ export type AvailableLanguages = 'Protractor'
 export interface INotifications {
   copied: boolean
   noTranslationsMade: boolean
+  browserWaitTranslated: boolean
 }
 export interface ITranslatorState {
   language: AvailableLanguages
@@ -41,7 +42,8 @@ export const initialState: ITranslatorState = {
   error: undefined,
   notifications: {
     copied: false,
-    noTranslationsMade: false
+    noTranslationsMade: false,
+    browserWaitTranslated: false
   },
 }
 
@@ -64,7 +66,8 @@ export const translatorSlice = createSlice({
       diffArray: action.payload,
       notifications: {
         ...state.notifications,
-        noTranslationsMade: !checkIfTranslationsHaveBeenMade(action.payload)
+        noTranslationsMade: !checkIfTranslationsHaveBeenMade(action.payload),
+        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload)
       }
     }),
     setError: (state, action: PayloadAction<IError>) => {
@@ -83,11 +86,18 @@ export const translatorSlice = createSlice({
         ...initialState.notifications,
         noTranslationsMade: action.payload
       }
+    }),
+    setBrowserWaitTranslated: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      notifications: {
+        ...initialState.notifications,
+        browserWaitTranslated: action.payload
+      }
     })
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade } =
+export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated } =
   translatorSlice.actions
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
@@ -99,9 +109,12 @@ export const selectError = (state: AppState): IError => state.translator.error
 export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
 export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.notifications.noTranslationsMade
+export const selectBrowserWaitTranslated = (state: AppState): boolean => state.translator.notifications.browserWaitTranslated
 
 export default translatorSlice.reducer
 
 
 export const checkIfTranslationsHaveBeenMade = (diffArray: IDiffArrayItem[]): boolean => 
   diffArray.length > 0 && diffArray.some(diff => diff.api.length > 0)
+
+export const checkIfBrowserWaitTranslationMade = (diffArray: IDiffArrayItem[]): boolean => diffArray.filter(diff => diff.api.filter(api => api.command === 'wait').length > 0).length > 0
