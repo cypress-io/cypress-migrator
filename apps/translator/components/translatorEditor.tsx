@@ -78,7 +78,7 @@ const TranslateEditor = (): ReactElement => {
         <div className="px-4 py-4 sm:px-0 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
             language="javascript"
-            original={defaultText[selectedLanguage]}
+            original={defaultText[selectedLanguage.toLowerCase()]}
             modified={!error && translated}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}

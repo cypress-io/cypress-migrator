@@ -1,15 +1,24 @@
 import { Fragment, ReactElement, useEffect, useState } from 'react'
 import { XIcon } from '@heroicons/react/solid'
 import { Transition } from '@headlessui/react'
-import { CheckCircleIcon } from '@heroicons/react/outline'
+import { CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/outline'
+
+type ToastType = 'Success' | 'Warning' | 'Error';
+
+const AlertType = ({ alertType}: { alertType: ToastType }): ReactElement => <>
+  { alertType === 'Success' && <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />}
+  { alertType === 'Warning' && <InformationCircleIcon className="h-6 w-6 text-yellow-400" aria-hidden="true" />}
+</>
 
 const Toast = ({
   title,
   message,
+  alertType,
   hideToastAlert,
 }: {
   title: string
   message: string
+  alertType: ToastType
   hideToastAlert(): void
 }): ReactElement => {
   const [show, setShow] = useState(true)
@@ -17,7 +26,7 @@ const Toast = ({
   useEffect(() => {
     setTimeout(() => {
       hide()
-    }, 5000)
+    }, 8000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -47,11 +56,11 @@ const Toast = ({
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                    <AlertType alertType={alertType} />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-900">{title}</p>
-                    <p className="mt-1 text-sm text-gray-500">{message}</p>
+                    <p className="mt-1 text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: message }} />
                   </div>
                   <div className="ml-4 flex-shrink-0 flex">
                     <button
