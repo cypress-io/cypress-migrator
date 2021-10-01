@@ -22,7 +22,7 @@ import { defaultText } from '../constants'
 import { AboveEditor } from '.'
 import { Switch } from '@headlessui/react'
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
@@ -56,6 +56,17 @@ function DiffToggle() {
   )
 }
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('load', () => setIsMobile(window.innerWidth <= 768))
+    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 768))
+  })
+
+  return isMobile
+}
+
 const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const translated = useAppSelector(selectModified)
@@ -64,6 +75,7 @@ const TranslateEditor = (): ReactElement => {
   const modified: string = useAppSelector(selectModified)
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors);
+  const isMobile = useIsMobile();
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -103,12 +115,12 @@ const TranslateEditor = (): ReactElement => {
   }
 
   return (
-    <div className="md:flex pt-4 h-3/5 gap-2 flex-col">
+    <div className=" flex pt-4 h-3/5 gap-2 flex-col">
       <AboveEditor translated={translated} />
-      <DiffToggle />
+      {!isMobile ? <DiffToggle /> : null}
 
       <div className="flex h-full">
-        <div className="px-4 py-4 sm:px-0 w-full border-solid border-2 border-gray-200 rounded">
+      <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
             language="javascript"
             original={defaultText[selectedLanguage.toLowerCase()]}
@@ -126,6 +138,7 @@ const TranslateEditor = (): ReactElement => {
                 vertical: 'hidden',
               },
               minimap: { enabled: false },
+              renderSideBySide: !isMobile
             }}
           />
         </div>
