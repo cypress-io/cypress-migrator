@@ -14,9 +14,47 @@ import {
   selectOriginal,
   useAppDispatch,
   useAppSelector,
+  selectDiffEditorThemeColors,
+  selectDisplayDiff,
+  setDisplayDiff,
 } from '../app'
 import { defaultText } from '../constants'
 import { AboveEditor } from '.'
+import { Switch } from '@headlessui/react'
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+function DiffToggle() {
+  const enabled = useAppSelector(selectDisplayDiff);
+  const dispatch = useAppDispatch();
+  const setEnabled = () => dispatch(setDisplayDiff(!enabled))
+
+  return (
+    <Switch.Group as="div" className="flex items-center">
+      <Switch
+        checked={enabled}
+        onChange={() => setEnabled()}
+        className={classNames(
+          enabled ? 'bg-green-300' : 'bg-gray-200',
+          'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400'
+        )}
+      >
+        <span
+          aria-hidden="true"
+          className={classNames(
+            enabled ? 'translate-x-5' : 'translate-x-0',
+            'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
+          )}
+        />
+      </Switch>
+      <Switch.Label as="span" className="ml-3">
+        <span className="text-sm font-medium text-gray-900">Display Diff </span>
+      </Switch.Label>
+    </Switch.Group>
+  )
+}
 
 const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
@@ -25,6 +63,7 @@ const TranslateEditor = (): ReactElement => {
   const original: string = useAppSelector(selectOriginal)
   const modified: string = useAppSelector(selectModified)
   const selectedLanguage = useAppSelector(selectLanguage)
+  const themeColors = useAppSelector(selectDiffEditorThemeColors);
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -35,19 +74,12 @@ const TranslateEditor = (): ReactElement => {
         base: 'vs',
         inherit: true,
         rules: [],
-        colors: {
-          'editor.background': '#fff',
-          'editor.lineHighlightBackground': '#e1e3ed',
-          'scrollbarSlider.background': '#c2f1de',
-          'scrollbarSlider.hoverBackground': '#a3e7cb',
-          'editorLineNumber.foreground': '#747994',
-          'editorLineNumber.activeForeground': '#747994',
-        },
+        colors: themeColors
       })
 
       monaco.editor.setTheme('cypress-light')
     }
-  }, [monaco])
+  }, [monaco, themeColors])
 
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
@@ -73,6 +105,7 @@ const TranslateEditor = (): ReactElement => {
   return (
     <div className="md:flex pt-4 h-3/5 gap-2 flex-col">
       <AboveEditor translated={translated} />
+      <DiffToggle />
 
       <div className="flex h-full">
         <div className="px-4 py-4 sm:px-0 w-full border-solid border-2 border-gray-200 rounded">

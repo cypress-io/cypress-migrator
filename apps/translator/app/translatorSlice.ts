@@ -18,6 +18,20 @@ export interface IDiffArrayItem {
 
 export type AvailableLanguages = 'Protractor'
 
+export type IColors = {
+  [colorId: string]: string;
+};
+const diffColors = { 'diffEditor.insertedTextBackground': "#a3e7cb", 'diffEditor.removedTextBackground': "#f8c4cd" }
+const noDiffColors = {'diffEditor.insertedTextBackground': "#ffffff", 'diffEditor.removedTextBackground': "#ffffff"}
+const themeDefaultColors = {
+  'editor.background': '#fff',
+  'editor.lineHighlightBackground': '#e1e3ed',
+  'scrollbarSlider.background': '#c2f1de',
+  'scrollbarSlider.hoverBackground': '#a3e7cb',
+  'editorLineNumber.foreground': '#747994',
+  'editorLineNumber.activeForeground': '#747994',
+}
+const setThemeColors = (showDiff: boolean) => showDiff ? { ...themeDefaultColors, ...diffColors } : { ...themeDefaultColors, ...noDiffColors }
 export interface INotifications {
   copied: boolean
   noTranslationsMade: boolean
@@ -31,6 +45,7 @@ export interface ITranslatorState {
   diffArray: IDiffArrayItem[]
   error?: IError
   notifications: INotifications
+  displayDiff: boolean;
 }
 
 export const initialState: ITranslatorState = {
@@ -45,6 +60,7 @@ export const initialState: ITranslatorState = {
     noTranslationsMade: false,
     browserWaitTranslated: false
   },
+  displayDiff: true,
 }
 
 export const translatorSlice = createSlice({
@@ -93,11 +109,14 @@ export const translatorSlice = createSlice({
         ...initialState.notifications,
         browserWaitTranslated: action.payload
       }
-    })
+    }),
+    setDisplayDiff: (state, action: PayloadAction<boolean>) => {
+      state.displayDiff = action.payload
+    }
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated } =
+export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated, setDisplayDiff } =
   translatorSlice.actions
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
@@ -110,6 +129,8 @@ export const selectNotifications = (state: AppState): INotifications => state.tr
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
 export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.notifications.noTranslationsMade
 export const selectBrowserWaitTranslated = (state: AppState): boolean => state.translator.notifications.browserWaitTranslated
+export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
+export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
 
 export default translatorSlice.reducer
 
