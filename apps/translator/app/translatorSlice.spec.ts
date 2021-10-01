@@ -1,5 +1,4 @@
-import { isJsxText } from 'typescript'
-import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayItem, selectBrowserWaitTranslated, selectNoTranslationsMade } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffEditorThemeColors, selectNoTranslationsMade, setDisplayDiff } from '.'
 import reducer, {
   IError,
   initialState,
@@ -113,6 +112,44 @@ describe('translatorSlice', () => {
     const nextState = reducer(initialState, setError(error))
     expect(selectError({ translator: nextState })).toEqual(error)
   })
+
+  it('should correctly get the DiffEditorThemeColors when displayDiff is true', () => {
+    // arrange
+    const expected = {
+      'editor.background': '#fff',
+      'editor.lineHighlightBackground': '#e1e3ed',
+      'scrollbarSlider.background': '#c2f1de',
+      'scrollbarSlider.hoverBackground': '#a3e7cb',
+      'editorLineNumber.foreground': '#747994',
+      'editorLineNumber.activeForeground': '#747994',
+      'diffEditor.insertedTextBackground': "#a3e7cb",
+      'diffEditor.removedTextBackground': "#f8c4cd"
+    }
+    // act
+    const nextState = reducer(initialState, setDisplayDiff(true));
+    
+    // assert
+    expect(selectDiffEditorThemeColors({ translator: nextState })).toEqual(expected);
+  });
+
+  it('should correctly get the DiffEditorThemeColors when displayDiff is false', () => {
+    // arrange
+    const expected = {
+      'editor.background': '#fff',
+      'editor.lineHighlightBackground': '#e1e3ed',
+      'scrollbarSlider.background': '#c2f1de',
+      'scrollbarSlider.hoverBackground': '#a3e7cb',
+      'editorLineNumber.foreground': '#747994',
+      'editorLineNumber.activeForeground': '#747994',
+      'diffEditor.insertedTextBackground': "#ffffff",
+      'diffEditor.removedTextBackground': "#ffffff"
+    }
+    // act
+    const nextState = reducer(initialState, setDisplayDiff(false));
+    
+    // assert
+    expect(selectDiffEditorThemeColors({ translator: nextState })).toEqual(expected);
+  });
 
   describe('checkIfTranslationsHaveBeenMade', () => {
     it('returns true given diffArray includes at least one api item', () => {
