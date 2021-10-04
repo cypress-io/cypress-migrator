@@ -15,76 +15,10 @@ import {
   useAppDispatch,
   useAppSelector,
   selectDiffEditorThemeColors,
-  selectDisplayDiff,
-  setDisplayDiff,
   selectFontSize,
-  increaseFontSize,
-  decreaseFontSize,
 } from '../app'
 import { defaultText } from '../constants'
-import { AboveEditor } from '.'
-import { Switch } from '@headlessui/react'
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
-const DiffToggle = () => {
-  const enabled = useAppSelector(selectDisplayDiff);
-  const dispatch = useAppDispatch();
-  const setEnabled = () => dispatch(setDisplayDiff(!enabled))
-
-  return (
-    <Switch.Group as="div" className="flex items-center">
-      <Switch
-        checked={enabled}
-        onChange={() => setEnabled()}
-        className={classNames(
-          enabled ? 'bg-green-300' : 'bg-gray-200',
-          'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400'
-        )}
-      >
-        <span
-          aria-hidden="true"
-          className={classNames(
-            enabled ? 'translate-x-5' : 'translate-x-0',
-            'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-          )}
-        />
-      </Switch>
-      <Switch.Label as="span" className="ml-3">
-        <span className="text-sm font-medium text-gray-900">Display Diff Coloring</span>
-      </Switch.Label>
-    </Switch.Group>
-  )
-}
-
-const FontSizeButtons = () => {
-  const size = useAppSelector(selectFontSize);
-  const dispatch = useAppDispatch();
-
-  return (
-    <div className="flex items-center">
-      <span className="text-sm font-medium text-gray-900">Font Size: <span className="font-bold text-lg">{size}</span></span>
-      <button
-          className="bg-green-400 text-white hover:bg-green-500 hover:text-white active:bg-green-500 font-bold uppercase text-xs px-2 py-1 rounded-l outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 ml-4"
-          type="button"
-          onClick={() => dispatch(decreaseFontSize())}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
-          </svg>
-      </button>
-      <button
-          className="bg-green-400 text-white hover:bg-green-500 hover:text-white active:bg-green-500 font-bold uppercase text-xs px-2 py-1 rounded-r outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={() => dispatch(increaseFontSize())}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-      </button>
-    </div>
-  )
-}
+import { AboveEditor, DiffToggle, FontSizeButtons } from '.'
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -99,10 +33,9 @@ const useIsMobile = () => {
 
 const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
-  const translated = useAppSelector(selectModified)
   const error = useAppSelector(selectError)
+  const translated = useAppSelector(selectModified)
   const original: string = useAppSelector(selectOriginal)
-  const modified: string = useAppSelector(selectModified)
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors);
   const isMobile = useIsMobile();

@@ -7,6 +7,8 @@ import SelectList from './selectList'
 import Toast from './toast'
 import TranslateEditor from './translatorEditor'
 import Notifications from './notifications'
+import FontSizeButtons from './fontSizeButton'
+import DiffToggle from './diffToggle'
 
 export {
   AboveEditor,
@@ -18,4 +20,6 @@ export {
   Toast,
   TranslateEditor,
   Notifications,
+  FontSizeButtons,
+  DiffToggle
 }
