@@ -50,7 +50,7 @@ function DiffToggle() {
         />
       </Switch>
       <Switch.Label as="span" className="ml-3">
-        <span className="text-sm font-medium text-gray-900">Display Diff </span>
+        <span className="text-sm font-medium text-gray-900">Display Diff Coloring</span>
       </Switch.Label>
     </Switch.Group>
   )
