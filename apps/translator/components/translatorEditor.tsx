@@ -138,7 +138,8 @@ const TranslateEditor = (): ReactElement => {
                 vertical: 'hidden',
               },
               minimap: { enabled: false },
-              renderSideBySide: !isMobile
+              renderSideBySide: !isMobile,
+              readOnly: true
             }}
           />
         </div>
