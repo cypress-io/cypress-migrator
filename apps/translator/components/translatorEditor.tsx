@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
-import { ArrowCircleRightIcon } from '@heroicons/react/solid'
+import { ArrowCircleRightIcon, PlusIcon, MinusIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
 
 import {
@@ -17,6 +17,9 @@ import {
   selectDiffEditorThemeColors,
   selectDisplayDiff,
   setDisplayDiff,
+  selectFontSize,
+  increaseFontSize,
+  decreaseFontSize,
 } from '../app'
 import { defaultText } from '../constants'
 import { AboveEditor } from '.'
@@ -26,7 +29,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function DiffToggle() {
+const DiffToggle = () => {
   const enabled = useAppSelector(selectDisplayDiff);
   const dispatch = useAppDispatch();
   const setEnabled = () => dispatch(setDisplayDiff(!enabled))
@@ -56,6 +59,33 @@ function DiffToggle() {
   )
 }
 
+const FontSizeButtons = () => {
+  const size = useAppSelector(selectFontSize);
+  const dispatch = useAppDispatch();
+
+  return (
+    <div className="flex items-center">
+      <span className="text-sm font-medium text-gray-900">Font Size: <span className="font-bold text-lg">{size}</span></span>
+      <button
+          className="bg-green-400 text-white hover:bg-green-500 hover:text-white active:bg-green-500 font-bold uppercase text-xs px-2 py-1 rounded-l outline-none focus:outline-none mb-1 ease-linear transition-all duration-150 ml-4"
+          type="button"
+          onClick={() => dispatch(decreaseFontSize())}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
+          </svg>
+      </button>
+      <button
+          className="bg-green-400 text-white hover:bg-green-500 hover:text-white active:bg-green-500 font-bold uppercase text-xs px-2 py-1 rounded-r outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
+          type="button"
+          onClick={() => dispatch(increaseFontSize())}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+      </button>
+    </div>
+  )
+}
+
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -76,6 +106,7 @@ const TranslateEditor = (): ReactElement => {
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors);
   const isMobile = useIsMobile();
+  const fontSize = useAppSelector(selectFontSize);
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -117,7 +148,10 @@ const TranslateEditor = (): ReactElement => {
   return (
     <div className=" flex pt-4 h-3/5 gap-2 flex-col">
       <AboveEditor translated={translated} />
-      {!isMobile ? <DiffToggle /> : null}
+      <div className="flex justify-between">
+        {!isMobile ? <DiffToggle /> : null}
+        <FontSizeButtons />
+      </div>
 
       <div className="flex h-full">
       <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
@@ -131,7 +165,7 @@ const TranslateEditor = (): ReactElement => {
             options={{
               lineNumbers: 'on',
               originalEditable: true,
-              fontSize: 16,
+              fontSize: fontSize,
               codeLens: true,
               wordWrap: 'on',
               scrollbar: {
