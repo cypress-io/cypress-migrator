@@ -5,7 +5,34 @@ import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrow
 import { nonLocatorMethodTransforms } from './constants'
 import { transformLocators } from './locators'
 
+const needsSanitized = (value: string): boolean => {
+  switch (value[value.length - 1]) {
+    case '.':
+    case '(':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      return true;
+      
+    default: return false;
+  }
+}
+
+const sanitize = (value: string): string => {
+  return needsSanitized(value)
+    ? sanitize(value.slice(0, -1))
+    : value;
+}
+
 const transformer: Transform = (file: { path: string; source: string }, api: API): string => {
+  file.source = sanitize(file.source);
   const j = api.jscodeshift
   const root = j(file.source)
 
