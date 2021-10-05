@@ -46,6 +46,7 @@ export interface ITranslatorState {
   error?: IError
   notifications: INotifications
   displayDiff: boolean;
+  fontSize: number;
 }
 
 export const initialState: ITranslatorState = {
@@ -61,6 +62,7 @@ export const initialState: ITranslatorState = {
     browserWaitTranslated: false
   },
   displayDiff: true,
+  fontSize: 12
 }
 
 export const translatorSlice = createSlice({
@@ -112,11 +114,17 @@ export const translatorSlice = createSlice({
     }),
     setDisplayDiff: (state, action: PayloadAction<boolean>) => {
       state.displayDiff = action.payload
+    },
+    increaseFontSize: (state) => {
+      state.fontSize = state.fontSize + 1;
+    },
+    decreaseFontSize: (state) => {
+      state.fontSize = state.fontSize - 1;
     }
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated, setDisplayDiff } =
+export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated, setDisplayDiff, increaseFontSize, decreaseFontSize } =
   translatorSlice.actions
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
@@ -131,6 +139,7 @@ export const selectNoTranslationsMade = (state: AppState): boolean => state.tran
 export const selectBrowserWaitTranslated = (state: AppState): boolean => state.translator.notifications.browserWaitTranslated
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
+export const selectFontSize = (state: AppState): number => state.translator.fontSize
 
 export default translatorSlice.reducer
 

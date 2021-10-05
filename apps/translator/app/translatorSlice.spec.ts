@@ -1,4 +1,4 @@
-import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffEditorThemeColors, selectNoTranslationsMade, setDisplayDiff } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, decreaseFontSize, IDiffArrayItem, increaseFontSize, selectBrowserWaitTranslated, selectDiffEditorThemeColors, selectFontSize, selectNoTranslationsMade, setDisplayDiff } from '.'
 import reducer, {
   IError,
   initialState,
@@ -149,6 +149,16 @@ describe('translatorSlice', () => {
     
     // assert
     expect(selectDiffEditorThemeColors({ translator: nextState })).toEqual(expected);
+  });
+
+  it('should correctly increment font size in state', () => {
+    const nextState = reducer(initialState, increaseFontSize());
+    expect(selectFontSize({ translator: nextState })).toEqual(13);
+  });
+
+  it('should correctly decrement font size in state', () => {
+    const nextState = reducer(initialState, decreaseFontSize());
+    expect(selectFontSize({ translator: nextState })).toEqual(11);
   });
 
   describe('checkIfTranslationsHaveBeenMade', () => {
