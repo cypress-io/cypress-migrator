@@ -1,4 +1,3 @@
-import AboveEditor from './aboveEditor'
 import AvailableCodeMods from './availableCodemods'
 import CopyButton from './copyButton'
 import LanguagePills from './languagePills'
@@ -11,7 +10,6 @@ import FontSizeButtons from './fontSizeButton'
 import DiffToggle from './diffToggle'
 
 export {
-  AboveEditor,
   AvailableCodeMods,
   CopyButton,
   LanguagePills,

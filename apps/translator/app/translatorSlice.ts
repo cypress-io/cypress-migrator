@@ -16,7 +16,7 @@ export interface IDiffArrayItem {
   }[]
 }
 
-export type AvailableLanguages = 'Protractor'
+export type AvailableLanguages = 'protractor'
 
 export type IColors = {
   [colorId: string]: string;
@@ -50,8 +50,8 @@ export interface ITranslatorState {
 }
 
 export const initialState: ITranslatorState = {
-  language: 'Protractor',
-  availableLanguages: ['Protractor'],
+  language: 'protractor',
+  availableLanguages: ['protractor'],
   original: defaultText['protractor'],
   modified: null,
   diffArray: [],
