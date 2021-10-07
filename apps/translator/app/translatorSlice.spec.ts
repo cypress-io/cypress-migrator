@@ -1,4 +1,4 @@
-import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, decreaseFontSize, IDiffArrayItem, increaseFontSize, selectBrowserWaitTranslated, selectDiffEditorThemeColors, selectFontSize, selectNoTranslationsMade, setDisplayDiff } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, decreaseFontSize, IDiffArrayApiItem, IDiffArrayItem, increaseFontSize, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectFontSize, selectNoTranslationsMade, setDisplayDiff } from '.'
 import reducer, {
   IError,
   initialState,
@@ -159,6 +159,26 @@ describe('translatorSlice', () => {
   it('should correctly decrement font size in state', () => {
     const nextState = reducer(initialState, decreaseFontSize());
     expect(selectFontSize({ translator: nextState })).toEqual(11);
+  });
+
+  it('should correctly get the list of diffArray Api items', () => {
+    // arrange
+    const apiItem1: IDiffArrayApiItem = { command: 'get', url: 'www.cypress.io' };
+    const apiItem2: IDiffArrayApiItem = { command: 'visit', url: 'www.cypress.io' };
+    const apiItem3: IDiffArrayApiItem = { command: 'get', url: 'www.cypress.io' };
+    const diffArray: IDiffArrayItem[] = [
+      { original: 'old', modified: 'new', api: [] },
+      { original: 'old', modified: 'new', api: [apiItem1, apiItem2]},
+      { original: 'old', modified: 'new', api: [apiItem3]}
+    ];
+    const expected = [apiItem1, apiItem2, apiItem3];
+    
+    // act
+    const nextState = reducer(initialState, setDiff(diffArray));
+    
+    // assert
+    expect(selectDiffApiItems({ translator: nextState })).toEqual(expected);
+
   });
 
   describe('checkIfTranslationsHaveBeenMade', () => {

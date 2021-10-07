@@ -7,13 +7,15 @@ export interface IError {
   message: string
   level: 'warning' | 'error' | 'info'
 }
+
+export interface IDiffArrayApiItem {
+  command: string;
+  url: string;
+}
 export interface IDiffArrayItem {
   original: string
   modified: string
-  api?: {
-    command: string
-    url: string
-  }[]
+  api?: IDiffArrayApiItem[]
 }
 
 export type AvailableLanguages = 'protractor'
@@ -140,6 +142,8 @@ export const selectBrowserWaitTranslated = (state: AppState): boolean => state.t
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
 export const selectFontSize = (state: AppState): number => state.translator.fontSize
+export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [].concat(...state.translator.diffArray.filter((diff: IDiffArrayItem) => diff.api?.length > 0).map((item: IDiffArrayItem) => item.api))
+
 
 export default translatorSlice.reducer
 

@@ -8,6 +8,7 @@ import TranslateEditor from './translatorEditor'
 import Notifications from './notifications'
 import FontSizeButtons from './fontSizeButton'
 import DiffToggle from './diffToggle'
+import TranslationDiff from './translationDiff'
 
 export {
   AvailableCodeMods,
@@ -19,5 +20,6 @@ export {
   TranslateEditor,
   Notifications,
   FontSizeButtons,
-  DiffToggle
+  DiffToggle,
+  TranslationDiff
 }
