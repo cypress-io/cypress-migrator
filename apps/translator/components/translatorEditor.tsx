@@ -18,7 +18,7 @@ import {
   selectFontSize,
 } from '../app'
 import { defaultText } from '../constants'
-import { AboveEditor, DiffToggle, FontSizeButtons } from '.'
+import { DiffToggle, FontSizeButtons, CopyButton, LanguagePills } from '.'
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -79,11 +79,11 @@ const TranslateEditor = (): ReactElement => {
   }
 
   return (
-    <div className=" flex pt-4 h-3/5 gap-2 flex-col">
-      <AboveEditor translated={translated} />
+    <div className="flex pt-4 h-3/5 gap-2 flex-col">
+      <LanguagePills  />
       <div className="flex justify-between">
-        {!isMobile ? <DiffToggle /> : null}
-        <FontSizeButtons />
+        {!isMobile ? <><DiffToggle /><FontSizeButtons /></> : null}
+        <CopyButton />
       </div>
 
       <div className="flex h-full">

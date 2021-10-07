@@ -12,6 +12,7 @@ const Navigation = (): ReactElement => {
   }
 
   return (
+    <>
     <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">
       <div className="flex w-full justify-between items-center">
         <div className="flex-shrink-0 flex items-center">
@@ -43,6 +44,8 @@ const Navigation = (): ReactElement => {
         </ul>
       </div>
     </nav>
+    <hr />
+    </>
   )
 }
 

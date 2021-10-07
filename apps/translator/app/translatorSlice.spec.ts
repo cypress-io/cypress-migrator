@@ -22,8 +22,8 @@ describe('translatorSlice', () => {
   })
 
   it('should correctly set language in state', () => {
-    const nextState = reducer(initialState, setLanguage('Protractor'))
-    expect(selectLanguage({ translator: nextState })).toEqual('Protractor')
+    const nextState = reducer(initialState, setLanguage('protractor'))
+    expect(selectLanguage({ translator: nextState })).toEqual('protractor')
   })
 
   it('should correctly set modified in state', () => {
