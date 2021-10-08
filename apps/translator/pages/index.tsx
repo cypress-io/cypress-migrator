@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import Head from 'next/head'
 
 import { selectLanguage, useAppSelector } from '../app'
-import { Navigation, SelectList, TranslateEditor, AvailableCodeMods, Notifications } from '../components'
+import { Navigation, SelectList, TranslateEditor, AvailableCodeMods, Notifications, TranslationDiff } from '../components'
 import { getAllCodeMods } from '../api'
 
 const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => {
@@ -31,6 +31,8 @@ const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement =>
           </div>
 
           <TranslateEditor />
+
+          <TranslationDiff />
 
           <AvailableCodeMods allCodeMods={allCodeMods} />
 
