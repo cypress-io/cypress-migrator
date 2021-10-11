@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { selectBrowserWaitTranslated, selectCopiedNotification, selectNoTranslationsMade, setBrowserWaitTranslated, setCopiedNotification, setNoTranslationsMade, useAppDispatch, useAppSelector } from '../app'
+import { selectBrowserWaitTranslated, selectCopiedNotification, selectNoInputProvided, selectNoTranslationsMade, setBrowserWaitTranslated, setCopiedNotification, setNoInputProvided, setNoTranslationsMade, useAppDispatch, useAppSelector } from '../app'
 import { Toast } from '../components'
 
 const CopiedNotification = (): ReactElement => {
@@ -62,9 +62,31 @@ const BrowserWaitTranslatedNotification = (): ReactElement => {
   )
 }
 
+const NoInputProvidedNotification = (): ReactElement => {
+  const showNoInputProvided = useAppSelector(selectNoInputProvided);
+  const dispatch = useAppDispatch();
+  const toggleOffNoInputProvided = () => {
+    dispatch(setNoInputProvided(false))
+  }
+
+  return (
+    <>
+      { showNoInputProvided ? (
+        <Toast
+          title="No Input Value Provided"
+          message="No input value was provided to translate. Please try again by passing a valid string value."
+          alertType="Warning"
+          hideToastAlert={toggleOffNoInputProvided}
+        />
+      ): null}
+    </>
+  )
+}
+
 const Notifications = (): ReactElement => <>
   <CopiedNotification />
   <NoTranslationsMadeNotification />
   <BrowserWaitTranslatedNotification />
+  <NoInputProvidedNotification />
 </>
 export default Notifications

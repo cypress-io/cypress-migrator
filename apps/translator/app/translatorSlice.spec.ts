@@ -1,4 +1,4 @@
-import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayApiItem, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectNoTranslationsMade, setDisplayDiff } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveNotBeenMade, IDiffArrayApiItem, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectNoInputProvided, selectNoTranslationsMade, setDisplayDiff } from '.'
 import reducer, {
   IError,
   initialState,
@@ -103,6 +103,13 @@ describe('translatorSlice', () => {
     expect(selectBrowserWaitTranslated({ translator: nextState })).toBeFalsy()
   })
 
+  it('should correctly set the noInputProvided notifications flag to true when found in errors', () => {
+    const diffArray = [];
+    const nextState = reducer(initialState, setDiff(diffArray));
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray);
+    expect(selectNoInputProvided({ translator: nextState })).toBeTruthy();
+  })
+
   it('should correctly set error in state', () => {
     const error: IError = {
       message: 'This is an error.',
@@ -193,21 +200,21 @@ describe('translatorSlice', () => {
       const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: [{ command: 'testing()', url: 'www.cypress.io'}]}];
       
       // act
-      const actual = checkIfTranslationsHaveBeenMade(diffArray);
+      const actual = checkIfTranslationsHaveNotBeenMade(diffArray);
 
       // assert
-      expect(actual).toBeTruthy();
+      expect(actual).toBeFalsy();
     });
 
-    it('returns false given diffArray has an empty api array', () => {
+    it('returns true given diffArray has an empty api array', () => {
       // arrange
       const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: []}];
 
       // act
-      const actual = checkIfTranslationsHaveBeenMade(diffArray);
+      const actual = checkIfTranslationsHaveNotBeenMade(diffArray);
 
       // assert
-      expect(actual).toBeFalsy();
+      expect(actual).toBeTruthy();
     });
   })
 

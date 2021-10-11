@@ -38,6 +38,7 @@ export interface INotifications {
   copied: boolean
   noTranslationsMade: boolean
   browserWaitTranslated: boolean
+  noInputProvided: boolean
 }
 export interface ITranslatorState {
   language: AvailableLanguages
@@ -60,7 +61,8 @@ export const initialState: ITranslatorState = {
   notifications: {
     copied: false,
     noTranslationsMade: false,
-    browserWaitTranslated: false
+    browserWaitTranslated: false,
+    noInputProvided: false
   },
   displayDiff: true,
 }
@@ -84,8 +86,9 @@ export const translatorSlice = createSlice({
       diffArray: action.payload,
       notifications: {
         ...state.notifications,
-        noTranslationsMade: !checkIfTranslationsHaveBeenMade(action.payload),
-        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload)
+        noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload),
+        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload),
+        noInputProvided: action.payload.length === 0
       }
     }),
     setError: (state, action: PayloadAction<IError>) => {
@@ -112,6 +115,13 @@ export const translatorSlice = createSlice({
         browserWaitTranslated: action.payload
       }
     }),
+    setNoInputProvided: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      notifications: {
+        ...initialState.notifications,
+        noInputProvided: action.payload
+      }
+    }),
     setDisplayDiff: (state, action: PayloadAction<boolean>) => {
       state.displayDiff = action.payload
     }
@@ -131,6 +141,7 @@ export const selectNotifications = (state: AppState): INotifications => state.tr
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
 export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.notifications.noTranslationsMade
 export const selectBrowserWaitTranslated = (state: AppState): boolean => state.translator.notifications.browserWaitTranslated
+export const selectNoInputProvided = (state: AppState): boolean => state.translator.notifications.noInputProvided
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
 export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [].concat(...state.translator.diffArray.filter((diff: IDiffArrayItem) => diff.api?.length > 0).map((item: IDiffArrayItem) => item.api))
@@ -139,7 +150,7 @@ export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [].c
 export default translatorSlice.reducer
 
 
-export const checkIfTranslationsHaveBeenMade = (diffArray: IDiffArrayItem[]): boolean => 
-  diffArray.length > 0 && diffArray.some(diff => diff.api.length > 0)
+export const checkIfTranslationsHaveNotBeenMade = (diffArray: IDiffArrayItem[]): boolean => 
+  diffArray.length > 0 && diffArray.some(diff => diff.api.length === 0)
 
 export const checkIfBrowserWaitTranslationMade = (diffArray: IDiffArrayItem[]): boolean => diffArray.filter(diff => diff.api.filter(api => api.command === 'wait').length > 0).length > 0
