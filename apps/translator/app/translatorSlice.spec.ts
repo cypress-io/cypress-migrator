@@ -155,13 +155,11 @@ describe('translatorSlice', () => {
     // arrange
     const apiItem1: IDiffArrayApiItem = { command: 'get', url: 'www.cypress.io' };
     const apiItem2: IDiffArrayApiItem = { command: 'visit', url: 'www.cypress.io' };
-    const apiItem3: IDiffArrayApiItem = { command: 'get', url: 'www.cypress.io' };
     const diffArray: IDiffArrayItem[] = [
       { original: 'old', modified: 'new', api: [] },
       { original: 'old', modified: 'new', api: [apiItem1, apiItem2]},
-      { original: 'old', modified: 'new', api: [apiItem3]}
     ];
-    const expected = [apiItem1, apiItem2, apiItem3];
+    const expected = [apiItem1, apiItem2];
     
     // act
     const nextState = reducer(initialState, setDiff(diffArray));
@@ -169,6 +167,24 @@ describe('translatorSlice', () => {
     // assert
     expect(selectDiffApiItems({ translator: nextState })).toEqual(expected);
 
+  });
+
+  it('should filter out all duplicates of the diffArray Api Items', () => {
+    // arrange
+    const apiItem1: IDiffArrayApiItem = { command: 'get', url: 'www.cypress.io' };
+    const apiItem2: IDiffArrayApiItem = { command: 'visit', url: 'www.cypress.io' };
+    const diffArray: IDiffArrayItem[] = [
+      { original: 'oldLine1', modified: 'newLine1', api: [apiItem1]},
+      { original: 'oldLine2', modified: 'newLine2', api: [apiItem2]},
+      { original: 'oldLine3', modified: 'newLIne3', api: [apiItem1, apiItem2]}
+    ];
+    const expected = [apiItem1, apiItem2];
+
+    // act
+    const nextState = reducer(initialState, setDiff(diffArray));
+
+    // assert
+    expect(selectDiffApiItems({ translator: nextState})).toEqual(expected)
   });
 
   describe('checkIfTranslationsHaveBeenMade', () => {
