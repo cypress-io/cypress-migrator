@@ -106,4 +106,9 @@ describe('ElementLocators', () => {
     $('.parent').getWebElement()
     element(by.css('.my-class')).getWebElement()
   })
+
+  it('should transform xpath', () => {
+    by.xpath('//ul[@class="todo-list"]//li')
+    element(by.xpath('//ul[@class="todo-list"]//li'))
+  })
 })

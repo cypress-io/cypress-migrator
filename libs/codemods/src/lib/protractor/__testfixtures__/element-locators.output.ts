@@ -106,4 +106,9 @@ describe('ElementLocators', () => {
     cy.get('.parent')
     cy.get('.my-class')
   })
+
+  it('should transform xpath', () => {
+    cy.xpath('//ul[@class="todo-list"]//li')
+    cy.xpath('//ul[@class="todo-list"]//li')
+  })
 })
