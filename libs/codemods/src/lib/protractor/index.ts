@@ -19,20 +19,19 @@ const needsSanitized = (value: string): boolean => {
     case '7':
     case '8':
     case '9':
-      return true;
-      
-    default: return false;
+      return true
+
+    default:
+      return false
   }
 }
 
 const sanitize = (value: string): string => {
-  return needsSanitized(value)
-    ? sanitize(value.slice(0, -1))
-    : value;
+  return needsSanitized(value) ? sanitize(value.slice(0, -1)) : value
 }
 
 const transformer: Transform = (file: { path: string; source: string }, api: API): string => {
-  file.source = sanitize(file.source);
+  file.source = sanitize(file.source)
   const j = api.jscodeshift
   const root = j(file.source)
 

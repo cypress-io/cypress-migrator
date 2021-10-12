@@ -24,7 +24,11 @@ const tableComponent = {
     </th>
   ),
   tbody: ({ ...props }) => <tbody className="bg-white divide-y divide-gray-200" {...props} />,
-  td: ({ children }) => <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><code>{children}</code></td>,
+  td: ({ children }) => (
+    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+      <code>{children}</code>
+    </td>
+  ),
   h2: ({ children, ...props }) => (
     <div className="pb-2 border-b border-gray-200">
       <h2 className="text-lg leading-6 font-medium text-gray-900">{children}</h2>

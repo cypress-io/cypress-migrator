@@ -3,12 +3,14 @@ import { XIcon } from '@heroicons/react/solid'
 import { Transition } from '@headlessui/react'
 import { CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/outline'
 
-type ToastType = 'Success' | 'Warning' | 'Error';
+type ToastType = 'Success' | 'Warning' | 'Error'
 
-const AlertType = ({ alertType}: { alertType: ToastType }): ReactElement => <>
-  { alertType === 'Success' && <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />}
-  { alertType === 'Warning' && <InformationCircleIcon className="h-6 w-6 text-yellow-400" aria-hidden="true" />}
-</>
+const AlertType = ({ alertType }: { alertType: ToastType }): ReactElement => (
+  <>
+    {alertType === 'Success' && <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />}
+    {alertType === 'Warning' && <InformationCircleIcon className="h-6 w-6 text-yellow-400" aria-hidden="true" />}
+  </>
+)
 
 const Toast = ({
   title,

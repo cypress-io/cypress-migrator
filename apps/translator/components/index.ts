@@ -8,7 +8,7 @@ import TranslateEditor from './translatorEditor'
 import Notifications from './notifications'
 import DiffToggle from './diffToggle'
 import TranslationDiff from './translationDiff'
-import BackButton from './backButton';
+import BackButton from './backButton'
 
 export {
   AvailableCodeMods,
@@ -21,5 +21,5 @@ export {
   Notifications,
   DiffToggle,
   TranslationDiff,
-  BackButton
+  BackButton,
 }

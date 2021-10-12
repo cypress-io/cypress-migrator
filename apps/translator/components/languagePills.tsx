@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react'
 import { selectLanguage, useAppSelector } from '../app'
 
 const LanguagePills = (): ReactElement => {
-  const selectedLanguage = useAppSelector(selectLanguage);
+  const selectedLanguage = useAppSelector(selectLanguage)
   return (
     <div className="grid grid-cols-3 gap-4">
       <div className="col-start-2 flex justify-center">
