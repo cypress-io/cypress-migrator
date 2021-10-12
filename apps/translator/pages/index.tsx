@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import Head from 'next/head'
 
-import { Navigation, SelectList, TranslateEditor, Footer, Notifications, TranslationDiff } from '../components'
+import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff } from '../components'
 
 const Index = (): ReactElement => (
   <div className={'h-full'}>
@@ -27,7 +27,6 @@ const Index = (): ReactElement => (
 
         <TranslateEditor />
         <TranslationDiff />
-        <Footer />
         <Notifications />
       </div>
     </main>
