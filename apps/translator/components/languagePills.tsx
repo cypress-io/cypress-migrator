@@ -5,7 +5,7 @@ import { selectLanguage, useAppSelector } from '../app'
 const LanguagePills = (): ReactElement => {
   const selectedLanguage = useAppSelector(selectLanguage);
   return (
-    <div className="grid grid-cols-3 gap-4 mb-8">
+    <div className="grid grid-cols-3 gap-4">
       <div className="col-start-2 flex justify-center">
         <span className="px-3 py-2 rounded-full text-sm font-medium bg-red-300 text-red-800 capitalize">
           {selectedLanguage}

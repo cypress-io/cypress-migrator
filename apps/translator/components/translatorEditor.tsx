@@ -15,10 +15,9 @@ import {
   useAppDispatch,
   useAppSelector,
   selectDiffEditorThemeColors,
-  selectFontSize,
 } from '../app'
 import { defaultText } from '../constants'
-import { DiffToggle, FontSizeButtons, CopyButton, LanguagePills } from '.'
+import { DiffToggle, CopyButton, LanguagePills } from '.'
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -39,7 +38,6 @@ const TranslateEditor = (): ReactElement => {
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors);
   const isMobile = useIsMobile();
-  const fontSize = useAppSelector(selectFontSize);
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -82,7 +80,7 @@ const TranslateEditor = (): ReactElement => {
     <div className="flex pt-4 h-3/5 gap-2 flex-col">
       <LanguagePills  />
       <div className="flex justify-between">
-        {!isMobile ? <><DiffToggle /><FontSizeButtons /></> : null}
+        {!isMobile ? <><DiffToggle /></> : null}
         <CopyButton />
       </div>
 
@@ -98,7 +96,7 @@ const TranslateEditor = (): ReactElement => {
             options={{
               lineNumbers: 'on',
               originalEditable: true,
-              fontSize: fontSize,
+              fontSize: 14,
               codeLens: true,
               wordWrap: 'on',
               scrollbar: {

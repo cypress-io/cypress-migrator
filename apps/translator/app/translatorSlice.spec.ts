@@ -1,4 +1,4 @@
-import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, decreaseFontSize, IDiffArrayApiItem, IDiffArrayItem, increaseFontSize, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectFontSize, selectNoTranslationsMade, setDisplayDiff } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayApiItem, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectNoTranslationsMade, setDisplayDiff } from '.'
 import reducer, {
   IError,
   initialState,
@@ -149,16 +149,6 @@ describe('translatorSlice', () => {
     
     // assert
     expect(selectDiffEditorThemeColors({ translator: nextState })).toEqual(expected);
-  });
-
-  it('should correctly increment font size in state', () => {
-    const nextState = reducer(initialState, increaseFontSize());
-    expect(selectFontSize({ translator: nextState })).toEqual(13);
-  });
-
-  it('should correctly decrement font size in state', () => {
-    const nextState = reducer(initialState, decreaseFontSize());
-    expect(selectFontSize({ translator: nextState })).toEqual(11);
   });
 
   it('should correctly get the list of diffArray Api items', () => {
