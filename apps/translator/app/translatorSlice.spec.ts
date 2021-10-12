@@ -1,4 +1,4 @@
-import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveBeenMade, IDiffArrayApiItem, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectNoTranslationsMade, setDisplayDiff } from '.'
+import { checkIfBrowserWaitTranslationMade, checkIfTranslationsHaveNotBeenMade, IDiffArrayApiItem, IDiffArrayItem, selectBrowserWaitTranslated, selectDiffApiItems, selectDiffEditorThemeColors, selectNoInputProvided, selectNoTranslationsMade, setDisplayDiff } from '.'
 import reducer, {
   IError,
   initialState,
@@ -103,6 +103,13 @@ describe('translatorSlice', () => {
     expect(selectBrowserWaitTranslated({ translator: nextState })).toBeFalsy()
   })
 
+  it('should correctly set the noInputProvided notifications flag to true when found in errors', () => {
+    const diffArray = [];
+    const nextState = reducer(initialState, setDiff(diffArray));
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray);
+    expect(selectNoInputProvided({ translator: nextState })).toBeTruthy();
+  })
+
   it('should correctly set error in state', () => {
     const error: IError = {
       message: 'This is an error.',
@@ -187,27 +194,27 @@ describe('translatorSlice', () => {
     expect(selectDiffApiItems({ translator: nextState})).toEqual(expected)
   });
 
-  describe('checkIfTranslationsHaveBeenMade', () => {
-    it('returns true given diffArray includes at least one api item', () => {
+  describe('checkIfTranslationsHaveNotBeenMade', () => {
+    it('returns false given diffArray items are not the same', () => {
       // arrange
-      const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: [{ command: 'testing()', url: 'www.cypress.io'}]}];
+      const diffArray: IDiffArrayItem[] = [{ original: 'browser.driver.get()', modified: 'cy.visit()', api: [{ command: 'visit', url: 'https://on.cypress.io/visit'}]}];
       
       // act
-      const actual = checkIfTranslationsHaveBeenMade(diffArray);
+      const actual = checkIfTranslationsHaveNotBeenMade(diffArray);
 
       // assert
-      expect(actual).toBeTruthy();
+      expect(actual).toBeFalsy();
     });
 
-    it('returns false given diffArray has an empty api array', () => {
+    it('returns true given diffArray has an empty api array', () => {
       // arrange
       const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: []}];
 
       // act
-      const actual = checkIfTranslationsHaveBeenMade(diffArray);
+      const actual = checkIfTranslationsHaveNotBeenMade(diffArray);
 
       // assert
-      expect(actual).toBeFalsy();
+      expect(actual).toBeTruthy();
     });
   })
 

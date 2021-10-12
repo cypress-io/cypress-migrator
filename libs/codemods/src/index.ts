@@ -15,6 +15,7 @@ interface TransformProps {
   warningMessage?: string
   notSupportedMessage?: string
   errorMessage?: string
+  noInputProvided?: string
 }
 
 export const parser = 'babel'
@@ -24,9 +25,18 @@ export default function applyTransforms({
   warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-codemods repo.',
   notSupportedMessage = 'We currently do not support transforming this. There is no Cypress equivalent.',
   errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-codemods repo.',
+  noInputProvided = 'Please provide an input value to translate.'
 }: TransformProps): TransformResult {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   // const jscodeshift = require('../../node_modules/jscodeshift/dist/core.js');
+
+  if (input === '') {
+    return {
+      output: undefined,
+      diff: [],
+      error: { message: noInputProvided, level: 'warning' },
+    }
+  }
 
   try {
     const transform = protractorTransformer(
