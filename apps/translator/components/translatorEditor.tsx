@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
-import { ArrowCircleRightIcon, PlusIcon, MinusIcon } from '@heroicons/react/solid'
+import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
 
 import {
@@ -60,14 +60,13 @@ const TranslateEditor = (): ReactElement => {
     const originalEditor = editor.getOriginalEditor()
 
     originalEditor.onDidChangeModelContent(() => {
-      translate(originalEditor.getValue());
+      dispatch(setOriginal(originalEditor.getValue()));
     })
   }
 
-  const translate = (value: string): void => {
-    const codemodResult = cypressCodemods({ input: value })
+  const translateEditorValue = (): void => {
+    const codemodResult = cypressCodemods({ input: original })
 
-    dispatch(setOriginal(value))
     dispatch(setModified(codemodResult.output))
     dispatch(setDiff(codemodResult.diff))
 
@@ -85,7 +84,7 @@ const TranslateEditor = (): ReactElement => {
       </div>
 
       <div className="flex h-full">
-      <div className="px-4 py-4 mb-8 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
+      <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
             language="javascript"
             original={defaultText[selectedLanguage.toLowerCase()]}
@@ -108,6 +107,16 @@ const TranslateEditor = (): ReactElement => {
             }}
           />
         </div>
+      </div>
+      <div className="pb-4 flex justify-end">
+        <button
+          type="button"
+          className="inline-flex items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          onClick={translateEditorValue}
+        >
+          Translate to Cypress
+          <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+        </button>
       </div>
     </div>
   )
