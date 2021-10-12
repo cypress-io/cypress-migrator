@@ -1,51 +1,37 @@
 import { ReactElement } from 'react'
 import Head from 'next/head'
 
-import { selectLanguage, useAppSelector } from '../app'
-import { Navigation, SelectList, TranslateEditor, AvailableCodeMods, Notifications, TranslationDiff } from '../components'
-import { getAllCodeMods } from '../api'
+import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff } from '../components'
 
-const Translator = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => {
-  const selectedLanguage = useAppSelector(selectLanguage)
+const Index = (): ReactElement => (
+  <div className={'h-full'}>
+    <Head>
+      <title>Cypress Translator | Interactive Code Transformer</title>
+      <meta property="og:title" content="Cypress Translator | Interactive Code Transformer" key="title" />
+      <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      <link rel="shortcut icon" href="public/favicon.ico" type="image/x-icon" />
+    </Head>
 
-  return (
-    <div className={'h-full'}>
-      <Head>
-        <title>Cypress Translator | Interactive Code Transformer</title>
-        <meta property="og:title" content="Cypress Translator | Interactive Code Transformer" key="title" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <link rel="shortcut icon" href="public/favicon.ico" type="image/x-icon" />
-      </Head>
+    <Navigation />
 
-      <Navigation />
-
-      <main className="h-full">
-        <div className="max-w-7xl h-full mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center pb-6">
-            <p className="text-xl sm:text-3xl">Translate</p>
-            <div className="px-3">
-              <SelectList />
-            </div>
-
-            <p className="text-xl sm:text-3xl"> code to Cypress.</p>
+    <main className="h-full">
+      <div className="max-w-7xl h-full mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center pb-6">
+          <p className="text-xl sm:text-3xl">Translate</p>
+          <div className="px-3">
+            <SelectList />
           </div>
 
-          <TranslateEditor />
-
-          <TranslationDiff />
-
-          <AvailableCodeMods allCodeMods={allCodeMods} />
-
-          <Notifications />
+          <p className="text-xl sm:text-3xl"> code to Cypress.</p>
         </div>
-      </main>
-    </div>
-  )
-}
 
-export default Translator
+        <TranslateEditor />
+        <TranslationDiff />
+        <Notifications />
+      </div>
+    </main>
+  </div>
+)
 
-export async function getStaticProps() {
-  const allCodeMods = getAllCodeMods()
-  return { props: { allCodeMods } }
-}
+
+export default Index

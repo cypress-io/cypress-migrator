@@ -7,3 +7,8 @@ html,
 #__next {
   height: 100%;
 }
+
+ul li:before {
+  content: '✓';
+  padding-right: 1rem;
+}

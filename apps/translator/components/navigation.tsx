@@ -1,6 +1,7 @@
 import { ReactElement } from 'react'
 import Image from 'next/image'
-import logo from '../public/logo.png'
+import Link from 'next/link';
+import logo from '../public/logo.png';
 
 import { useAppSelector, selectLanguage } from '../app'
 
@@ -16,8 +17,8 @@ const Navigation = (): ReactElement => {
     <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">
       <div className="flex w-full justify-between items-center">
         <div className="flex-shrink-0 flex items-center">
-          <Image src={logo} alt="Cypress Logo" width="50" height="50" />
-          <span className="text-xl font-bold mx-2">Translator</span>
+          <Link href="/"><a><Image src={logo} alt="Cypress Logo" width="50" height="50" /></a></Link>
+          <Link href="/"><a><span className="text-xl font-bold mx-2">Translator</span></a></Link>
         </div>
 
         <ul className="nav-list ml-10 flex items-center space-x-4">
