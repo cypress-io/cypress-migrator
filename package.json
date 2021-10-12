@@ -9,7 +9,8 @@
     "test": "nx test",
     "test:affected": "nx affected:test",
     "build:translator": "nx build translator --prod",
-    "build:translator-vscode": "nx build translator-vscode"
+    "build:translator-vscode": "nx build translator-vscode",
+    "test:codemods": "nx test codemods"
   },
   "private": true,
   "dependencies": {
