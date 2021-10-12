@@ -1,0 +1,35 @@
+name: Pull Request -> Run Tests
+
+on:
+  # Triggers the workflow on pull request events for the master branch
+  pull_request:
+    branches: [master]
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      # Check-out and setup
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      # Build
+      - name: Install
+        run: yarn
+
+      #Run unit tests on codemods lib
+      - name: Run Codemods Tests
+        run: nx test codemods
+
+      # Run unit tests on affected apps
+      - name: Run Affected Tests
+        run: yarn test:affected
