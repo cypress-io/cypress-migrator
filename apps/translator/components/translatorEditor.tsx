@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
@@ -112,7 +113,18 @@ const TranslateEditor = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="pb-4 flex justify-end">
+      <div className="pb-4 flex justify-between items-center">
+        <div>
+          <h4 className="font-bold">Want to dig deeper?</h4>
+          <p>
+            <Link href="/translations">
+              <a className="text-green-400 hover:text-green-500">
+                {' '}
+                See the full list of <span className="capitalize">{selectedLanguage}</span> translations &rarr;{' '}
+              </a>
+            </Link>
+          </p>
+        </div>
         <button
           type="button"
           className="inline-flex items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
