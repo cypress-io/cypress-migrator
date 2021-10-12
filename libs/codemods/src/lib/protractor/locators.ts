@@ -62,8 +62,10 @@ export function transformLocators(j: JSCodeshift, nodes: any): any {
       handleCyContainsTransform(j, path, propertyName)
 
       if (unsupportedLocators.includes(propertyName)) {
-        // const logMessage = `Cypress does not currently natively support selection by ${propertyName}.\nIf you think this is an error, please submit an issue or contribute via a PR.`;
-        // console.log(errorMessage(logMessage, value, file));
+        // allow xpath selector to be transformed to cy.xpath
+        return j(path).replaceWith(() => {
+          return replaceCySelector(j, path.value, propertyName)
+        })
       }
     })
 }
