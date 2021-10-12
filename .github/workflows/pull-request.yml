@@ -15,15 +15,19 @@ jobs:
       # Check-out and setup
       - uses: actions/checkout@v2
         with:
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
+      - run: git fetch --no-tags --prune --depth=5 origin master
+
       # Build
       - name: Install
-        run: yarn
+        run: yarn install --frozen-lockfile
 
       #Run unit tests on codemods lib
       - name: Run Codemods Tests
@@ -31,4 +35,4 @@ jobs:
 
       # Run unit tests on affected apps
       - name: Run Affected Tests
-        run: yarn test:affected
+        run: yarn test:affected --base=origin/master
