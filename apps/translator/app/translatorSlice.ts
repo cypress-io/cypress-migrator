@@ -128,7 +128,7 @@ export const translatorSlice = createSlice({
   },
 })
 
-export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated, setDisplayDiff } =
+export const { setLanguage, setOriginal, setModified, setDiff, setError, setCopiedNotification, setNoTranslationsMade, setBrowserWaitTranslated, setDisplayDiff, setNoInputProvided } =
   translatorSlice.actions
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
@@ -144,13 +144,13 @@ export const selectBrowserWaitTranslated = (state: AppState): boolean => state.t
 export const selectNoInputProvided = (state: AppState): boolean => state.translator.notifications.noInputProvided
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
-export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [].concat(...state.translator.diffArray.filter((diff: IDiffArrayItem) => diff.api?.length > 0).map((item: IDiffArrayItem) => item.api))
+export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [...new Map([].concat(...state.translator.diffArray.filter((diff: IDiffArrayItem) => diff.api?.length > 0).map((item: IDiffArrayItem) => item.api)).map(x => [x['command'], x])).values()]
 
 
 export default translatorSlice.reducer
 
 
 export const checkIfTranslationsHaveNotBeenMade = (diffArray: IDiffArrayItem[]): boolean => 
-  diffArray.length > 0 && diffArray.some(diff => diff.api.length === 0)
+  diffArray.length > 0 && diffArray.every(diff => diff.original === diff.modified)
 
 export const checkIfBrowserWaitTranslationMade = (diffArray: IDiffArrayItem[]): boolean => diffArray.filter(diff => diff.api.filter(api => api.command === 'wait').length > 0).length > 0

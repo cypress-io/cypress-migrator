@@ -194,10 +194,10 @@ describe('translatorSlice', () => {
     expect(selectDiffApiItems({ translator: nextState})).toEqual(expected)
   });
 
-  describe('checkIfTranslationsHaveBeenMade', () => {
-    it('returns true given diffArray includes at least one api item', () => {
+  describe('checkIfTranslationsHaveNotBeenMade', () => {
+    it('returns false given diffArray items are not the same', () => {
       // arrange
-      const diffArray: IDiffArrayItem[] = [{ original: 'test()', modified: 'test()', api: [{ command: 'testing()', url: 'www.cypress.io'}]}];
+      const diffArray: IDiffArrayItem[] = [{ original: 'browser.driver.get()', modified: 'cy.visit()', api: [{ command: 'visit', url: 'https://on.cypress.io/visit'}]}];
       
       // act
       const actual = checkIfTranslationsHaveNotBeenMade(diffArray);
