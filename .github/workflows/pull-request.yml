@@ -27,7 +27,7 @@ jobs:
 
       #Run unit tests on codemods lib
       - name: Run Codemods Tests
-        run: nx test codemods
+        run: yarn test:codemods
 
       # Run unit tests on affected apps
       - name: Run Affected Tests
