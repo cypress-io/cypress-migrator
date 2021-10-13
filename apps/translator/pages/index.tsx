@@ -33,5 +33,4 @@ const Index = (): ReactElement => (
   </div>
 )
 
-
 export default Index

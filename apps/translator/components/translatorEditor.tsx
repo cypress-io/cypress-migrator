@@ -20,7 +20,7 @@ import { defaultText } from '../constants'
 import { DiffToggle, CopyButton, LanguagePills } from '.'
 
 const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     window.addEventListener('load', () => setIsMobile(window.innerWidth <= 768))
@@ -36,8 +36,8 @@ const TranslateEditor = (): ReactElement => {
   const translated = useAppSelector(selectModified)
   const original: string = useAppSelector(selectOriginal)
   const selectedLanguage = useAppSelector(selectLanguage)
-  const themeColors = useAppSelector(selectDiffEditorThemeColors);
-  const isMobile = useIsMobile();
+  const themeColors = useAppSelector(selectDiffEditorThemeColors)
+  const isMobile = useIsMobile()
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
@@ -48,7 +48,7 @@ const TranslateEditor = (): ReactElement => {
         base: 'vs',
         inherit: true,
         rules: [],
-        colors: themeColors
+        colors: themeColors,
       })
 
       monaco.editor.setTheme('cypress-light')
@@ -60,7 +60,7 @@ const TranslateEditor = (): ReactElement => {
     const originalEditor = editor.getOriginalEditor()
 
     originalEditor.onDidChangeModelContent(() => {
-      dispatch(setOriginal(originalEditor.getValue()));
+      dispatch(setOriginal(originalEditor.getValue()))
     })
   }
 
@@ -77,18 +77,22 @@ const TranslateEditor = (): ReactElement => {
 
   return (
     <div className="flex pt-4 h-3/5 gap-2 flex-col">
-      <LanguagePills  />
+      <LanguagePills />
       <div className="flex justify-between">
-        {!isMobile ? <><DiffToggle /></> : null}
+        {!isMobile ? (
+          <>
+            <DiffToggle />
+          </>
+        ) : null}
         <CopyButton />
       </div>
 
       <div className="flex h-full">
-      <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
+        <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
             language="javascript"
             original={defaultText[selectedLanguage.toLowerCase()]}
-            modified={!error ? translated: null}
+            modified={!error ? translated : null}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}
             onMount={handleEditorMount}
@@ -103,7 +107,7 @@ const TranslateEditor = (): ReactElement => {
               },
               minimap: { enabled: false },
               renderSideBySide: !isMobile,
-              readOnly: true
+              readOnly: true,
             }}
           />
         </div>
