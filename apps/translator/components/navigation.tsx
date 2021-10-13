@@ -7,7 +7,7 @@ import { useAppSelector, selectLanguage } from '../app'
 
 const Navigation = (): ReactElement => {
   const selectedLanguage: string = useAppSelector(selectLanguage).toLowerCase()
-  const navLinks = [{ title: 'Cypress Docs', url: 'https://docs.cypress.io' }]
+  const navLinks = [{ title: 'Cypress Docs', url: 'https://on.cypress.io/docs' }]
   const migrationGuides = {
     protractor: { url: 'https://on.cypress.io/protractor-to-cypress' },
   }
