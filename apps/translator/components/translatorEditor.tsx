@@ -20,6 +20,10 @@ import {
 import { defaultText } from '../constants'
 import { DiffToggle, CopyButton, LanguagePills } from '.'
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -79,7 +83,7 @@ const TranslateEditor = (): ReactElement => {
   return (
     <div className="flex pt-4 h-3/5 gap-2 flex-col">
       <LanguagePills />
-      <div className="flex justify-between">
+      <div className={classNames(isMobile ? 'justify-end pt-2' : 'justify-between', 'flex')}>
         {!isMobile ? (
           <>
             <DiffToggle />
@@ -113,7 +117,7 @@ const TranslateEditor = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="pb-4 flex justify-between items-center">
+      <div className="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
         <div>
           <h4 className="font-bold">Want to dig deeper?</h4>
           <p>
@@ -127,7 +131,7 @@ const TranslateEditor = (): ReactElement => {
         </div>
         <button
           type="button"
-          className="inline-flex items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           onClick={translateEditorValue}
         >
           Translate to Cypress

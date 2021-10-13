@@ -7,7 +7,7 @@ const TranslationDiff = (): ReactElement => {
   const diff = useAppSelector(selectDiffApiItems)
 
   return (
-    <div className="w-3/5">
+    <div className="md:w-3/5">
       <h2 className="text-3xl leading-6 font-bold text-gray-900 my-4 capitalize">More details about your translation:</h2>
       <hr />
       <div className="flex justify-between">
