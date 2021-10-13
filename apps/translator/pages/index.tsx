@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import Head from 'next/head'
 
-import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff } from '../components'
+import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff, Footer } from '../components'
 import { selectModified, useAppSelector } from '../app'
 
 const Index = (): ReactElement => {
@@ -34,6 +34,7 @@ const Index = (): ReactElement => {
           <Notifications />
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
