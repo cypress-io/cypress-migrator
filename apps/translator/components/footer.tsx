@@ -54,7 +54,7 @@ const Footer = (): ReactElement => {
         ))}
         </div>
         <div className="mt-8 md:mt-0 md:order-1">
-        <p className="text-center text-base text-gray-600">&copy; {year} <a href="https://on.cypress.io">Cypress.io.</a> All rights reserved.</p>
+        <p className="text-center text-base text-gray-600">&copy; {year} <a href="https://on.cypress.io">Cypress.io.</a> All rights reserved. | <a href="https://github.com/cypress-io/cypress-dx/issues">Submit An Issue</a></p>
         </div>
     </div>
     </footer>

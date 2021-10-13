@@ -44,7 +44,7 @@ const NoTranslationsMadeNotification = (): ReactElement => {
       {showNoTranslationsMade ? (
         <Toast
           title="No Translations Found"
-          message="We were unable to find any translations. If you think there is an issue with a translated item, please file an issue in the Cypress Codemods repo <span><a class='text-yellow-500 text-underline' href='https://github.com/cypress-io/cypress-codemods/issues/new' target='_blank'>here</a>"
+          message="We were unable to find any translations. If you think there is an issue with a translated item, please file an issue in the Cypress Codemods repo <span><a class='text-yellow-500 text-underline' href='https://github.com/cypress-io/cypress-dx/issues' target='_blank'>here</a>"
           alertType="Warning"
           hideToastAlert={toggleOffNoTranslationsMadeNotifications}
         />

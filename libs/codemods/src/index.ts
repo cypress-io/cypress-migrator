@@ -22,9 +22,9 @@ export const parser = 'babel'
 
 export default function applyTransforms({
   input,
-  warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-codemods repo.',
+  warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-dx repo.',
   notSupportedMessage = 'We currently do not support transforming this. There is no Cypress equivalent.',
-  errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-codemods repo.',
+  errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-dx repo.',
   noInputProvided = 'Please provide an input value to translate.',
 }: TransformProps): TransformResult {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
