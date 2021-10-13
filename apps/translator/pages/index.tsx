@@ -5,7 +5,7 @@ import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff
 import { selectModified, useAppSelector } from '../app'
 
 const Index = (): ReactElement => {
-  const hasModified = !!useAppSelector(selectModified);
+  const hasModified = !!useAppSelector(selectModified)
 
   return (
     <div className={'h-full'}>
