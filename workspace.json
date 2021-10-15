@@ -112,6 +112,39 @@
           }
         }
       }
+    },
+    "translator-vscode": {
+      "root": "libs/translator-vscode",
+      "sourceRoot": "libs/translator-vscode/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/translator-vscode/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/translator-vscode"],
+          "options": {
+            "jestConfig": "libs/translator-vscode/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/translator-vscode",
+            "tsConfig": "libs/translator-vscode/tsconfig.lib.json",
+            "packageJson": "libs/translator-vscode/package.json",
+            "main": "libs/translator-vscode/src/index.ts",
+            "assets": ["libs/translator-vscode/*.md"]
+          }
+        }
+      }
     }
   },
   "cli": {
