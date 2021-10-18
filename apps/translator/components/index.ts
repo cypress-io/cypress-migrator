@@ -9,6 +9,7 @@ import Notifications from './notifications'
 import DiffToggle from './diffToggle'
 import TranslationDiff from './translationDiff'
 import BackButton from './backButton'
+import Footer from './footer'
 
 export {
   AvailableCodeMods,
@@ -22,4 +23,5 @@ export {
   DiffToggle,
   TranslationDiff,
   BackButton,
+  Footer,
 }

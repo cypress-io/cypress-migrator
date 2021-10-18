@@ -1,11 +1,11 @@
 import { ReactElement } from 'react'
 import Head from 'next/head'
 
-import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff } from '../components'
+import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff, Footer } from '../components'
 import { selectModified, useAppSelector } from '../app'
 
 const Index = (): ReactElement => {
-  const hasModified = !!useAppSelector(selectModified);
+  const hasModified = !!useAppSelector(selectModified)
 
   return (
     <div className={'h-full'}>
@@ -34,6 +34,7 @@ const Index = (): ReactElement => {
           <Notifications />
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
