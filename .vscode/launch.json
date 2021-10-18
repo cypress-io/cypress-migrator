@@ -1,16 +1,18 @@
 {
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  // List of configurations. Add new configurations or edit existing ones.
   "configurations": [
     {
-      "name": "Launch Client",
+      "name": "Extension",
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-      "stopOnEntry": false,
-      "sourceMaps": true,
-      "outFiles": ["${workspaceRoot}/dist/**/*.js"]
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}/dist/libs/translator-vscode"],
+      "preLaunchTask": "tsc: watch - libs/translator-vscode/tsconfig.json",
+      "outFiles": ["${workspaceFolder}/dist/libs/translator-vscode/**/*.js"],
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"],
     }
   ]
 }

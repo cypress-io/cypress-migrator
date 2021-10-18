@@ -140,7 +140,7 @@
             "outputPath": "dist/libs/translator-vscode",
             "tsConfig": "libs/translator-vscode/tsconfig.lib.json",
             "packageJson": "libs/translator-vscode/package.json",
-            "main": "libs/translator-vscode/src/index.ts",
+            "main": "libs/translator-vscode/src/extension.ts",
             "assets": ["libs/translator-vscode/*.md"]
           }
         }
