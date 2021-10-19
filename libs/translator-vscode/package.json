@@ -24,14 +24,15 @@
     "Formatters"
   ],
   "activationEvents": [
-    "onCommand:cypress.translateCode"
+    "onCommand:cypress.translate"
   ],
   "main": "./src/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "cypress.translateCode",
-        "title": "Cypress: Translate Code"
+        "command": "cypress.translate",
+        "category": "Cypress",
+        "title": "Translate"
       }
     ]
   }
