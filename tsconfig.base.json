@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cypress-dx/codemods": ["libs/codemods/src/index.ts"]
+      "@cypress-dx/codemods": ["libs/codemods/src/index.ts"],
+      "@cypress-dx/translator-vscode": ["libs/translator-vscode/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -37,6 +37,9 @@
     "translator-e2e": {
       "tags": [],
       "implicitDependencies": ["translator"]
+    },
+    "translator-vscode": {
+      "tags": []
     }
   }
 }
