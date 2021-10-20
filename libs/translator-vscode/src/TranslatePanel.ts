@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-
+// import cypressCodemods from '@cypress-dx/codemods'
 export class TranslatePanel {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.
@@ -104,18 +104,9 @@ export class TranslatePanel {
     });
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview) {
-    // Use a nonce to only allow specific scripts to be run
-
-    const translated = (): string => `cy.get('your translation here')`;
-
-    return `<!DOCTYPE html>
-			<html lang="en">
-			<head>
-				<meta charset="UTF-8">
-                
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
+  private _getCSSForWebView(): string {
+      return `
+      <style>
                   html {
                     box-sizing: border-box;
                     font-size: 13px;
@@ -263,13 +254,62 @@ export class TranslatePanel {
                     color: var(--vscode-input-placeholderForeground);
                   }                  
                 </style>
-			</head>
-            <body>
-                <h1>Translate</h1>
-                <textarea></textarea>
-                <button>Translate</button>
-                <code>${translated()}</code>
-			</body>
-			</html>`;
+            `
+  }
+
+  private _translate(input: string): string | undefined {
+    // const translatedResult = cypressCodemods({ input })
+    // return translatedResult.output;
+    return input.toUpperCase();
+  }
+
+  private _handleSubmission() {
+    return `
+    <script>
+        var inputText = document.getElementById('input-text');
+        var formEl = document.getElementById('translate-form');
+        var codeBlock = document.getElementById('translated-codeblock');
+
+        formEl.addEventListener('submit', (e) => {
+            e.preventDefault();
+            submit();
+        })
+
+        function submit() {
+            console.log(inputText.value);
+            // var translated = cypressCodemods({ input: inputText.value }).
+            // codeBlock.innerHTML = translated.output;
+            codeBlock.innerHTML = inputText.value.toUpperCase();
+        }
+    </script>`
+  }
+
+  private _getHtmlForWebview(webview: vscode.Webview) {
+    const css = (): string => this._getCSSForWebView();
+    const submission = () => this._handleSubmission();
+    // const codemods = cypressCodemods
+    const codemods = {};
+
+    return `
+    <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            ${css()}
+        </head>
+        <body>
+            <h1>Translate</h1>
+            <form id="translate-form">
+                <textarea id="input-text"></textarea>
+                <button type="submit">Translate</button>
+            </form>
+            <code id="translated-codeblock"></code>
+        </body>
+        <script type="module" src=${codemods}></script>
+        ${submission()}
+        </html>
+    `;
   }
 }
