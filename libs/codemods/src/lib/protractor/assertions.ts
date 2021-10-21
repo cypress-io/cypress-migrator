@@ -1,92 +1,133 @@
-import { JSCodeshift } from 'jscodeshift'
-
 import {
-  supportedAssertionTypes,
-  assertionTransforms,
-  cyGetLocators,
-  cyContainLocators,
-  CyGetLocators,
-} from './constants'
+  ASTNode,
+  ASTPath,
+  CallExpression,
+  Collection,
+  FileInfo,
+  JSCodeshift,
+  MemberExpression,
+  Printable,
+  StringLiteral,
+} from 'jscodeshift'
 import {
-  getPropertyName,
+  CodeModNode,
+  TypedElementInExpression,
+  CyGetLocatorsObject,
+  ProtractorSelectorsObject,
+  CodemodConstantTypesObject,
+} from '../types'
+import {
+  errorMessage,
+  findElementInExpression,
   getAssertionTarget,
   getAssertionTargetType,
+  getPropertyName,
   hasProperty,
-  replaceCySelector,
-  findElementInExpression,
-  errorMessage,
   replaceCyContainsSelector,
+  replaceCySelector,
 } from '../utils'
+import {
+  assertionTransforms,
+  cyContainLocators,
+  cyGetLocators,
+  CyGetLocators,
+  SupportedAssertionTypes,
+  supportedAssertionTypes,
+} from './constants'
 
 // transform cyGetLocators items into cy.get()
 // transform cyContainLocators items into cy.contains()
 //
 // exclude non-locators and assertions from this group
 
-export function transformAssertions(j: JSCodeshift, nodes: any, file: any): any {
+export function transformAssertions(
+  j: JSCodeshift,
+  nodes: Collection<CodeModNode>,
+  file: FileInfo,
+): Collection<CodeModNode> {
   return nodes
-    .filter((path: any) => {
-      return path.value.callee.property && supportedAssertionTypes.includes(path.value.callee.property.name)
+    .filter((path: ASTPath<CodeModNode>): boolean => {
+      return (
+        path.value.callee.property &&
+        supportedAssertionTypes.includes(path.value.callee.property.name as SupportedAssertionTypes)
+      )
     })
-    .forEach((path: any) => {
-      const assertion = path
-      const assertionType = assertion.value.callee.property.name
-      const assertionTarget = getAssertionTarget(assertion.value.callee.object)
-      const assertionTargetType = getAssertionTargetType(assertionTarget)
+    .forEach((assertion: ASTPath<CodeModNode>): void => {
+      const assertionType: string = assertion.value.callee.property.name
+      const assertionTarget: string | CodeModNode | CodeModNode[] = getAssertionTarget(assertion.value.callee.object)
+      const assertionTargetType: string = getAssertionTargetType(assertionTarget as CodeModNode)
 
-      const assertionTargetExpression = () => {
-        if (assertionTarget.type === 'Identifier') {
-          return assertionTarget
-        } else if (assertionTarget.callee) {
-          if (assertionTarget.callee.object.name === 'cy') {
+      const assertionTargetExpression = (): CodeModNode | CodeModNode[] | CallExpression => {
+        if ((assertionTarget as CodeModNode).type === 'Identifier') {
+          return assertionTarget as CodeModNode
+        } else if ((assertionTarget as CodeModNode).callee) {
+          if ((assertionTarget as CodeModNode).callee.object.name === 'cy') {
             return j.callExpression(
-              j.memberExpression(assertionTarget.callee.object, assertionTarget.callee.property, false),
-              assertionTarget.arguments.length ? assertionTarget.arguments : [],
+              j.memberExpression(
+                (assertionTarget as CodeModNode).callee.object as MemberExpression,
+                (assertionTarget as CodeModNode).callee.property as MemberExpression,
+                false,
+              ),
+              ((assertionTarget as CodeModNode).arguments as CodeModNode[]).length
+                ? ((assertionTarget as CodeModNode).arguments as MemberExpression[])
+                : [],
             )
           }
-          return assertionTarget.callee.object
+          return (assertionTarget as CodeModNode).callee.object
         } else {
-          return assertionTarget.arguments[0].callee.object
+          return (assertionTarget as CodeModNode).arguments[0].callee.object
         }
       }
 
-      const hasCount = assertionTarget.callee && hasProperty(assertionTarget.callee, 'count')
-      const hasNegative =
+      const hasCount: boolean =
+        (assertionTarget as CodeModNode).callee && hasProperty((assertionTarget as CodeModNode).callee, 'count')
+      const hasNegative: boolean =
         ['toBeFalse', 'toBeFalsy'].includes(assertionType) ||
         hasProperty(assertion.value, 'not') ||
-        (assertion.value?.arguments.length > 0 && assertion.value?.arguments[0].value === false)
-      const transformedAssertion =
+        ((assertion.value?.arguments as CodeModNode[]).length > 0 && assertion.value?.arguments[0].value === false)
+      const transformedAssertion: string =
         assertionTargetType && assertionTransforms[assertionTargetType]
           ? assertionTransforms[assertionTargetType]
           : assertionTransforms[assertionType]
 
       // TODO: add error message if no transformedAssertion
 
-      const fullyTransformedAssertion = hasNegative ? `not.${transformedAssertion}` : transformedAssertion
+      const fullyTransformedAssertion: string = hasNegative ? `not.${transformedAssertion}` : transformedAssertion
 
-      const assertionArgs = [j.stringLiteral(fullyTransformedAssertion)]
+      const assertionArgs: StringLiteral[] = [j.stringLiteral(fullyTransformedAssertion)]
 
       // add arguments of literal types to assertion
-      if (assertion.value.arguments.length > 0 && assertion.value.arguments[0].type !== 'BooleanLiteral') {
-        assertionArgs.push(assertion.value.arguments[0])
+      if (
+        (assertion.value.arguments as CodeModNode[]).length > 0 &&
+        assertion.value.arguments[0].type !== 'BooleanLiteral'
+      ) {
+        assertionArgs.push(assertion.value.arguments[0] as StringLiteral)
       }
 
-      j(path).replaceWith(() => {
+      j(assertion as ASTPath<ASTNode>).replaceWith((): string | CallExpression => {
         // transform assertion that includes count()
         if (hasCount) {
-          const countAssertion = findElementInExpression(assertionTarget.callee.object, 'property')
-          let transformedCountSelector
+          const countAssertion: TypedElementInExpression = findElementInExpression(
+            (assertionTarget as CodeModNode).callee.object,
+            'property',
+          )
+          let transformedCountSelector: CallExpression
 
-          if (cyGetLocators.includes(countAssertion.name)) {
-            transformedCountSelector = replaceCySelector(j, assertionTarget.callee.object, 'get', countAssertion.name)
+          if (cyGetLocators.includes((countAssertion as CyGetLocatorsObject).name)) {
+            transformedCountSelector = replaceCySelector(
+              j,
+              (assertionTarget as CodeModNode).callee.object,
+              'get',
+              (countAssertion as CyGetLocatorsObject).name,
+            )
           }
 
-          if (cyContainLocators[countAssertion.name]) {
+          if (cyContainLocators[(countAssertion as CyGetLocatorsObject).name]) {
             transformedCountSelector = replaceCyContainsSelector(
               j,
-              countAssertion.name,
-              cyContainLocators[countAssertion.name],
-              assertionTarget.callee.object.callee.arguments,
+              (countAssertion as ProtractorSelectorsObject).name,
+              cyContainLocators[(countAssertion as ProtractorSelectorsObject).name],
+              (assertionTarget as CodeModNode).callee.object.callee.arguments as CodeModNode[],
             )
           }
 
@@ -101,21 +142,25 @@ export function transformAssertions(j: JSCodeshift, nodes: any, file: any): any 
                 ),
                 assertionArgs,
               )
-            : errorMessage(`${countAssertion.name} is not currently supported by this codemod.`, countAssertion, file)
+            : errorMessage(
+                `${(countAssertion as CodemodConstantTypesObject).name} is not currently supported by this codemod.`,
+                countAssertion as Printable,
+                file,
+              )
         } else {
           return j.callExpression(
-            j.memberExpression(assertionTargetExpression(), j.identifier('should'), false),
+            j.memberExpression(assertionTargetExpression() as CallExpression, j.identifier('should'), false),
             assertionArgs,
           )
         }
       })
     })
-    .forEach((path: any) => {
+    .forEach((path: ASTPath<CodeModNode>) => {
       if (path.value.callee.object.callee) {
         const propertyName = getPropertyName(path.value.callee.object.callee)
 
         if (propertyName && cyGetLocators.includes(propertyName as CyGetLocators)) {
-          path.value.callee.object = replaceCySelector(j, path.value.callee.object, 'get', propertyName)
+          path.value.callee.object = replaceCySelector(j, path.value.callee.object, 'get', propertyName) as CodeModNode
         }
       }
     })

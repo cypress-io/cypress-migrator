@@ -1,4 +1,5 @@
-import { API, ASTPath, ClassMethod, Transform } from 'jscodeshift'
+import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
+import { CodeModNode, ExpressionKind, Selector } from '../types'
 import { getPropertyName, isSelector, removeByPath } from '../utils'
 import { transformAssertions } from './assertions'
 import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrowserNavigate } from './browser'
@@ -30,32 +31,32 @@ const sanitize = (value: string): string => {
   return needsSanitized(value) ? sanitize(value.slice(0, -1)) : value
 }
 
-const transformer: Transform = (file: { path: string; source: string }, api: API): string => {
+const transformer: Transform = (file: FileInfo, api: API): string => {
   file.source = sanitize(file.source)
-  const j = api.jscodeshift
-  const root = j(file.source)
+  const j: JSCodeshift = api.jscodeshift
+  const root: Collection = j(file.source)
 
-  function getCallExpressions(path?: any) {
-    return root.find(j.CallExpression, path)
+  function getCallExpressions(path?: ExpressionKind): Collection<CodeModNode> {
+    return root.find(j.CallExpression, path) as Collection<CodeModNode>
   }
 
   // all class methods
-  const classMethods = root.find(j.ClassMethod)
+  const classMethods: Collection<ClassMethod> = root.find(j.ClassMethod)
   // all awaits
-  const awaitExpressions = root.find(j.AwaitExpression)
+  const awaitExpressions: Collection<AwaitExpression> = root.find(j.AwaitExpression)
 
   // generic ast call expressions
-  const callExpressions = getCallExpressions()
+  const callExpressions: Collection<CodeModNode> = getCallExpressions()
 
   // all element() nodes
   const elementExpressions = getCallExpressions({
     callee: {
       name: 'element',
     },
-  })
+  } as ExpressionKind)
 
   // all element.all() nodes
-  const elementAllExpressions = getCallExpressions({
+  const elementAllExpressions: Collection<CodeModNode> = getCallExpressions({
     callee: {
       object: {
         name: 'element',
@@ -64,10 +65,10 @@ const transformer: Transform = (file: { path: string; source: string }, api: API
         name: 'all',
       },
     },
-  })
+  } as ExpressionKind)
 
   // all expect() nodes
-  const expectStatements = getCallExpressions({
+  const expectStatements: Collection<CodeModNode> = getCallExpressions({
     callee: {
       object: {
         callee: {
@@ -75,21 +76,21 @@ const transformer: Transform = (file: { path: string; source: string }, api: API
         },
       },
     },
-  })
+  } as ExpressionKind)
 
   // remove element() wrappers
   if (elementExpressions.size() > 0) {
-    elementExpressions.replaceWith((path: any) => path.node.arguments[0])
+    elementExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
   }
 
   // remove elementAll() wrappers
   if (elementAllExpressions.size() > 0) {
-    elementAllExpressions.replaceWith((path: any) => path.node.arguments[0])
+    elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
   }
 
   // remove await expressions
   if (awaitExpressions.size() > 0) {
-    awaitExpressions.replaceWith((path: any) => path.node.argument)
+    awaitExpressions.replaceWith((path: ASTPath<AwaitExpression>) => path.node.argument)
   }
 
   // remove async, private/protected, and return types from each class method
@@ -105,7 +106,6 @@ const transformer: Transform = (file: { path: string; source: string }, api: API
       }
     })
   }
-
   // remove all protractor imports
   removeByPath(root, j.ImportDeclaration, {
     source: { value: 'protractor' },
@@ -139,14 +139,14 @@ const transformer: Transform = (file: { path: string; source: string }, api: API
   transformBrowserNavigate(j, root)
 
   // transform assertion statements
-  transformAssertions(j, expectStatements, file)
+  transformAssertions(j, expectStatements as Collection<CodeModNode>, file) as CodeModNode
 
   // transform locators
   transformLocators(j, callExpressions)
 
   // transform non-selector expressions
   callExpressions
-    .filter((path: any) => path.node?.callee && !isSelector(path.node.callee))
+    .filter((path: ASTPath<CodeModNode>) => path.node?.callee && !isSelector(path.node.callee as Selector))
     .forEach((path: any) => {
       const { node } = path
       const propertyName =

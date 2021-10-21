@@ -1,6 +1,7 @@
-import { DiffArrayItem, createDiffArray } from './lib/utils'
-import protractorTransformer from './lib/protractor'
 import * as jscodeshift from 'jscodeshift/dist/core'
+import protractorTransformer from './lib/protractor'
+import { createDiffArray, DiffArrayItem } from './lib/utils'
+
 export interface TransformResult {
   output: string | undefined
   diff: DiffArrayItem[]

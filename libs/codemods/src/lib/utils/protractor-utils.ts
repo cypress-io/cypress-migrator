@@ -1,30 +1,31 @@
 import * as chalk from 'chalk'
-import { CallExpression, Identifier, JSCodeshift, MemberExpression } from 'jscodeshift'
-import { protractorSelectors } from '../protractor/constants'
-
-type ReplacementValues = {
-  [key: string]: string
-}
-
+import { CallExpression, Collection, FileInfo, Identifier, JSCodeshift, Printable } from 'jscodeshift'
+import { ProtractorSelectors, protractorSelectors } from '../protractor/constants'
+import { CodeModNode, ReplacementValues, Selector, TypedElementInExpression } from '../types'
 /**
  * Check to see if path is a selector.
  *
- * @param  {any} value
+ * @param  {Selector} path
  * @returns boolean
  */
-export function isSelector(path: any | undefined): boolean {
+export function isSelector(path: Selector): boolean {
   if (!path) {
     return false
   }
 
   return (
-    (path.object && protractorSelectors.includes(path.object.name)) ||
-    (path.property && protractorSelectors.includes(path.property.name)) ||
+    (path.object && protractorSelectors.includes(path.object.name as ProtractorSelectors)) ||
+    (path.property && protractorSelectors.includes(path.property.name as ProtractorSelectors)) ||
     protractorSelectors.includes(path.name)
   )
 }
 
-export function getAssertionTarget(node: any): any {
+/**
+ *
+ * @param AssertionTarget node
+ * @returns
+ */
+export function getAssertionTarget(node: CodeModNode): string | CodeModNode | CodeModNode[] {
   if (node.type === 'Identifier') {
     return node
   }
@@ -32,7 +33,12 @@ export function getAssertionTarget(node: any): any {
   return node.arguments ? node.arguments[0] : getAssertionTarget(node.object)
 }
 
-export function getAssertionTargetType(node: any): string {
+/**
+ *
+ * @param {CodeModNode} node
+ * @returns string
+ */
+export function getAssertionTargetType(node: CodeModNode): string {
   if (!node.callee && node.type === 'Identifier') {
     return node.name
   }
@@ -47,10 +53,10 @@ export function getAssertionTargetType(node: any): string {
  * Find root identifier within path
  * ie. browser from browser.navigate().forward()
  *
- * @param  {any} path?
+ * @param  {CodeModNode} path?
  * @returns Identifier | null
  */
-export function getIdentifier(path?: any): Identifier | null {
+export function getIdentifier(path?: CodeModNode): CodeModNode | null {
   if (!path) {
     return null
   }
@@ -61,27 +67,33 @@ export function getIdentifier(path?: any): Identifier | null {
 /**
  * Get selector from path
  *
- * @param  {any} path
+ * @param  {CodeModNode} path
  * @returns string
  */
-export function getPropertyName(path: MemberExpression): string | undefined {
+export function getPropertyName(path: CodeModNode): string {
   if (path && path.property) {
     const prop = path.property
     return (prop as Identifier).name
   }
 }
 
-export function findElementInExpression(path: any, elementName: string): any {
+/**
+ *
+ * @param {CodeModNode} path
+ * @param {string} elementName
+ * @returns TypedElementInExpression
+ */
+export function findElementInExpression(path: CodeModNode, elementName: string): TypedElementInExpression {
   return path[elementName] ? path[elementName] : findElementInExpression(path.callee, elementName)
 }
 /**
  * Determine if node has specific property
  *
- * @param  {any} node
+ * @param  {CodeModNode} node
  * @param  {string} name
  * @returns boolean
  */
-export function hasProperty(node: any, name: string): boolean {
+export function hasProperty(node: CodeModNode, name: string): boolean {
   return node.type === 'MemberExpression' && node.property && node.property.name === name
 }
 
@@ -99,22 +111,28 @@ export function setProperty(node: any, property: Identifier, args?: any[]): any 
   return node
 }
 
+// type RemoveByPathPath = { source: { value: string }} | { callee: { property: { name: string }}} | { left: { object: { name: string }}}
+
 /**
  * Remove element by its ast path
  *
- * @param  {any} root
+ * @param  {Collection<T>} root
  * @param  {any} expression
- * @param  {Object} path
+ * @param  {CodeModNode} path
  * @returns any
  */
-export function removeByPath(root: any, expression: any, path: any): any {
-  return root.find(expression, path).remove()
+export function removeByPath<T extends CodeModNode>(
+  root: Collection<T>,
+  expression: any,
+  path: CodeModNode,
+): Collection<T> {
+  return root.find<T>(expression, path).remove()
 }
 
 /**
  * If a given selector is found use its value, otherwise use the default
  *
- * @param  {string|number} value
+ * @param  {string} value
  * @param  {string} selector?
  * @returns any
  */
@@ -139,12 +157,17 @@ export function replaceValue(value: string, selector?: string): string {
  * @param  {string} method
  * @param  {string} selector?
  */
-export function replaceCySelector(j: JSCodeshift, path: any, method: string, selector?: string): CallExpression {
+export function replaceCySelector(
+  j: JSCodeshift,
+  path: CodeModNode,
+  method: string,
+  selector?: string,
+): CallExpression {
   const nodeArgs = path.arguments
 
   return j.callExpression(
     j.memberExpression(j.identifier('cy'), j.identifier(method), false),
-    nodeArgs?.length > 0
+    (nodeArgs as CodeModNode[])?.length > 0
       ? [
           typeof nodeArgs[0].value === 'string'
             ? j.stringLiteral(replaceValue(nodeArgs[0].value, selector))
@@ -158,7 +181,7 @@ export function replaceCyContainsSelector(
   j: JSCodeshift,
   propertyName: string,
   transformedPropertyName: string,
-  args: any,
+  args: any[],
 ) {
   return j.callExpression(
     j.memberExpression(
@@ -172,7 +195,7 @@ export function replaceCyContainsSelector(
   )
 }
 
-export function errorMessage(message: string, expr: any, file: { source: string }): string {
+export function errorMessage(message: string, expr: Printable, file: FileInfo): string {
   const source = file.source.split('\n')
   const line = source.slice(expr.loc.start.line - 1, expr.loc.end.line)[0]
   const expression = line.slice(0, expr.loc.end.column)
