@@ -17,7 +17,6 @@ import {
   useAppSelector,
   selectDiffEditorThemeColors,
 } from '../app'
-import { defaultText } from '../constants'
 import { DiffToggle, CopyButton, LanguagePills } from '.'
 
 function classNames(...classes: string[]) {
@@ -96,7 +95,7 @@ const TranslateEditor = (): ReactElement => {
         <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
             language="javascript"
-            original={defaultText[selectedLanguage.toLowerCase()]}
+            original={original}
             modified={!error ? translated : null}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}
@@ -110,9 +109,14 @@ const TranslateEditor = (): ReactElement => {
               scrollbar: {
                 vertical: 'hidden',
               },
-              minimap: { enabled: false },
               renderSideBySide: !isMobile,
+              colorDecorators: false,
+              minimap: { enabled: false },
+              renderIndicators: false,
+              renderLineHighlight: "none",
+              renderOverviewRuler: false,
               readOnly: true,
+              overviewRulerLanes: 0
             }}
           />
         </div>

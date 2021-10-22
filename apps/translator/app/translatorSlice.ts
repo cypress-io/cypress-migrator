@@ -25,10 +25,16 @@ export type AvailableLanguages = 'protractor'
 export type IColors = {
   [colorId: string]: string
 }
-const diffColors = { 'diffEditor.insertedTextBackground': '#a3e7cb', 'diffEditor.removedTextBackground': '#f8c4cd' }
-const noDiffColors = { 'diffEditor.insertedTextBackground': '#ffffff', 'diffEditor.removedTextBackground': '#ffffff' }
+const diffColors = { 'diffEditor.insertedTextBackground': '#a3e7cb70', 'diffEditor.removedTextBackground': '#f8c4cd70' }
+const noDiffColors = {
+  'diffEditor.insertedTextBackground': '#ffffff70',
+  'diffEditor.removedTextBackground': '#ffffff70',
+}
 const themeDefaultColors = {
   'editor.background': '#fff',
+  'editor.selectionBackground': '#e1e3ed',
+  'editor.selectionForeground': '#e1e3ed',
+  'editor.inactiveSelectionBackground': '#e1e3ed',
   'editor.lineHighlightBackground': '#e1e3ed',
   'scrollbarSlider.background': '#c2f1de',
   'scrollbarSlider.hoverBackground': '#a3e7cb',
