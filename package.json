@@ -11,6 +11,7 @@
     "build:translator-vscode": "nx build translator-vscode",
     "lint:affected": "nx affected:lint",
     "test": "nx test",
+    "test:translator-e2e": "nx e2e translator-e2e",
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods"
   },

@@ -29,7 +29,7 @@ const Navigation = (): ReactElement => {
             </Link>
           </div>
 
-          <ul className="nav-list ml-10 flex items-center space-x-4">
+          <ul className="nav-list ml-10 flex items-center space-x-4" data-test="nav-list">
             {migrationGuides[selectedLanguage] && (
               <li key={migrationGuides[selectedLanguage]}>
                 <a

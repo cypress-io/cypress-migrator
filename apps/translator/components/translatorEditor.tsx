@@ -126,7 +126,7 @@ const TranslateEditor = (): ReactElement => {
           <h4 className="font-bold">Want to dig deeper?</h4>
           <p>
             <Link href="/translations">
-              <a className="text-green-400 hover:text-green-500">
+              <a className="text-green-400 hover:text-green-500" data-test="all-translations-link">
                 {' '}
                 See the full list of <span className="capitalize">{selectedLanguage}</span> translations &rarr;{' '}
               </a>
@@ -137,6 +137,7 @@ const TranslateEditor = (): ReactElement => {
           type="button"
           className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           onClick={translateEditorValue}
+          data-test="translate-button"
         >
           Translate to Cypress
           <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
