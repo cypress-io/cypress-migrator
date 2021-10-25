@@ -30,9 +30,13 @@ jobs:
         run: yarn install --frozen-lockfile
 
       #Run unit tests on codemods lib
-      - name: Run Codemods Tests
-        run: yarn test:codemods
+      - name: Build
+        run: yarn build:affected
 
       # Run unit tests on affected apps
-      - name: Run Affected Tests
-        run: yarn test --base=origin/master
+      - name: Run Tests
+        run: yarn test:affected --base=origin/master
+
+        # Lint affected
+      - name: Lint
+        run: yarn lint:affected
