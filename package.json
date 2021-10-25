@@ -6,9 +6,13 @@
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test",
+    "build:affected": "nx affected:build",
     "build:translator": "nx build translator --prod",
-    "build:translator-vscode": "nx build translator-vscode"
+    "build:translator-vscode": "nx build translator-vscode",
+    "lint:affected": "nx affected:lint",
+    "test": "nx test",
+    "test:affected": "nx affected:test",
+    "test:codemods": "nx test codemods"
   },
   "private": true,
   "dependencies": {

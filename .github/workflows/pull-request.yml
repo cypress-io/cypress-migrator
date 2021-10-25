@@ -1,0 +1,42 @@
+name: Pull Request -> Build/Lint/Test
+
+on:
+  # Triggers the workflow on pull request events for the master branch
+  pull_request:
+    branches: [master]
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      # Check-out and setup
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - run: git fetch --no-tags --prune --depth=5 origin master
+
+      # Build
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      #Run unit tests on codemods lib
+      - name: Build
+        run: yarn build:affected --base=origin/master
+
+      # Lint affected
+      - name: Lint
+        run: yarn lint:affected --base=origin/master
+
+      # Run unit tests on affected apps
+      - name: Run Tests
+        run: yarn test:affected --base=origin/master
