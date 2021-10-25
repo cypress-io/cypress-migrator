@@ -34,6 +34,9 @@
     "translator": {
       "tags": []
     },
+    "translator-cli": {
+      "tags": []
+    },
     "translator-e2e": {
       "tags": [],
       "implicitDependencies": ["translator"]

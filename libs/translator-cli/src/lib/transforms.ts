@@ -4,7 +4,7 @@ const execa = require('execa')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
 
-export const transformDirectory = path.join(__dirname, '../', 'transforms')
+export const transformDirectory = path.join(__dirname, '../', '')
 export const jscodeshiftExecutable = require.resolve('.bin/jscodeshift')
 
 // cli flags

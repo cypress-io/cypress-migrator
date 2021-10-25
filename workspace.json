@@ -86,6 +86,28 @@
         }
       }
     },
+    "translator-cli": {
+      "root": "libs/translator-cli",
+      "sourceRoot": "libs/translator-cli/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/translator-cli/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/translator-cli"],
+          "options": {
+            "jestConfig": "libs/translator-cli/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "translator-e2e": {
       "root": "apps/translator-e2e",
       "sourceRoot": "apps/translator-e2e/src",

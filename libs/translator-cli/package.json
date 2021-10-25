@@ -1,0 +1,20 @@
+{
+  "name": "cypress-translator-cli",
+  "description": "Codemod cli tool to help users migrate from other test frameworks to Cypress",
+  "version": "0.0.1",
+  "bin": "bin/cypress-codemods.js",
+  "files": [
+    "bin"
+  ],
+  "keywords": [
+    "codemod",
+    "cypress",
+    "protractor",
+    "migrate",
+    "migrations",
+    "upgrade",
+    "transform",
+    "jscodeshift",
+    "codemods"
+  ]
+}
