@@ -1,4 +1,4 @@
-name: Pull Request -> Run Tests
+name: Pull Request -> Build/Lint/Test
 
 on:
   # Triggers the workflow on pull request events for the master branch
@@ -31,12 +31,12 @@ jobs:
 
       #Run unit tests on codemods lib
       - name: Build
-        run: yarn build:affected
+        run: yarn build:affected --base=origin/master
+
+      # Lint affected
+      - name: Lint
+        run: yarn lint:affected --base=origin/master
 
       # Run unit tests on affected apps
       - name: Run Tests
         run: yarn test:affected --base=origin/master
-
-        # Lint affected
-      - name: Lint
-        run: yarn lint:affected
