@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ArrowCircleRightIcon } from '@heroicons/react/outline'
-
+import { ReactElement } from 'react'
 import { selectDiffApiItems, useAppSelector } from '../app'
+import { ErrorAlerts } from '.'
+
 
 const TranslationDiff = (): ReactElement => {
   const diff = useAppSelector(selectDiffApiItems)
@@ -12,6 +13,7 @@ const TranslationDiff = (): ReactElement => {
         More details about your translation:
       </h2>
       <hr />
+      <ErrorAlerts />
       <div className="flex justify-between">
         <div data-test="api-details">
           {diff.length > 0 ? (

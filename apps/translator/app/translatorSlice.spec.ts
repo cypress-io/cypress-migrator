@@ -1,3 +1,4 @@
+import { IErrorAlerts, INotifications, selectErrorAlert, selectNotifications, setCopiedNotification } from '.'
 import reducer, {
   IError,
   initialState,
@@ -19,7 +20,6 @@ import reducer, {
   selectDiffApiItems,
   selectDiffEditorThemeColors,
   setDisplayDiff,
-  selectNoInputProvided,
   checkIfTranslationsHaveNotBeenMade,
 } from './translatorSlice'
 
@@ -65,6 +65,11 @@ describe('translatorSlice', () => {
     expect(selectNoTranslationsMade({ translator: nextState })).toBeFalsy()
   })
 
+  it('should correctly set the copied flag in state', () => {
+    const notifications: INotifications = { ...initialState.notifications, copied: true };
+    const nextState = reducer(initialState, setCopiedNotification(true));
+    expect(selectNotifications({ translator: nextState })).toEqual(notifications);
+  });
   it('should correctly set diff in state and setNoTranslationsMade flag to true when none found', () => {
     const diffArray = [
       {
@@ -73,12 +78,13 @@ describe('translatorSlice', () => {
         api: [],
       },
     ]
+    const alerts: IErrorAlerts = { ...initialState.alerts, noTranslationsMade: true };
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
     expect(selectNoTranslationsMade({ translator: nextState })).toBeTruthy()
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
   })
-
-  it('should correctly set the browserWaitTranslated notifications flag to true when one found in diff', () => {
+  it('should correctly set the browserWaitTranslated alert flag to true when one found in diff', () => {
     const diffArray = [
       {
         original: 'browser.wait(1000)',
@@ -91,9 +97,11 @@ describe('translatorSlice', () => {
         ],
       },
     ]
+    const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitTranslated: true };
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
-    expect(selectBrowserWaitTranslated({ translator: nextState })).toBeTruthy()
+    expect(selectBrowserWaitTranslated({ translator: nextState })).toBeTruthy();
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
   })
 
   it('should correctly set the browserWaitTranslated notifications flag to false when none found in diff', () => {
@@ -109,16 +117,11 @@ describe('translatorSlice', () => {
         ],
       },
     ]
+    const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitTranslated: false };
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
     expect(selectBrowserWaitTranslated({ translator: nextState })).toBeFalsy()
-  })
-
-  it('should correctly set the noInputProvided notifications flag to true when found in errors', () => {
-    const diffArray = []
-    const nextState = reducer(initialState, setDiff(diffArray))
-    expect(selectDiff({ translator: nextState })).toEqual(diffArray)
-    expect(selectNoInputProvided({ translator: nextState })).toBeTruthy()
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
   })
 
   it('should correctly set error in state', () => {
@@ -154,13 +157,13 @@ describe('translatorSlice', () => {
     // arrange
     const expected = {
       'editor.background': '#fff',
-      'editor.lineHighlightBackground': '#e1e3ed',
       'scrollbarSlider.background': '#c2f1de',
       'scrollbarSlider.hoverBackground': '#a3e7cb',
       'editorLineNumber.foreground': '#747994',
       'editorLineNumber.activeForeground': '#747994',
       'diffEditor.insertedTextBackground': '#ffffff70',
       'diffEditor.removedTextBackground': '#ffffff70',
+      'editor.lineHighlightBackground': '#e1e3ed',
     }
     // act
     const nextState = reducer(initialState, setDisplayDiff(false))

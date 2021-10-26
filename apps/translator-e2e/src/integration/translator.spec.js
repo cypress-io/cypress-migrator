@@ -1,5 +1,18 @@
 /// <reference types="cypress" />
 
+// Temporary reverse function until we get the monaco-editor to stop reversing the users typed input
+const reverse = (value) => value.split('').reverse().join('')
+
+const enterProtractor = (value) => {
+  cy.get('textarea').first().clear().type('{selectall}').type('{backspace}').type(reverse(value))
+}
+
+const expectCypressTranslationToEqual = (value) => {
+  cy.get('.view-line').contains(value)
+}
+
+const translate = () => cy.getBySel('translate-button').click()
+
 describe('Translator app', () => {
   beforeEach(() => {
     cy.visit('/')
@@ -33,5 +46,30 @@ describe('Translator app', () => {
     cy.getBySel('more-details').find('h2').should('be.visible')
     cy.getBySel('api-details').find('p').should('be.visible')
     cy.getBySel('api-details-list').find('li').should('have.length', 4)
+  })
+
+  it('correctly displays antipattern warning', () => {
+    enterProtractor('browser.wait(2000)')
+    translate()
+    expectCypressTranslationToEqual('cy.wait(2000)')
+    cy.getBySel('error-alert-warning')
+      .should('contain', 'Potential Anti-Pattern Found')
+      .should('have.class', 'bg-yellow-50')
+  })
+
+  it('correctly displays no translation found warning', () => {
+    enterProtractor('test(')
+    translate()
+    expectCypressTranslationToEqual('test()')
+    cy.getBySel('error-alert-warning').should('contain', 'No Translations Found').should('have.class', 'bg-yellow-50')
+  })
+
+  it('correctly displays error from codemods lib as error', () => {
+    cy.get('textarea').first().clear().type('{selectall}').type('{backspace}')
+    translate()
+    cy.get('.view-line').should('have.value', '')
+    cy.getBySel('error-alert-error')
+      .should('contain', 'Please provide an input value to translate')
+      .should('have.class', 'bg-red-50')
   })
 })
