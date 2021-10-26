@@ -23,10 +23,10 @@ describe('Translator app', () => {
     cy.getBySel('all-translations-link').contains('span', 'protractor')
 
     // correctly translates code
-    cy.get('.original-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
+    //cy.get('.original-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
     cy.get('.modified-in-monaco-diff-editor').find('.view-line').should('have.length', 1)
     cy.getBySel('translate-button').click()
-    cy.get('.modified-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
+    //cy.get('.modified-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
 
     // shows more details section
     cy.getBySel('more-details').should('be.visible')
