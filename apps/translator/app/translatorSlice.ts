@@ -32,9 +32,6 @@ const noDiffColors = {
 }
 const themeDefaultColors = {
   'editor.background': '#fff',
-  'editor.selectionBackground': '#e1e3ed',
-  'editor.selectionForeground': '#e1e3ed',
-  'editor.inactiveSelectionBackground': '#e1e3ed',
   'editor.lineHighlightBackground': '#e1e3ed',
   'scrollbarSlider.background': '#c2f1de',
   'scrollbarSlider.hoverBackground': '#a3e7cb',

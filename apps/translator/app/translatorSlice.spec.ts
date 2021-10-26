@@ -140,8 +140,8 @@ describe('translatorSlice', () => {
       'scrollbarSlider.hoverBackground': '#a3e7cb',
       'editorLineNumber.foreground': '#747994',
       'editorLineNumber.activeForeground': '#747994',
-      'diffEditor.insertedTextBackground': '#a3e7cb',
-      'diffEditor.removedTextBackground': '#f8c4cd',
+      'diffEditor.insertedTextBackground': '#a3e7cb70',
+      'diffEditor.removedTextBackground': '#f8c4cd70',
     }
     // act
     const nextState = reducer(initialState, setDisplayDiff(true))
@@ -159,8 +159,8 @@ describe('translatorSlice', () => {
       'scrollbarSlider.hoverBackground': '#a3e7cb',
       'editorLineNumber.foreground': '#747994',
       'editorLineNumber.activeForeground': '#747994',
-      'diffEditor.insertedTextBackground': '#ffffff',
-      'diffEditor.removedTextBackground': '#ffffff',
+      'diffEditor.insertedTextBackground': '#ffffff70',
+      'diffEditor.removedTextBackground': '#ffffff70',
     }
     // act
     const nextState = reducer(initialState, setDisplayDiff(false))

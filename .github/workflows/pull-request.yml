@@ -29,10 +29,6 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile
 
-      #Run unit tests on codemods lib
-      - name: Build
-        run: yarn build:affected --base=origin/master
-
       # Lint affected
       - name: Lint
         run: yarn lint:affected --base=origin/master
@@ -40,3 +36,11 @@ jobs:
       # Run unit tests on affected apps
       - name: Run Tests
         run: yarn test:affected --base=origin/master
+
+      # Run translator e2e tests
+      - name: Run Translator E2E Tests
+        run: yarn run test:translator-e2e:ci
+
+      #Run unit tests on codemods lib
+      - name: Build
+        run: yarn build:affected --base=origin/master
