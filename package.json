@@ -12,6 +12,7 @@
     "lint:affected": "nx affected:lint",
     "test": "nx test",
     "test:translator-e2e": "nx e2e translator-e2e",
+    "test:translator-e2e:ci": "nx e2e translator-e2e --headless",
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods"
   },
