@@ -42,6 +42,9 @@ const setThemeColors = (showDiff: boolean) =>
   showDiff ? { ...themeDefaultColors, ...diffColors } : { ...themeDefaultColors, ...noDiffColors }
 export interface INotifications {
   copied: boolean
+}
+
+export interface IErrorAlerts {
   noTranslationsMade: boolean
   browserWaitTranslated: boolean
   noInputProvided: boolean
@@ -54,6 +57,7 @@ export interface ITranslatorState {
   diffArray: IDiffArrayItem[]
   error?: IError
   notifications: INotifications
+  alerts: IErrorAlerts
   displayDiff: boolean
 }
 
@@ -66,9 +70,11 @@ export const initialState: ITranslatorState = {
   error: undefined,
   notifications: {
     copied: false,
+  },
+  alerts: {
     noTranslationsMade: false,
     browserWaitTranslated: false,
-    noInputProvided: false,
+    noInputProvided: false
   },
   displayDiff: true,
 }
@@ -92,8 +98,8 @@ export const translatorSlice = createSlice({
     setDiff: (state, action: PayloadAction<IDiffArrayItem[]>) => ({
       ...state,
       diffArray: action.payload,
-      notifications: {
-        ...state.notifications,
+      alerts: {
+        ...state.alerts,
         noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload),
         browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload),
         noInputProvided: action.payload.length === 0,
@@ -111,22 +117,22 @@ export const translatorSlice = createSlice({
     }),
     setNoTranslationsMade: (state, action: PayloadAction<boolean>) => ({
       ...state,
-      notifications: {
-        ...initialState.notifications,
+      alerts: {
+        ...initialState.alerts,
         noTranslationsMade: action.payload,
       },
     }),
     setBrowserWaitTranslated: (state, action: PayloadAction<boolean>) => ({
       ...state,
-      notifications: {
-        ...initialState.notifications,
+      alerts: {
+        ...initialState.alerts,
         browserWaitTranslated: action.payload,
       },
     }),
     setNoInputProvided: (state, action: PayloadAction<boolean>) => ({
       ...state,
-      notifications: {
-        ...initialState.notifications,
+      alerts: {
+        ...initialState.alerts,
         noInputProvided: action.payload,
       },
     }),
@@ -157,10 +163,10 @@ export const selectDiff = (state: AppState): IDiffArrayItem[] => state.translato
 export const selectError = (state: AppState): IError => state.translator.error
 export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
-export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.notifications.noTranslationsMade
+export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.alerts.noTranslationsMade
 export const selectBrowserWaitTranslated = (state: AppState): boolean =>
-  state.translator.notifications.browserWaitTranslated
-export const selectNoInputProvided = (state: AppState): boolean => state.translator.notifications.noInputProvided
+  state.translator.alerts.browserWaitTranslated
+export const selectNoInputProvided = (state: AppState): boolean => state.translator.alerts.noInputProvided
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
 export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [
@@ -174,6 +180,7 @@ export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [
       .map((x) => [x['command'], x]),
   ).values(),
 ]
+export const selectErrorAlert = (state: AppState): IErrorAlerts => state.translator.alerts;
 
 export default translatorSlice.reducer
 
