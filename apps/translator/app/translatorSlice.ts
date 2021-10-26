@@ -47,7 +47,6 @@ export interface INotifications {
 export interface IErrorAlerts {
   noTranslationsMade: boolean
   browserWaitTranslated: boolean
-  noInputProvided: boolean
 }
 export interface ITranslatorState {
   language: AvailableLanguages
@@ -74,7 +73,6 @@ export const initialState: ITranslatorState = {
   alerts: {
     noTranslationsMade: false,
     browserWaitTranslated: false,
-    noInputProvided: false
   },
   displayDiff: true,
 }
@@ -102,7 +100,6 @@ export const translatorSlice = createSlice({
         ...state.alerts,
         noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload),
         browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload),
-        noInputProvided: action.payload.length === 0,
       },
     }),
     setError: (state, action: PayloadAction<IError>) => {
@@ -129,13 +126,6 @@ export const translatorSlice = createSlice({
         browserWaitTranslated: action.payload,
       },
     }),
-    setNoInputProvided: (state, action: PayloadAction<boolean>) => ({
-      ...state,
-      alerts: {
-        ...initialState.alerts,
-        noInputProvided: action.payload,
-      },
-    }),
     setDisplayDiff: (state, action: PayloadAction<boolean>) => {
       state.displayDiff = action.payload
     },
@@ -152,7 +142,6 @@ export const {
   setNoTranslationsMade,
   setBrowserWaitTranslated,
   setDisplayDiff,
-  setNoInputProvided,
 } = translatorSlice.actions
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
@@ -166,7 +155,6 @@ export const selectCopiedNotification = (state: AppState): boolean => state.tran
 export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.alerts.noTranslationsMade
 export const selectBrowserWaitTranslated = (state: AppState): boolean =>
   state.translator.alerts.browserWaitTranslated
-export const selectNoInputProvided = (state: AppState): boolean => state.translator.alerts.noInputProvided
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
 export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [
@@ -191,4 +179,4 @@ export const checkIfBrowserWaitTranslationMade = (diffArray: IDiffArrayItem[]): 
   diffArray.filter((diff) => diff.api.filter((api) => api.command === 'wait').length > 0).length > 0
 
 const format = (value: string): string =>
-  prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] })
+  value ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] }) : null

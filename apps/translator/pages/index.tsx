@@ -2,10 +2,12 @@ import { ReactElement } from 'react'
 import Head from 'next/head'
 
 import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff, Footer } from '../components'
-import { selectModified, useAppSelector } from '../app'
+import { selectError, selectModified, useAppSelector } from '../app'
 
 const Index = (): ReactElement => {
-  const hasModified = !!useAppSelector(selectModified)
+  const modified = useAppSelector(selectModified);
+  const error = useAppSelector(selectError);
+  const hasModified = !!modified || error;
 
   return (
     <div className={'h-full'}>

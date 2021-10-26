@@ -10,6 +10,8 @@ import DiffToggle from './diffToggle'
 import TranslationDiff from './translationDiff'
 import BackButton from './backButton'
 import Footer from './footer'
+import AlertType from './alertType'
+import ErrorAlerts from './errorAlerts'
 
 export {
   AvailableCodeMods,
@@ -24,4 +26,6 @@ export {
   TranslationDiff,
   BackButton,
   Footer,
+  AlertType,
+  ErrorAlerts
 }

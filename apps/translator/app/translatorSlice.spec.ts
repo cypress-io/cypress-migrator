@@ -20,7 +20,6 @@ import reducer, {
   selectDiffApiItems,
   selectDiffEditorThemeColors,
   setDisplayDiff,
-  selectNoInputProvided,
   checkIfTranslationsHaveNotBeenMade,
 } from './translatorSlice'
 
@@ -125,15 +124,6 @@ describe('translatorSlice', () => {
     expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
   })
 
-  it('should correctly set the noInputProvided notifications flag to true when found in errors', () => {
-    const diffArray = []
-    const alerts: IErrorAlerts = { ...initialState.alerts, noInputProvided: true };
-    const nextState = reducer(initialState, setDiff(diffArray))
-    expect(selectDiff({ translator: nextState })).toEqual(diffArray)
-    expect(selectNoInputProvided({ translator: nextState })).toBeTruthy();
-    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
-  })
-
   it('should correctly set error in state', () => {
     const error: IError = {
       message: 'This is an error.',
@@ -155,9 +145,6 @@ describe('translatorSlice', () => {
       'editorLineNumber.activeForeground': '#747994',
       'diffEditor.insertedTextBackground': '#a3e7cb70',
       'diffEditor.removedTextBackground': '#f8c4cd70',
-      'editor.inactiveSelectionBackground': '#e1e3ed',
-      'editor.selectionBackground': '#e1e3ed',
-      'editor.selectionForeground': '#e1e3ed',
     }
     // act
     const nextState = reducer(initialState, setDisplayDiff(true))
@@ -170,7 +157,6 @@ describe('translatorSlice', () => {
     // arrange
     const expected = {
       'editor.background': '#fff',
-      'editor.inactiveSelectionBackground': '#e1e3ed',
       'scrollbarSlider.background': '#c2f1de',
       'scrollbarSlider.hoverBackground': '#a3e7cb',
       'editorLineNumber.foreground': '#747994',
@@ -178,8 +164,6 @@ describe('translatorSlice', () => {
       'diffEditor.insertedTextBackground': '#ffffff70',
       'diffEditor.removedTextBackground': '#ffffff70',
       'editor.lineHighlightBackground': '#e1e3ed',
-      'editor.selectionBackground': '#e1e3ed',
-      'editor.selectionForeground': '#e1e3ed',
     }
     // act
     const nextState = reducer(initialState, setDisplayDiff(false))
