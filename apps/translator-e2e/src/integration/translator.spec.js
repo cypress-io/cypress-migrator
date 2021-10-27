@@ -63,6 +63,12 @@ describe('Translator app', () => {
     expectCypressTranslationToEqual('test()')
     cy.getBySel('error-alert-warning').should('contain', 'No Translations Found').should('have.class', 'bg-yellow-50')
   })
+  it('correctly displays xpath warning', () => {
+    enterProtractor('by.xpath(')
+    translate()
+    expectCypressTranslationToEqual('cy.xpath()')
+    cy.getBySel('error-alert-warning').should('contain', 'XPath Translation Found').should('have.class', 'bg-yellow-50')
+  })
 
   it('correctly displays error from codemods lib as error', () => {
     cy.get('textarea').first().clear().type('{selectall}').type('{backspace}')
