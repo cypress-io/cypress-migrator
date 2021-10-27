@@ -47,7 +47,10 @@
             "outputPath": "dist/apps/translator"
           },
           "configurations": {
-            "production": {}
+            "production": {
+              "buildTarget": "translator:build:production",
+              "outputPath": "dist/apps/translator"
+            }
           }
         },
         "serve": {
@@ -82,6 +85,13 @@
           "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/translator/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "nx affected --target=build --base=master --head=HEAD && nx build translator --prod && cp -R dist/apps/translator/next.config.js apps/translator/.dist"
           }
         }
       }

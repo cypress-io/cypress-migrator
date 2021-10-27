@@ -66,7 +66,7 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: any): any {
                   ? j.identifier(node.callee.object.arguments[0].name)
                   : j.stringLiteral(
                       transformedArg && transformedArg.arguments[0]
-                        ? transformedArg.arguments[0].value
+                        ? transformedArg.arguments[0]['value']
                         : node.callee.object.arguments[0].arguments[0].value,
                     ),
               ]),
