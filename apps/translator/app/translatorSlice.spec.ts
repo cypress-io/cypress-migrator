@@ -1,4 +1,12 @@
-import { IErrorAlerts, INotifications, selectErrorAlert, selectNotifications, setCopiedNotification } from '.'
+import {
+  checkIfXPathTranslationMade,
+  IErrorAlerts,
+  INotifications,
+  selectErrorAlert,
+  selectNotifications,
+  selectXPathTranslated,
+  setCopiedNotification,
+} from '.'
 import reducer, {
   IError,
   initialState,
@@ -66,10 +74,10 @@ describe('translatorSlice', () => {
   })
 
   it('should correctly set the copied flag in state', () => {
-    const notifications: INotifications = { ...initialState.notifications, copied: true };
-    const nextState = reducer(initialState, setCopiedNotification(true));
-    expect(selectNotifications({ translator: nextState })).toEqual(notifications);
-  });
+    const notifications: INotifications = { ...initialState.notifications, copied: true }
+    const nextState = reducer(initialState, setCopiedNotification(true))
+    expect(selectNotifications({ translator: nextState })).toEqual(notifications)
+  })
   it('should correctly set diff in state and setNoTranslationsMade flag to true when none found', () => {
     const diffArray = [
       {
@@ -78,11 +86,11 @@ describe('translatorSlice', () => {
         api: [],
       },
     ]
-    const alerts: IErrorAlerts = { ...initialState.alerts, noTranslationsMade: true };
+    const alerts: IErrorAlerts = { ...initialState.alerts, noTranslationsMade: true }
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
     expect(selectNoTranslationsMade({ translator: nextState })).toBeTruthy()
-    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts)
   })
   it('should correctly set the browserWaitTranslated alert flag to true when one found in diff', () => {
     const diffArray = [
@@ -97,14 +105,14 @@ describe('translatorSlice', () => {
         ],
       },
     ]
-    const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitTranslated: true };
+    const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitTranslated: true }
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
-    expect(selectBrowserWaitTranslated({ translator: nextState })).toBeTruthy();
-    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
+    expect(selectBrowserWaitTranslated({ translator: nextState })).toBeTruthy()
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts)
   })
 
-  it('should correctly set the browserWaitTranslated notifications flag to false when none found in diff', () => {
+  it('should correctly set the browserWaitTranslated alert flag to false when none found in diff', () => {
     const diffArray = [
       {
         original: "by.invalidTranslation('this-class')",
@@ -117,11 +125,51 @@ describe('translatorSlice', () => {
         ],
       },
     ]
-    const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitTranslated: false };
+    const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitTranslated: false }
     const nextState = reducer(initialState, setDiff(diffArray))
     expect(selectDiff({ translator: nextState })).toEqual(diffArray)
     expect(selectBrowserWaitTranslated({ translator: nextState })).toBeFalsy()
-    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts);
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts)
+  })
+
+  it('should correcly set the xpath alert flag to true when one found in diff', () => {
+    const diffArray = [
+      {
+        original: "by.xpath('test')",
+        modified: "cy.xpath('test')",
+        api: [
+          {
+            command: 'xpath',
+            url: '',
+          },
+        ],
+      },
+    ]
+    const alerts: IErrorAlerts = { ...initialState.alerts, xPath: true }
+    const nextState = reducer(initialState, setDiff(diffArray))
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray)
+    expect(selectXPathTranslated({ translator: nextState })).toBeTruthy()
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts)
+  })
+
+  it('should correctly set the xpath alert flag to false when none found in diff', () => {
+    const diffArray = [
+      {
+        original: "by.invalidTranslation('this-class')",
+        modified: "cy.get('this-class')",
+        api: [
+          {
+            command: 'get',
+            url: '',
+          },
+        ],
+      },
+    ]
+    const alerts: IErrorAlerts = { ...initialState.alerts, xPath: false }
+    const nextState = reducer(initialState, setDiff(diffArray))
+    expect(selectDiff({ translator: nextState })).toEqual(diffArray)
+    expect(selectXPathTranslated({ translator: nextState })).toBeFalsy()
+    expect(selectErrorAlert({ translator: nextState })).toEqual(alerts)
   })
 
   it('should correctly set error in state', () => {
@@ -254,6 +302,58 @@ describe('translatorSlice', () => {
 
       // assert
       expect(actual).toBeTruthy()
+    })
+
+    it('returns false if diffArray does NOT include an API item for browser.wait', () => {
+      // arrange
+      const diffArray: IDiffArrayItem[] = [
+        {
+          original: 'browser.driver.get()',
+          modified: 'cy.visit()',
+          api: [{ command: 'visit', url: 'https://on.cypress.io/visit' }],
+        },
+      ]
+
+      // act
+      const actual = checkIfBrowserWaitTranslationMade(diffArray)
+
+      // assert
+      expect(actual).toBeFalsy()
+    })
+  })
+
+  describe('checkIfXPathTranslationMade', () => {
+    it('returns true if diffArray includes an API item with a command of xpath', () => {
+      // arrange
+      const diffArray: IDiffArrayItem[] = [
+        {
+          original: "by.xpath('test')",
+          modified: "cy.xpath('test')",
+          api: [{ command: 'xpath', url: 'https://on.cypress.io/xpath' }],
+        },
+      ]
+
+      // act
+      const actual = checkIfXPathTranslationMade(diffArray)
+
+      // assert
+      expect(actual).toBeTruthy()
+    })
+    it('returns false if diffArray does NOT include an API item with a command of xpath', () => {
+      // arrange
+      const diffArray: IDiffArrayItem[] = [
+        {
+          original: 'browser.wait(1000)',
+          modified: 'cy.wait(1000)',
+          api: [{ command: 'wait', url: 'https://on.cypress.io/wait' }],
+        },
+      ]
+
+      // act
+      const actual = checkIfXPathTranslationMade(diffArray)
+
+      // assert
+      expect(actual).toBeFalsy()
     })
   })
 })
