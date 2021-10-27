@@ -7,7 +7,7 @@
     "start": "nx serve",
     "build": "nx build",
     "build:affected": "nx affected:build",
-    "build:translator": "nx affected --target=deploy && nx build translator --prod",
+    "build:translator": "nx build translator",
     "build:translator-vscode": "nx build translator-vscode",
     "lint:affected": "nx affected:lint",
     "test": "nx test",
@@ -15,7 +15,8 @@
     "test:translator-e2e:ci": "nx e2e translator-e2e --headless",
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods",
-    "affected:deploy": "nx affected --target=deploy"
+    "affected:deploy": "nx affected --target=deploy",
+    "deploy:translator": "nx deploy translator"
   },
   "private": true,
   "dependencies": {
