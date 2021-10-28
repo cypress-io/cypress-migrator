@@ -1,10 +1,7 @@
 /// <reference types="cypress" />
 
-// Temporary reverse function until we get the monaco-editor to stop reversing the users typed input
-const reverse = (value) => value.split('').reverse().join('')
-
 const enterProtractor = (value) => {
-  cy.get('textarea').first().clear().type('{selectall}').type('{backspace}').type(reverse(value))
+  cy.get('textarea').first().clear().type('{selectall}').type('{backspace}').type(value)
 }
 
 const expectCypressTranslationToEqual = (value) => {
@@ -58,15 +55,15 @@ describe('Translator app', () => {
   })
 
   it('correctly displays no translation found warning', () => {
-    enterProtractor('test(')
+    enterProtractor('test()')
     translate()
     expectCypressTranslationToEqual('test()')
     cy.getBySel('error-alert-warning').should('contain', 'No Translations Found').should('have.class', 'bg-yellow-50')
   })
   it('correctly displays xpath warning', () => {
-    enterProtractor('by.xpath(')
+    enterProtractor("by.xpath('a')")
     translate()
-    expectCypressTranslationToEqual('cy.xpath()')
+    expectCypressTranslationToEqual("cy.xpath('a')")
     cy.getBySel('error-alert-warning').should('contain', 'XPath Translation Found').should('have.class', 'bg-yellow-50')
   })
 
