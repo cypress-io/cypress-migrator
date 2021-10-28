@@ -83,7 +83,7 @@ const TranslateEditor = (): ReactElement => {
           <DiffEditor
             language="javascript"
             original={original}
-            modified={!error ? translated : null}
+            modified={!!translated ? translated : ''}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}
             onMount={handleEditorMount}
