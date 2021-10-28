@@ -78,7 +78,7 @@ const ErrorAlerts = (): ReactElement => {
         <ErrorAlert
           title="XPath Translation Found"
           alertType="Warning"
-          description="It appears that your protractor code is using xpath which is only supported by Cypress by adding this dependency <a class='text-yellow-500 text-underline' href='https://www.npmjs.com/package/cypress-xpath' target='_blank'>npm install -D cypress-xpath</a>"
+          description="It appears that your Protractor code is using xpath which is only supported in Cypress by adding this dependency <a class='text-yellow-500 text-underline' href='https://www.npmjs.com/package/cypress-xpath' target='_blank'>npm install -D cypress-xpath</a>."
         />
       ) : null}
       {!!error ? <ErrorAlert title="Warning" alertType="Error" description={error.message} /> : null}
