@@ -74,6 +74,13 @@ const ErrorAlerts = (): ReactElement => {
           description="You typically should not need to use hard code waits in your test code. Learn more about about cy.wait and retry-ability from the <a class='text-yellow-500 text-underline' href='https://on.cypress.io/wait' target='_blank'>Cypress Docs.</a>"
         />
       ) : null}
+      {alerts.xPath ? (
+        <ErrorAlert
+          title="XPath Translation Found"
+          alertType="Warning"
+          description="It appears that your Protractor code is using xpath which is only supported in Cypress by adding this dependency <a class='text-yellow-500 text-underline' href='https://www.npmjs.com/package/cypress-xpath' target='_blank'>npm install -D cypress-xpath</a>."
+        />
+      ) : null}
       {!!error ? <ErrorAlert title="Warning" alertType="Error" description={error.message} /> : null}
     </>
   )

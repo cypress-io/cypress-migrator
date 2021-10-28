@@ -43,10 +43,10 @@ const setThemeColors = (showDiff: boolean) =>
 export interface INotifications {
   copied: boolean
 }
-
 export interface IErrorAlerts {
   noTranslationsMade: boolean
   browserWaitTranslated: boolean
+  xPath: boolean
 }
 export interface ITranslatorState {
   language: AvailableLanguages
@@ -73,6 +73,7 @@ export const initialState: ITranslatorState = {
   alerts: {
     noTranslationsMade: false,
     browserWaitTranslated: false,
+    xPath: false,
   },
   displayDiff: true,
 }
@@ -82,51 +83,59 @@ export const translatorSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setLanguage: (state, action: PayloadAction<AvailableLanguages>) => {
+    setLanguage: (state: ITranslatorState, action: PayloadAction<AvailableLanguages>) => {
       state.language = action.payload
     },
-    setOriginal: (state, action: PayloadAction<string>) => {
+    setOriginal: (state: ITranslatorState, action: PayloadAction<string>) => {
       state.original = action.payload
     },
-    setModified: (state, action: PayloadAction<string>) => ({
+    setModified: (state: ITranslatorState, action: PayloadAction<string>) => ({
       ...state,
       modified: format(action.payload),
       original: format(state.original),
     }),
-    setDiff: (state, action: PayloadAction<IDiffArrayItem[]>) => ({
+    setDiff: (state: ITranslatorState, action: PayloadAction<IDiffArrayItem[]>) => ({
       ...state,
       diffArray: action.payload,
       alerts: {
         ...state.alerts,
         noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload),
         browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload),
+        xPath: checkIfXPathTranslationMade(action.payload),
       },
     }),
-    setError: (state, action: PayloadAction<IError>) => {
+    setError: (state: ITranslatorState, action: PayloadAction<IError>) => {
       state.error = action.payload
     },
-    setCopiedNotification: (state, action: PayloadAction<boolean>) => ({
+    setCopiedNotification: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
       ...state,
       notifications: {
         ...initialState.notifications,
         copied: action.payload,
       },
     }),
-    setNoTranslationsMade: (state, action: PayloadAction<boolean>) => ({
+    setNoTranslationsMade: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
       ...state,
       alerts: {
         ...initialState.alerts,
         noTranslationsMade: action.payload,
       },
     }),
-    setBrowserWaitTranslated: (state, action: PayloadAction<boolean>) => ({
+    setBrowserWaitTranslated: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
       ...state,
       alerts: {
         ...initialState.alerts,
         browserWaitTranslated: action.payload,
       },
     }),
-    setDisplayDiff: (state, action: PayloadAction<boolean>) => {
+    setXPathTranslated: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
+      ...state,
+      alerts: {
+        ...initialState.alerts,
+        xPath: action.payload,
+      },
+    }),
+    setDisplayDiff: (state: ITranslatorState, action: PayloadAction<boolean>) => {
       state.displayDiff = action.payload
     },
   },
@@ -141,6 +150,7 @@ export const {
   setCopiedNotification,
   setNoTranslationsMade,
   setBrowserWaitTranslated,
+  setXPathTranslated,
   setDisplayDiff,
 } = translatorSlice.actions
 
@@ -153,8 +163,8 @@ export const selectError = (state: AppState): IError => state.translator.error
 export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
 export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.alerts.noTranslationsMade
-export const selectBrowserWaitTranslated = (state: AppState): boolean =>
-  state.translator.alerts.browserWaitTranslated
+export const selectBrowserWaitTranslated = (state: AppState): boolean => state.translator.alerts.browserWaitTranslated
+export const selectXPathTranslated = (state: AppState): boolean => state.translator.alerts.xPath
 export const selectDisplayDiff = (state: AppState): boolean => state.translator.displayDiff
 export const selectDiffEditorThemeColors = (state: AppState): IColors => setThemeColors(state.translator.displayDiff)
 export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [
@@ -168,7 +178,7 @@ export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [
       .map((x) => [x['command'], x]),
   ).values(),
 ]
-export const selectErrorAlert = (state: AppState): IErrorAlerts => state.translator.alerts;
+export const selectErrorAlert = (state: AppState): IErrorAlerts => state.translator.alerts
 
 export default translatorSlice.reducer
 
@@ -178,5 +188,10 @@ export const checkIfTranslationsHaveNotBeenMade = (diffArray: IDiffArrayItem[]):
 export const checkIfBrowserWaitTranslationMade = (diffArray: IDiffArrayItem[]): boolean =>
   diffArray.filter((diff) => diff.api.filter((api) => api.command === 'wait').length > 0).length > 0
 
+export const checkIfXPathTranslationMade = (diffArray: IDiffArrayItem[]): boolean =>
+  diffArray.filter((diff) => diff.api.filter((api) => api.command === 'xpath').length > 0).length > 0
+
 const format = (value: string): string =>
-  value ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] }) : null
+  value
+    ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] })
+    : null
