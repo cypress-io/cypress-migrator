@@ -1,7 +1,16 @@
 import { ClipboardCopyIcon } from '@heroicons/react/outline'
 import { ReactElement } from 'react'
+import { selectModified, setCopiedNotification, useAppDispatch, useAppSelector } from '../app'
 
-const CopyButton = ({ copy }): ReactElement => {
+const CopyButton = (): ReactElement => {
+  const dispatch = useAppDispatch()
+  const translated = useAppSelector(selectModified)
+
+  const copy = (): void => {
+    dispatch(setCopiedNotification(true))
+    navigator.clipboard.writeText(translated)
+  }
+
   return (
     <div className="flex justify-end">
       <button

@@ -1,14 +1,8 @@
-import { ReactElement } from 'react'
 import Head from 'next/head'
-
-import { Navigation, SelectList, TranslateEditor, Notifications, TranslationDiff, Footer } from '../components'
-import { selectDiff, selectError, useAppSelector } from '../app'
+import { ReactElement } from 'react'
+import { Footer, Navigation, Notifications, SelectList, TranslateEditor, TranslationDiff } from '../components'
 
 const Index = (): ReactElement => {
-  // const diff = useAppSelector(selectDiff)
-  // const error = useAppSelector(selectError)
-  const hasModified = true // error || diff.length > 0
-
   return (
     <div className={'h-full'}>
       <Head>
@@ -32,7 +26,7 @@ const Index = (): ReactElement => {
           </div>
 
           <TranslateEditor />
-          {hasModified ? <TranslationDiff /> : null}
+          <TranslationDiff />
           <Notifications />
         </div>
       </main>

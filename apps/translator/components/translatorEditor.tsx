@@ -8,19 +8,12 @@ import {
   selectDiffEditorThemeColors,
   selectError,
   selectLanguage,
-  setCopiedNotification,
+  selectModified,
+  selectOriginal,
   translate,
   useAppDispatch,
   useAppSelector,
 } from '../app'
-import { defaultText } from '../constants'
-import prettier from 'prettier/standalone'
-import typescriptParser from 'prettier/parser-typescript'
-
-const format = (value: string): string =>
-  value
-    ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] })
-    : null
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -40,8 +33,9 @@ const useIsMobile = () => {
 const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const error = useAppSelector(selectError)
-  const original = defaultText['protractor']
-  const [translated, setTranslated] = useState<string>('')
+  const original = useAppSelector(selectOriginal)
+  // const [translated, setTranslated] = useState<string>('')
+  const translated = useAppSelector(selectModified)
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors)
   const isMobile = useIsMobile()
@@ -69,13 +63,7 @@ const TranslateEditor = (): ReactElement => {
   const translateEditorValue = (): void => {
     const input = diffEditorRef.current.getOriginalEditor().getValue()
     const result = cypressCodemods({ input })
-    dispatch(translate(result))
-    setTranslated(format(result.output))
-  }
-
-  const copy = (): void => {
-    dispatch(setCopiedNotification(true))
-    navigator.clipboard.writeText(translated)
+    dispatch(translate({ input, result }))
   }
 
   return (
@@ -87,7 +75,7 @@ const TranslateEditor = (): ReactElement => {
             <DiffToggle />
           </>
         ) : null}
-        <CopyButton copy={copy} />
+        <CopyButton />
       </div>
 
       <div className="flex h-full">

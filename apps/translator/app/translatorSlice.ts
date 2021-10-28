@@ -1,6 +1,9 @@
 import { TransformResult } from '@cypress-dx/codemods'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { defaultText } from '../constants'
 import { AppState } from './store'
+import typescriptParser from 'prettier/parser-typescript'
+import prettier from 'prettier/standalone'
 
 export interface IError {
   message: string
@@ -49,6 +52,8 @@ export interface ITranslatorState {
   language: AvailableLanguages
   availableLanguages: AvailableLanguages[]
   diffArray: IDiffArrayItem[]
+  original: string
+  modified: string
   error?: IError
   notifications: INotifications
   alerts: IErrorAlerts
@@ -59,6 +64,8 @@ export const initialState: ITranslatorState = {
   language: 'protractor',
   availableLanguages: ['protractor'],
   diffArray: [],
+  original: defaultText['protractor'],
+  modified: null,
   error: undefined,
   notifications: {
     copied: false,
@@ -79,15 +86,20 @@ export const translatorSlice = createSlice({
       ...state,
       language: action.payload,
     }),
-    translate: (state: ITranslatorState, action: PayloadAction<TransformResult>): ITranslatorState => ({
+    translate: (
+      state: ITranslatorState,
+      action: PayloadAction<{ input: string; result: TransformResult }>,
+    ): ITranslatorState => ({
       ...state,
-      diffArray: action.payload.diff,
-      error: action.payload.error ? action.payload.error : state.error,
+      diffArray: action.payload.result.diff,
+      original: format(action.payload.input),
+      modified: format(action.payload.result.output),
+      error: action.payload.result.error ? action.payload.result.error : state.error,
       alerts: {
         ...state.alerts,
-        noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload.diff),
-        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload.diff),
-        xPath: checkIfXPathTranslationMade(action.payload.diff),
+        noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload.result.diff),
+        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload.result.diff),
+        xPath: checkIfXPathTranslationMade(action.payload.result.diff),
       },
     }),
     setCopiedNotification: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
@@ -138,6 +150,8 @@ export const {
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
 export const selectAvailableLanguages = (state: AppState): AvailableLanguages[] => state.translator.availableLanguages
 export const selectDiff = (state: AppState): IDiffArrayItem[] => state.translator.diffArray
+export const selectOriginal = (state: AppState): string => state.translator.original
+export const selectModified = (state: AppState): string => state.translator.modified
 export const selectError = (state: AppState): IError => state.translator.error
 export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
@@ -169,3 +183,8 @@ export const checkIfBrowserWaitTranslationMade = (diffArray: IDiffArrayItem[]): 
 
 export const checkIfXPathTranslationMade = (diffArray: IDiffArrayItem[]): boolean =>
   diffArray.filter((diff) => diff.api.filter((api) => api.command === 'xpath').length > 0).length > 0
+
+const format = (value: string): string =>
+  value
+    ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] })
+    : null
