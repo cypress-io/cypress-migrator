@@ -3,12 +3,11 @@ import { ReactElement } from 'react'
 import { selectDiffApiItems, useAppSelector } from '../app'
 import { ErrorAlerts } from '.'
 
-
 const TranslationDiff = (): ReactElement => {
   const diff = useAppSelector(selectDiffApiItems)
 
   return (
-    <div className="md:w-3/5" data-test="more-details">
+    <div className="md:w-full" data-test="more-details">
       <h2 className="text-3xl leading-6 font-bold text-gray-900 my-4 capitalize">
         More details about your translation:
       </h2>

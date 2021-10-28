@@ -1,23 +1,26 @@
-import { ReactElement, useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
-import { DiffEditor, useMonaco } from '@monaco-editor/react'
-import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
-
+import { ArrowCircleRightIcon } from '@heroicons/react/solid'
+import { DiffEditor, useMonaco } from '@monaco-editor/react'
+import Link from 'next/link'
+import { ReactElement, useEffect, useRef, useState } from 'react'
+import { CopyButton, DiffToggle, LanguagePills } from '.'
 import {
+  selectDiffEditorThemeColors,
   selectError,
-  selectModified,
-  setOriginal,
-  setModified,
-  setDiff,
-  setError,
   selectLanguage,
-  selectOriginal,
+  setCopiedNotification,
+  translate,
   useAppDispatch,
   useAppSelector,
-  selectDiffEditorThemeColors,
 } from '../app'
-import { DiffToggle, CopyButton, LanguagePills } from '.'
+import { defaultText } from '../constants'
+import prettier from 'prettier/standalone'
+import typescriptParser from 'prettier/parser-typescript'
+
+const format = (value: string): string =>
+  value
+    ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] })
+    : null
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -37,8 +40,8 @@ const useIsMobile = () => {
 const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const error = useAppSelector(selectError)
-  const translated = useAppSelector(selectModified)
-  const original: string = useAppSelector(selectOriginal)
+  const original = defaultText['protractor']
+  const [translated, setTranslated] = useState<string>('')
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors)
   const isMobile = useIsMobile()
@@ -61,22 +64,18 @@ const TranslateEditor = (): ReactElement => {
 
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
-    const originalEditor = editor.getOriginalEditor()
-
-    originalEditor.onDidChangeModelContent(() => {
-      dispatch(setOriginal(originalEditor.getValue()))
-    })
   }
 
   const translateEditorValue = (): void => {
-    const codemodResult = cypressCodemods({ input: original })
+    const input = diffEditorRef.current.getOriginalEditor().getValue()
+    const result = cypressCodemods({ input })
+    dispatch(translate(result))
+    setTranslated(format(result.output))
+  }
 
-    dispatch(setModified(codemodResult.output))
-    dispatch(setDiff(codemodResult.diff))
-
-    if (codemodResult.error) {
-      dispatch(setError(codemodResult.error))
-    }
+  const copy = (): void => {
+    dispatch(setCopiedNotification(true))
+    navigator.clipboard.writeText(translated)
   }
 
   return (
@@ -88,7 +87,7 @@ const TranslateEditor = (): ReactElement => {
             <DiffToggle />
           </>
         ) : null}
-        <CopyButton />
+        <CopyButton copy={copy} />
       </div>
 
       <div className="flex h-full">
@@ -113,10 +112,10 @@ const TranslateEditor = (): ReactElement => {
               colorDecorators: false,
               minimap: { enabled: false },
               renderIndicators: false,
-              renderLineHighlight: "none",
+              renderLineHighlight: 'none',
               renderOverviewRuler: false,
               readOnly: true,
-              overviewRulerLanes: 0
+              overviewRulerLanes: 0,
             }}
           />
         </div>
