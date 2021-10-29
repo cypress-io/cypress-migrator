@@ -1,0 +1,26 @@
+[
+  {
+    "protractor": "element(by.className('thisClass')).sendKeys('type something')",
+    "cypress": "cy.get('.thisClass').type('type something')"
+  },
+  {
+    "protractor": "browser.actions().click(element(by.tagName('button'))).perform()",
+    "cypress": "cy.get('button').click()"
+  },
+  {
+    "protractor": "browser.actions().mouseMove(element(by.id('test-id'))).perform()",
+    "cypress": "cy.get('#test-id').scrollIntoView()"
+  },
+  {
+    "protractor": "browser.actions().doubleClick(element(by.className('list-item'))).perform()",
+    "cypress": "cy.get('.list-item').dblclick()"
+  },
+  {
+    "protractor": "element(by.id('test')).takeScreenshot()",
+    "cypress": "cy.get('#test').screenshot()"
+  },
+  {
+    "protractor": "el.takeScreenshot()",
+    "cypress": "el.screenshot()"
+  }
+]
