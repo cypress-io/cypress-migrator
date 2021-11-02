@@ -1,10 +1,11 @@
+export interface APIItem {
+  command: string;
+  url: string;
+}
 export interface DiffArrayItem {
   original: string
   modified: string
-  api?: {
-    command: string
-    url: string
-  }[]
+  api?: APIItem[]
 }
 
 function splitTrim(value: string): string[] {
@@ -12,20 +13,17 @@ function splitTrim(value: string): string[] {
 }
 
 export function createDiffArray(input: string, output: string): DiffArrayItem[] {
-  const inputArray = splitTrim(input)
-  const outputArray = splitTrim(output)
+  const inputArray: string[] = splitTrim(input)
+  const outputArray: string[] = splitTrim(output)
   const diffArray: DiffArrayItem[] = []
 
-  outputArray.forEach((item, index) => {
-    const cyMatches = item.match(/\.(.*?)\(/g)
-    const commands: {
-      command: string
-      url: string
-    }[] = []
+  outputArray.forEach((item, index): void => {
+    const cyMatches: RegExpMatchArray = item.match(/\.(.*?)\(/g)
+    const commands: APIItem[] = []
 
     if (cyMatches) {
-      cyMatches.map((item) => {
-        const name = item.replace('.', '').replace('(', '')
+      cyMatches.map((item: string) => {
+        const name: string = item.replace('.', '').replace('(', '')
         return commands.push({
           command: name,
           url: `https://on.cypress.io/${name}`,
