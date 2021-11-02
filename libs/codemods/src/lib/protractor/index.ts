@@ -1,4 +1,14 @@
-import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
+import {
+  API,
+  ASTNode,
+  ASTPath,
+  AwaitExpression,
+  ClassMethod,
+  Collection,
+  FileInfo,
+  JSCodeshift,
+  Transform,
+} from 'jscodeshift'
 import { CodeModNode, ExpressionKind, Selector } from '../types'
 import { getPropertyName, isSelector, removeByPath } from '../utils'
 import { transformAssertions } from './assertions'
@@ -147,8 +157,8 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // transform non-selector expressions
   callExpressions
     .filter((path: ASTPath<CodeModNode>) => path.node?.callee && !isSelector(path.node.callee as Selector))
-    .forEach((path: any) => {
-      const { node } = path
+    .forEach((path: ASTPath<CodeModNode>) => {
+      const { node }: { node: CodeModNode } = path
       const propertyName =
         node.callee.type === 'MemberExpression' && node.callee.property
           ? getPropertyName(node.callee)
@@ -161,7 +171,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
       // transforms items like element(by.css('.this-class')).getWebElement()
       else if (propertyName === 'getWebElement') {
-        return j(path).replaceWith(
+        return j(path as ASTPath<ASTNode>).replaceWith(
           j.callExpression(
             j.memberExpression(
               j.identifier(node.callee.object.callee.object.name),
@@ -175,7 +185,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
       // transforms el.getAttribute('abc') into cy.get(el).invoke('attr', 'abc')
       else if (propertyName === 'getAttribute') {
-        return j(path).replaceWith(
+        return j(path as ASTPath<ASTNode>).replaceWith(
           j.callExpression(
             j.memberExpression(
               j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('get'), false), [

@@ -1,33 +1,31 @@
-import * as vscode from "vscode";
-// import cypressCodemods from '@cypress-dx/codemods'
+import * as vscode from 'vscode'
+import cypressCodemods from '@cypress-dx/codemods'
 export class TranslatePanel {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.
    */
-  public static currentPanel: TranslatePanel | undefined;
+  public static currentPanel: TranslatePanel | undefined
 
-  public static readonly viewType = "translate";
+  public static readonly viewType = 'translate'
 
-  private readonly _panel: vscode.WebviewPanel;
-  private readonly _extensionUri: vscode.Uri;
-  private _disposables: vscode.Disposable[] = [];
+  private readonly _panel: vscode.WebviewPanel
+  private readonly _extensionUri: vscode.Uri
+  private _disposables: vscode.Disposable[] = []
 
   public static createOrShow(extensionUri: vscode.Uri) {
-    const column = vscode.window.activeTextEditor
-      ? vscode.window.activeTextEditor.viewColumn
-      : undefined;
+    const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
 
     // If we already have a panel, show it.
     if (TranslatePanel.currentPanel) {
-      TranslatePanel.currentPanel._panel.reveal(column);
-      TranslatePanel.currentPanel._update();
-      return;
+      TranslatePanel.currentPanel._panel.reveal(column)
+      TranslatePanel.currentPanel._update()
+      return
     }
 
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
       TranslatePanel.viewType,
-      "Cypress Translator",
+      'Cypress Translator',
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
@@ -35,77 +33,76 @@ export class TranslatePanel {
 
         // And restrict the webview to only loading content from our extension's `media` directory.
         localResourceRoots: [
-          vscode.Uri.joinPath(extensionUri, "media"),
-          vscode.Uri.joinPath(extensionUri, "out/compiled"),
+          vscode.Uri.joinPath(extensionUri, 'media'),
+          vscode.Uri.joinPath(extensionUri, 'out/compiled'),
         ],
-      }
-    );
+      },
+    )
 
-    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri);
+    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri)
   }
 
   public static kill() {
-    TranslatePanel.currentPanel?.dispose();
-    TranslatePanel.currentPanel = undefined;
+    TranslatePanel.currentPanel?.dispose()
+    TranslatePanel.currentPanel = undefined
   }
 
   public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri);
+    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri)
   }
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    this._panel = panel;
-    this._extensionUri = extensionUri;
+    this._panel = panel
+    this._extensionUri = extensionUri
 
     // Set the webview's initial html content
-    this._update();
+    this._update()
 
     // Listen for when the panel is disposed
     // This happens when the user closes the panel or when the panel is closed programatically
-    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
-
+    this._panel.onDidDispose(() => this.dispose(), null, this._disposables)
   }
 
   public dispose() {
-    TranslatePanel.currentPanel = undefined;
+    TranslatePanel.currentPanel = undefined
 
     // Clean up our resources
-    this._panel.dispose();
+    this._panel.dispose()
 
     while (this._disposables.length) {
-      const x = this._disposables.pop();
+      const x = this._disposables.pop()
       if (x) {
-        x.dispose();
+        x.dispose()
       }
     }
   }
 
   private async _update() {
-    const webview = this._panel.webview;
+    const webview = this._panel.webview
 
-    this._panel.webview.html = this._getHtmlForWebview(webview);
+    this._panel.webview.html = this._getHtmlForWebview(webview)
     webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
-        case "onInfo": {
+        case 'onInfo': {
           if (!data.value) {
-            return;
+            return
           }
-          vscode.window.showInformationMessage(data.value);
-          break;
+          vscode.window.showInformationMessage(data.value)
+          break
         }
-        case "onError": {
+        case 'onError': {
           if (!data.value) {
-            return;
+            return
           }
-          vscode.window.showErrorMessage(data.value);
-          break;
+          vscode.window.showErrorMessage(data.value)
+          break
         }
       }
-    });
+    })
   }
 
   private _getCSSForWebView(): string {
-      return `
+    return `
       <style>
                   html {
                     box-sizing: border-box;
@@ -258,9 +255,9 @@ export class TranslatePanel {
   }
 
   private _translate(input: string): string | undefined {
-    // const translatedResult = cypressCodemods({ input })
-    // return translatedResult.output;
-    return input.toUpperCase();
+    const translatedResult = cypressCodemods({ input })
+    return translatedResult.output
+    // return input.toUpperCase();
   }
 
   private _handleSubmission() {
@@ -285,10 +282,10 @@ export class TranslatePanel {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
-    const css = (): string => this._getCSSForWebView();
-    const submission = () => this._handleSubmission();
-    // const codemods = cypressCodemods
-    const codemods = {};
+    const css = (): string => this._getCSSForWebView()
+    const submission = () => this._handleSubmission()
+    const codemods = cypressCodemods
+    // const codemods = {};
 
     return `
     <!DOCTYPE html>
@@ -310,6 +307,6 @@ export class TranslatePanel {
         <script type="module" src=${codemods}></script>
         ${submission()}
         </html>
-    `;
+    `
   }
 }
