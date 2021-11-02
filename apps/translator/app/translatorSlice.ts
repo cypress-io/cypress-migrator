@@ -1,9 +1,9 @@
+import { TransformResult } from '@cypress-dx/codemods'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import type { AppState } from '.'
 import { defaultText } from '../constants'
-import prettier from 'prettier/standalone'
+import { AppState } from './store'
 import typescriptParser from 'prettier/parser-typescript'
+import prettier from 'prettier/standalone'
 
 export interface IError {
   message: string
@@ -51,9 +51,9 @@ export interface IErrorAlerts {
 export interface ITranslatorState {
   language: AvailableLanguages
   availableLanguages: AvailableLanguages[]
+  diffArray: IDiffArrayItem[]
   original: string
   modified: string
-  diffArray: IDiffArrayItem[]
   error?: IError
   notifications: INotifications
   alerts: IErrorAlerts
@@ -63,9 +63,9 @@ export interface ITranslatorState {
 export const initialState: ITranslatorState = {
   language: 'protractor',
   availableLanguages: ['protractor'],
+  diffArray: [],
   original: defaultText['protractor'],
   modified: null,
-  diffArray: [],
   error: undefined,
   notifications: {
     copied: false,
@@ -81,72 +81,65 @@ export const initialState: ITranslatorState = {
 export const translatorSlice = createSlice({
   name: 'translator',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setLanguage: (state: ITranslatorState, action: PayloadAction<AvailableLanguages>) => {
-      state.language = action.payload
-    },
-    setOriginal: (state: ITranslatorState, action: PayloadAction<string>) => {
-      state.original = action.payload
-    },
-    setModified: (state: ITranslatorState, action: PayloadAction<string>) => ({
+    setLanguage: (state: ITranslatorState, action: PayloadAction<AvailableLanguages>): ITranslatorState => ({
       ...state,
-      modified: format(action.payload),
-      original: format(state.original),
+      language: action.payload,
     }),
-    setDiff: (state: ITranslatorState, action: PayloadAction<IDiffArrayItem[]>) => ({
+    translate: (
+      state: ITranslatorState,
+      action: PayloadAction<{ input: string; result: TransformResult }>,
+    ): ITranslatorState => ({
       ...state,
-      diffArray: action.payload,
+      diffArray: action.payload.result.diff,
+      original: format(action.payload.input),
+      modified: format(action.payload.result.output),
+      error: action.payload.result.error ? action.payload.result.error : state.error,
       alerts: {
         ...state.alerts,
-        noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload),
-        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload),
-        xPath: checkIfXPathTranslationMade(action.payload),
+        noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload.result.diff),
+        browserWaitTranslated: checkIfBrowserWaitTranslationMade(action.payload.result.diff),
+        xPath: checkIfXPathTranslationMade(action.payload.result.diff),
       },
     }),
-    setError: (state: ITranslatorState, action: PayloadAction<IError>) => {
-      state.error = action.payload
-    },
-    setCopiedNotification: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
+    setCopiedNotification: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
       ...state,
       notifications: {
         ...initialState.notifications,
         copied: action.payload,
       },
     }),
-    setNoTranslationsMade: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
+    setNoTranslationsMade: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
       ...state,
       alerts: {
         ...initialState.alerts,
         noTranslationsMade: action.payload,
       },
     }),
-    setBrowserWaitTranslated: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
+    setBrowserWaitTranslated: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
       ...state,
       alerts: {
         ...initialState.alerts,
         browserWaitTranslated: action.payload,
       },
     }),
-    setXPathTranslated: (state: ITranslatorState, action: PayloadAction<boolean>) => ({
+    setXPathTranslated: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
       ...state,
       alerts: {
         ...initialState.alerts,
         xPath: action.payload,
       },
     }),
-    setDisplayDiff: (state: ITranslatorState, action: PayloadAction<boolean>) => {
-      state.displayDiff = action.payload
-    },
+    setDisplayDiff: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
+      ...state,
+      displayDiff: action.payload,
+    }),
   },
 })
 
 export const {
   setLanguage,
-  setOriginal,
-  setModified,
-  setDiff,
-  setError,
+  translate,
   setCopiedNotification,
   setNoTranslationsMade,
   setBrowserWaitTranslated,
@@ -156,9 +149,9 @@ export const {
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
 export const selectAvailableLanguages = (state: AppState): AvailableLanguages[] => state.translator.availableLanguages
+export const selectDiff = (state: AppState): IDiffArrayItem[] => state.translator.diffArray
 export const selectOriginal = (state: AppState): string => state.translator.original
 export const selectModified = (state: AppState): string => state.translator.modified
-export const selectDiff = (state: AppState): IDiffArrayItem[] => state.translator.diffArray
 export const selectError = (state: AppState): IError => state.translator.error
 export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied

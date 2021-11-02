@@ -1,23 +1,19 @@
-import { ReactElement, useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
-import { DiffEditor, useMonaco } from '@monaco-editor/react'
-import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import cypressCodemods from '@cypress-dx/codemods'
-
+import { ArrowCircleRightIcon } from '@heroicons/react/solid'
+import { DiffEditor, useMonaco } from '@monaco-editor/react'
+import Link from 'next/link'
+import { ReactElement, useEffect, useRef, useState } from 'react'
+import { CopyButton, DiffToggle, LanguagePills } from '.'
 import {
+  selectDiffEditorThemeColors,
   selectError,
-  selectModified,
-  setOriginal,
-  setModified,
-  setDiff,
-  setError,
   selectLanguage,
+  selectModified,
   selectOriginal,
+  translate,
   useAppDispatch,
   useAppSelector,
-  selectDiffEditorThemeColors,
 } from '../app'
-import { DiffToggle, CopyButton, LanguagePills } from '.'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -37,8 +33,9 @@ const useIsMobile = () => {
 const TranslateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const error = useAppSelector(selectError)
+  const original = useAppSelector(selectOriginal)
+  // const [translated, setTranslated] = useState<string>('')
   const translated = useAppSelector(selectModified)
-  const original: string = useAppSelector(selectOriginal)
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors)
   const isMobile = useIsMobile()
@@ -61,22 +58,12 @@ const TranslateEditor = (): ReactElement => {
 
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
-    const originalEditor = editor.getOriginalEditor()
-
-    originalEditor.onDidChangeModelContent(() => {
-      dispatch(setOriginal(originalEditor.getValue()))
-    })
   }
 
   const translateEditorValue = (): void => {
-    const codemodResult = cypressCodemods({ input: original })
-
-    dispatch(setModified(codemodResult.output))
-    dispatch(setDiff(codemodResult.diff))
-
-    if (codemodResult.error) {
-      dispatch(setError(codemodResult.error))
-    }
+    const input = diffEditorRef.current.getOriginalEditor().getValue()
+    const result = cypressCodemods({ input })
+    dispatch(translate({ input, result }))
   }
 
   return (
@@ -96,7 +83,7 @@ const TranslateEditor = (): ReactElement => {
           <DiffEditor
             language="javascript"
             original={original}
-            modified={!error ? translated : null}
+            modified={!!translated ? translated : ''}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}
             onMount={handleEditorMount}
@@ -113,10 +100,10 @@ const TranslateEditor = (): ReactElement => {
               colorDecorators: false,
               minimap: { enabled: false },
               renderIndicators: false,
-              renderLineHighlight: "none",
+              renderLineHighlight: 'none',
               renderOverviewRuler: false,
               readOnly: true,
-              overviewRulerLanes: 0
+              overviewRulerLanes: 0,
             }}
           />
         </div>
