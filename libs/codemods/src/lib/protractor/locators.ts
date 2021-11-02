@@ -12,6 +12,7 @@ import {
 } from './constants'
 import { isSelector, getPropertyName, replaceCySelector, replaceCyContainsSelector } from '../utils'
 import { CodeModNode, Selector } from '../types'
+import { ExpressionKind } from 'ast-types/gen/kinds'
 
 // transform cyGetLocators items into cy.get()
 // transform cyContainLocators items into cy.contains()
@@ -19,10 +20,10 @@ export function handleCyGetTransform(
   j: JSCodeshift,
   path: CodeModNode,
   propertyName: CyGetLocators,
-): Collection<CallExpression> {
+): Collection<CallExpression> | undefined {
   // if $$ is after another expression, transform it into .find()
   // otherwise, transform $, $$, and by locators as documented
-  if (propertyName === '$$' && path.value?.callee.object) {
+  if (propertyName === '$$' && path.value?.callee?.object && path.value?.callee?.property) {
     path.value.callee.property.name = 'find'
   } else {
     if (cyGetLocators.includes(propertyName as CyGetLocators)) {
@@ -31,6 +32,7 @@ export function handleCyGetTransform(
       })
     }
   }
+  return
 }
 
 // transform locators in cyContainLocators list
@@ -38,29 +40,33 @@ export function handleCyContainsTransform(
   j: JSCodeshift,
   path: CodeModNode,
   propertyName: CyContainLocatorsKeys,
-): Collection<CallExpression> {
+): Collection<CallExpression> | undefined {
   const args = path.value ? path.value.arguments : path.arguments
   if (propertyName in cyContainLocators) {
     return j(path as ASTNode).replaceWith(() => {
-      return replaceCyContainsSelector(j, propertyName, cyContainLocators[propertyName], args as CodeModNode[])
+      return replaceCyContainsSelector(j, propertyName, cyContainLocators[propertyName], args as ExpressionKind[])
     })
   }
+  return
 }
 
 // exclude non-locators and assertions from this group
 
-export function transformLocators(j: JSCodeshift, nodes: Collection<CodeModNode>): Collection<CodeModNode> {
+export function transformLocators<T extends CodeModNode>(j: JSCodeshift, nodes: Collection<T>): Collection<T> {
   return nodes
-    .filter((path: ASTPath<CodeModNode>) => {
+    .filter((path: ASTPath<T>) => {
       return (
-        path.value?.callee &&
+        !!path.value?.callee &&
         isSelector(path.value.callee as Selector) &&
         !supportedAssertionTypes.includes(path.value?.callee?.property?.name as SupportedAssertionTypes)
       )
     })
-    .forEach((path: ASTPath<CodeModNode>) => {
-      const { value } = path
-      const propertyName = value.callee.type === 'MemberExpression' ? getPropertyName(value.callee) : value.callee.name
+    .forEach((path: ASTPath<T>): void | Collection<CallExpression> => {
+      const value = path.value
+      const propertyName: string =
+        value?.callee?.type === 'MemberExpression'
+          ? (getPropertyName(value?.callee as T) as string)
+          : (value?.callee?.name as string)
 
       // transform $$('item').get(1)
       if (propertyName === '$$' && path.parentPath.value.property?.name === 'get') {

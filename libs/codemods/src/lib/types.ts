@@ -1,6 +1,6 @@
 import { namedTypes } from 'ast-types'
 import { Printable } from 'jscodeshift'
-import { CodemodConstantTypes, CyGetLocators, ProtractorSelectors } from './protractor/constants'
+import { CodemodConstantTypes, CyContainLocatorsKeys, CyGetLocators, ProtractorSelectors } from './protractor/constants'
 
 export type ExpressionKind =
   | namedTypes.Identifier
@@ -69,8 +69,19 @@ export type Selector = {
   name?: ProtractorSelectors
 }
 
+export type CodeModNodeKeys =
+  | 'type'
+  | 'arguments'
+  | 'object'
+  | 'callee'
+  | 'property'
+  | 'name'
+  | 'source'
+  | 'left'
+  | 'value'
+
 export type CodeModNode = {
-  type?: 'Identifier' | 'MemberExpression' | 'CallExpression'
+  type?: 'Identifier' | 'MemberExpression' | 'CallExpression' | 'BooleanLiteral'
   arguments?: CodeModNode | CodeModNode[]
   object?: CodeModNode
   callee?: CodeModNode

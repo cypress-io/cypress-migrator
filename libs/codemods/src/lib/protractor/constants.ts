@@ -1,8 +1,25 @@
-export type CodemodConstantTypes = ProtractorSelectors | CyGetLocators | CyContainLocatorsKeys | CyContainLocatorsValues | CyContainLocators | UnsupportedLocators | NonLocatorMethodTransformsKeys | NonLocatorMethodTransformsValues | NonLocatorMethodTransforms | SupportedBrowserMethods | BrowserMethodTransformsKeys | BrowserMethodTransformsValues | BrowserMethodTransforms | UnsupportedBrowserMethods | SupportedAssertionTypes | AssertionTransformsKeys | AssertionTransformsValues | AssertionTransforms
+export type CodemodConstantTypes =
+  | ProtractorSelectors
+  | CyGetLocators
+  | CyContainLocatorsKeys
+  | CyContainLocatorsValues
+  | CyContainLocators
+  | UnsupportedLocators
+  | NonLocatorMethodTransformsKeys
+  | NonLocatorMethodTransformsValues
+  | NonLocatorMethodTransforms
+  | SupportedBrowserMethods
+  | BrowserMethodTransformsKeys
+  | BrowserMethodTransformsValues
+  | BrowserMethodTransforms
+  | UnsupportedBrowserMethods
+  | SupportedAssertionTypes
+  | AssertionTransformsKeys
+  | AssertionTransformsValues
+  | AssertionTransforms
 
 export type ProtractorSelectors = 'by' | '$' | '$$'
 export const protractorSelectors: ProtractorSelectors[] = ['by', '$', '$$']
-
 
 // protractor locators that resolve to cy.get
 export type CyGetLocators =
@@ -52,7 +69,7 @@ export type UnsupportedLocators = 'xpath'
 export const unsupportedLocators: UnsupportedLocators[] = ['xpath']
 
 // protractor browser methods and their cy equivalents
-export type NonLocatorMethodTransformsKeys = 'takeScreenshot' | 'getDriver' | 'sendKeys'
+export type NonLocatorMethodTransformsKeys = 'takeScreenshot' | 'getDriver' | 'sendKeys' | string
 export type NonLocatorMethodTransformsValues = 'screenshot' | 'parent' | 'type'
 export type NonLocatorMethodTransforms = {
   [key in NonLocatorMethodTransformsKeys]: NonLocatorMethodTransformsValues
@@ -78,6 +95,7 @@ export type SupportedBrowserMethods =
   | 'getCurrentUrl'
   | 'debugger'
   | 'findElement'
+  | string
 export const supportedBrowserMethods: SupportedBrowserMethods[] = [
   'get',
   'wait',
@@ -106,6 +124,7 @@ export type BrowserMethodTransformsKeys =
   | 'setLocation'
   | 'debugger'
   | 'findElement'
+  | string
 export type BrowserMethodTransformsValues =
   | 'visit'
   | 'reload'

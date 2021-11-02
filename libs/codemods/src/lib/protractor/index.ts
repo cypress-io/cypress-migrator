@@ -1,13 +1,16 @@
 import {
   API,
+  AssignmentExpression,
   ASTNode,
   ASTPath,
   AwaitExpression,
+  CallExpression,
   ClassMethod,
   Collection,
   FileInfo,
   JSCodeshift,
   Transform,
+  VariableDeclarator,
 } from 'jscodeshift'
 import { CodeModNode, ExpressionKind, Selector } from '../types'
 import { getPropertyName, isSelector, removeByPath } from '../utils'
@@ -90,12 +93,12 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // remove element() wrappers
   if (elementExpressions.size() > 0) {
-    elementExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
+    elementExpressions.replaceWith((path: ASTPath<CodeModNode>) => (path.node.arguments as CodeModNode[])[0])
   }
 
   // remove elementAll() wrappers
   if (elementAllExpressions.size() > 0) {
-    elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
+    elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => (path.node.arguments as CodeModNode[])[0])
   }
 
   // remove await expressions
@@ -156,16 +159,16 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // transform non-selector expressions
   callExpressions
-    .filter((path: ASTPath<CodeModNode>) => path.node?.callee && !isSelector(path.node.callee as Selector))
-    .forEach((path: ASTPath<CodeModNode>) => {
+    .filter((path: ASTPath<CodeModNode>) => !!path.node?.callee && !isSelector(path.node.callee as Selector))
+    .forEach((path: ASTPath<CodeModNode>): void | Collection<CallExpression> => {
       const { node }: { node: CodeModNode } = path
-      const propertyName =
-        node.callee.type === 'MemberExpression' && node.callee.property
-          ? getPropertyName(node.callee)
-          : node.callee.name
+      const propertyName: string =
+        node.callee?.type === 'MemberExpression' && node.callee?.property
+          ? (getPropertyName(node.callee) as string)
+          : (node.callee?.name as string)
       const pathArguments = path.get('arguments')
 
-      if (nonLocatorMethodTransforms[propertyName]) {
+      if (nonLocatorMethodTransforms[propertyName] && node?.callee?.property) {
         node.callee.property.name = nonLocatorMethodTransforms[propertyName]
       }
 
@@ -174,11 +177,11 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
         return j(path as ASTPath<ASTNode>).replaceWith(
           j.callExpression(
             j.memberExpression(
-              j.identifier(node.callee.object.callee.object.name),
-              j.identifier(node.callee.object.callee.property.name),
+              j.identifier(node.callee?.object?.callee?.object?.name as string),
+              j.identifier(node.callee?.object?.callee?.property?.name as string),
               false,
             ),
-            [j.stringLiteral(node.callee.object.arguments[0].value)],
+            [j.stringLiteral((node.callee?.object?.arguments as CodeModNode[])[0].value as string)],
           ),
         )
       }
@@ -189,7 +192,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
           j.callExpression(
             j.memberExpression(
               j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('get'), false), [
-                j.identifier(node.callee.object.name),
+                j.identifier(node.callee?.object?.name as string),
               ]),
               j.identifier('invoke'),
               false,
@@ -203,15 +206,17 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // ensure all variable declarations using cy. get wrapped in an arrow function
   root
     .find(j.VariableDeclarator)
-    .filter((path: any) => {
-      return path?.value?.init?.callee?.object?.name === 'cy'
+    .filter((path: ASTPath<VariableDeclarator>) => {
+      return (path?.value?.init as CodeModNode)?.callee?.object?.name === 'cy'
     })
-    .forEach((path: any) => {
+    .forEach((path: ASTPath<VariableDeclarator>) => {
       path.value.init = j.arrowFunctionExpression(
         [],
         j.callExpression(
-          path.value.init.callee,
-          path.value.init.arguments.length > 0 ? [path.value.init.arguments?.[0]] : [],
+          (path.value.init as CallExpression).callee,
+          ((path.value.init as CodeModNode).arguments as ExpressionKind[]).length > 0
+            ? [((path.value.init as CodeModNode)?.arguments as ExpressionKind[])?.[0]]
+            : [],
         ),
       )
     })
@@ -219,15 +224,17 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // ensure all assignments using cy. get wrapped in an arrow function
   root
     .find(j.AssignmentExpression)
-    .filter((path: any) => {
-      return path.value.right.callee.object.name === 'cy'
+    .filter((path: ASTPath<AssignmentExpression>) => {
+      return (path.value.right as CodeModNode)?.callee?.object?.name === 'cy'
     })
-    .forEach((path: any) => {
+    .forEach((path: ASTPath<AssignmentExpression>) => {
       path.value.right = j.arrowFunctionExpression(
         [],
         j.callExpression(
-          path.value.right.callee,
-          path.value.right.arguments.length > 0 ? [path.value.right.arguments[0]] : [],
+          (path.value.right as CallExpression).callee,
+          ((path.value.right as CodeModNode).arguments as ExpressionKind[]).length > 0
+            ? [((path.value.right as CodeModNode).arguments as ExpressionKind[])[0]]
+            : [],
         ),
       )
     })
