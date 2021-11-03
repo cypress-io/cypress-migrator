@@ -1,6 +1,6 @@
 import { namedTypes } from 'ast-types'
 import { Printable } from 'jscodeshift'
-import { CodemodConstantTypes, CyContainLocatorsKeys, CyGetLocators, ProtractorSelectors } from './protractor/constants'
+import { CodemodConstantTypes, CyGetLocators, ProtractorSelectors } from './protractor/constants'
 
 export type ExpressionKind =
   | namedTypes.Identifier

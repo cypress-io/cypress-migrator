@@ -1,4 +1,3 @@
-import { ExpressionKind } from 'ast-types/gen/kinds'
 import {
   ASTNode,
   ASTPath,
@@ -30,7 +29,6 @@ import {
 import {
   assertionTransforms,
   AssertionTransformsKeys,
-  CyContainLocators,
   cyContainLocators,
   CyContainLocatorsKeys,
   cyGetLocators,
@@ -38,6 +36,17 @@ import {
   SupportedAssertionTypes,
   supportedAssertionTypes,
 } from './constants'
+
+function transformCountExpressions(j: JSCodeshift, expression: CallExpression, args: StringLiteral[]): CallExpression {
+  return j.callExpression(
+    j.memberExpression(
+      j.callExpression(j.memberExpression(expression, j.identifier('its'), false), [j.stringLiteral('length')]),
+      j.identifier('should'),
+      false,
+    ),
+    args,
+  )
+}
 
 // transform cyGetLocators items into cy.get()
 // transform cyContainLocators items into cy.contains()
@@ -119,42 +128,39 @@ export function transformAssertions(
             (assertionTarget as CodeModNode)?.callee?.object as CodeModNode,
             'property',
           )
-          let transformedCountSelector: CallExpression
+          // let transformedCountSelector: CallExpression
 
           if (cyGetLocators.includes((countAssertion as CyGetLocatorsObject).name)) {
-            transformedCountSelector = replaceCySelector(
+            return transformCountExpressions(
               j,
-              (assertionTarget as CodeModNode)?.callee?.object as CodeModNode,
-              'get',
-              (countAssertion as CyGetLocatorsObject).name,
+              replaceCySelector(
+                j,
+                (assertionTarget as CodeModNode)?.callee?.object as CodeModNode,
+                'get',
+                (countAssertion as CyGetLocatorsObject).name,
+              ),
+              assertionArgs,
             )
           }
 
           if (cyContainLocators[(countAssertion as CyGetLocatorsObject).name as CyContainLocatorsKeys]) {
-            transformedCountSelector = replaceCyContainsSelector(
+            return transformCountExpressions(
               j,
-              (countAssertion as ProtractorSelectorsObject).name,
-              cyContainLocators[(countAssertion as ProtractorSelectorsObject)?.name as CyContainLocatorsKeys],
-              (assertionTarget as CodeModNode)?.callee?.object?.callee?.arguments as CallExpression[],
+              replaceCyContainsSelector(
+                j,
+                (countAssertion as ProtractorSelectorsObject).name,
+                cyContainLocators[(countAssertion as ProtractorSelectorsObject)?.name as CyContainLocatorsKeys],
+                (assertionTarget as CodeModNode)?.callee?.object?.callee?.arguments as CallExpression[],
+              ),
+              assertionArgs,
             )
           }
 
-          return transformedCountSelector
-            ? j.callExpression(
-                j.memberExpression(
-                  j.callExpression(j.memberExpression(transformedCountSelector, j.identifier('its'), false), [
-                    j.stringLiteral('length'),
-                  ]),
-                  j.identifier('should'),
-                  false,
-                ),
-                assertionArgs,
-              )
-            : errorMessage(
-                `${(countAssertion as CodemodConstantTypesObject).name} is not currently supported by this codemod.`,
-                countAssertion as Printable,
-                file,
-              )
+          return errorMessage(
+            `${(countAssertion as CodemodConstantTypesObject).name} is not currently supported by this codemod.`,
+            countAssertion as Printable,
+            file,
+          )
         } else {
           return j.callExpression(
             j.memberExpression(assertionTargetExpression() as CallExpression, j.identifier('should'), false),
