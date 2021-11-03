@@ -1,4 +1,4 @@
-import * as jscodeshift from 'jscodeshift/dist/core'
+// import * as jscodeshift from 'jscodeshift/dist/core'
 import protractorTransformer from './lib/protractor'
 import { createDiffArray, DiffArrayItem } from './lib/utils'
 
@@ -29,7 +29,7 @@ export default function applyTransforms({
   noInputProvided = 'Please provide an input value to translate.',
 }: TransformProps): TransformResult {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  // const jscodeshift = require('../../node_modules/jscodeshift/dist/core.js');
+  const jscodeshift = require('jscodeshift/dist/core.js')
 
   if (input === '') {
     return {
