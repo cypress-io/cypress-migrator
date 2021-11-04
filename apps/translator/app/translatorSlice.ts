@@ -42,6 +42,7 @@ const setThemeColors = (showDiff: boolean) =>
   showDiff ? { ...themeDefaultColors, ...diffColors } : { ...themeDefaultColors, ...noDiffColors }
 export interface INotifications {
   copied: boolean
+  sentAddTranslationRequest: boolean
 }
 export interface IErrorAlerts {
   noTranslationsMade: boolean
@@ -69,6 +70,7 @@ export const initialState: ITranslatorState = {
   error: undefined,
   notifications: {
     copied: false,
+    sentAddTranslationRequest: false,
   },
   alerts: {
     noTranslationsMade: false,
@@ -109,6 +111,17 @@ export const translatorSlice = createSlice({
         copied: action.payload,
       },
     }),
+    sentAddTranslationRequest: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
+      ...state,
+      alerts: {
+        ...state.alerts,
+        noTranslationsMade: action.payload ? false : state.alerts.noTranslationsMade,
+      },
+      notifications: {
+        ...state.notifications,
+        sentAddTranslationRequest: action.payload,
+      },
+    }),
     setNoTranslationsMade: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
       ...state,
       alerts: {
@@ -145,6 +158,7 @@ export const {
   setBrowserWaitTranslated,
   setXPathTranslated,
   setDisplayDiff,
+  sentAddTranslationRequest,
 } = translatorSlice.actions
 
 export const selectLanguage = (state: AppState): AvailableLanguages => state.translator.language
@@ -155,6 +169,8 @@ export const selectModified = (state: AppState): string => state.translator.modi
 export const selectError = (state: AppState): IError => state.translator.error
 export const selectNotifications = (state: AppState): INotifications => state.translator.notifications
 export const selectCopiedNotification = (state: AppState): boolean => state.translator.notifications.copied
+export const selectSentAddTranslationRequest = (state: AppState): boolean =>
+  state.translator.notifications.sentAddTranslationRequest
 export const selectNoTranslationsMade = (state: AppState): boolean => state.translator.alerts.noTranslationsMade
 export const selectBrowserWaitTranslated = (state: AppState): boolean => state.translator.alerts.browserWaitTranslated
 export const selectXPathTranslated = (state: AppState): boolean => state.translator.alerts.xPath

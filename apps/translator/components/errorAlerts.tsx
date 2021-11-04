@@ -1,5 +1,13 @@
 import { ReactElement } from 'react'
-import { selectError, selectErrorAlert, selectModified, selectOriginal, useAppSelector } from '../app'
+import { useDispatch } from 'react-redux'
+import {
+  selectError,
+  selectErrorAlert,
+  selectModified,
+  selectOriginal,
+  sentAddTranslationRequest,
+  useAppSelector,
+} from '../app'
 import AlertType, { AlertIconType } from './alertType'
 
 type CTA = {
@@ -84,6 +92,7 @@ const ErrorAlerts = (): ReactElement => {
   const error = useAppSelector(selectError)
   const original = useAppSelector(selectOriginal)
   const modified = useAppSelector(selectModified)
+  const dispatch = useDispatch()
 
   const submitAnIssue = () => {
     try {
@@ -93,9 +102,10 @@ const ErrorAlerts = (): ReactElement => {
           protractor: original,
           cypresss: modified,
         }),
-      })
+      }).then(() => dispatch(sentAddTranslationRequest(true)))
     } catch {
       console.error('There was an error submitting your issue')
+      dispatch(sentAddTranslationRequest(false))
     }
   }
 
