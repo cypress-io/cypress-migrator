@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
   selectError,
@@ -11,20 +11,37 @@ import {
 import AlertType, { AlertIconType } from './alertType'
 
 type CTA = {
-  text: string
-  action: () => void
+  text?: string
+  success?: boolean
+  action?: () => void
 }
 
 const ErrorCTA = ({ cta }: { cta: CTA }): ReactElement => (
   <>
     {cta ? (
       <p className="mt-3 text-sm md:mt-4">
-        <button
-          onClick={cta.action}
-          className="inline-flex items-center px-2.5 py-1.5 border border-yellow-300 shadow-sm text-xs font-medium rounded text-yellow-700 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-        >
-          {cta.text} <span aria-hidden="true">&rarr;</span>
-        </button>
+        {cta.success ? (
+          <>
+            <span className="inline-flex text-green-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="green">
+                <path
+                  fillRule="evenodd"
+                  d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Issue Submission Succeeded
+            </span>
+          </>
+        ) : (
+          <button
+            data-test="errorCTAButton"
+            onClick={cta.action}
+            className="inline-flex items-center px-2.5 py-1.5 border border-yellow-300 shadow-sm text-xs font-medium rounded text-yellow-700 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+          >
+            {cta.text} <span aria-hidden="true">&rarr;</span>
+          </button>
+        )}
       </p>
     ) : null}
   </>
@@ -93,20 +110,26 @@ const ErrorAlerts = (): ReactElement => {
   const original = useAppSelector(selectOriginal)
   const modified = useAppSelector(selectModified)
   const dispatch = useDispatch()
+  const [translationSent, setTranslationSent] = useState<boolean>(false)
 
-  const submitAnIssue = () => {
-    try {
-      fetch('/api/translation', {
-        method: 'POST',
-        body: JSON.stringify({
-          protractor: original,
-          cypresss: modified,
-        }),
-      }).then(() => dispatch(sentAddTranslationRequest(true)))
-    } catch {
-      console.error('There was an error submitting your issue')
-      dispatch(sentAddTranslationRequest(false))
-    }
+  const submitAnIssue = async () => {
+    await fetch('/api/translation', {
+      method: 'POST',
+      body: JSON.stringify({
+        protractor: original,
+        cypress: modified,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          dispatch(sentAddTranslationRequest(true))
+          setTranslationSent(true)
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        dispatch(sentAddTranslationRequest(false))
+      })
   }
 
   return (
@@ -115,11 +138,15 @@ const ErrorAlerts = (): ReactElement => {
         <ErrorAlert
           title="No Translations Found"
           alertType="Warning"
-          description="We were unable to find any translations. If you think there is an issue with a translated item, please submit an issue"
-          cta={{
-            text: 'Submit An Issue',
-            action: submitAnIssue,
-          }}
+          description="We were unable to find any translations. If you think there is an issue with a translated item, please submit an issue below."
+          cta={
+            translationSent
+              ? { success: true }
+              : {
+                  text: 'Submit An Issue',
+                  action: submitAnIssue,
+                }
+          }
         />
       ) : null}
       {alerts.browserWaitTranslated ? (
