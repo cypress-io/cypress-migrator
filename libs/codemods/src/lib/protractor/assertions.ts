@@ -40,6 +40,31 @@ import {
 //
 // exclude non-locators and assertions from this group
 
+function getAssertionTargetExpression(
+  j: JSCodeshift,
+  assertionTarget: string | CodeModNode | CodeModNode[],
+): CodeModNode | CodeModNode[] | CallExpression {
+  if ((assertionTarget as CodeModNode).type === 'Identifier') {
+    return assertionTarget as CodeModNode
+  } else if ((assertionTarget as CodeModNode).callee) {
+    if ((assertionTarget as CodeModNode).callee.object.name === 'cy') {
+      return j.callExpression(
+        j.memberExpression(
+          (assertionTarget as CodeModNode).callee.object as MemberExpression,
+          (assertionTarget as CodeModNode).callee.property as MemberExpression,
+          false,
+        ),
+        ((assertionTarget as CodeModNode).arguments as CodeModNode[]).length
+          ? ((assertionTarget as CodeModNode).arguments as MemberExpression[])
+          : [],
+      )
+    }
+    return (assertionTarget as CodeModNode).callee.object
+  } else {
+    return (assertionTarget as CodeModNode).arguments[0].callee.object
+  }
+}
+
 export function transformAssertions(
   j: JSCodeshift,
   nodes: Collection<CodeModNode>,
@@ -56,28 +81,10 @@ export function transformAssertions(
       const assertionType: string = assertion.value.callee.property.name
       const assertionTarget: string | CodeModNode | CodeModNode[] = getAssertionTarget(assertion.value.callee.object)
       const assertionTargetType: string = getAssertionTargetType(assertionTarget as CodeModNode)
-
-      const assertionTargetExpression = (): CodeModNode | CodeModNode[] | CallExpression => {
-        if ((assertionTarget as CodeModNode).type === 'Identifier') {
-          return assertionTarget as CodeModNode
-        } else if ((assertionTarget as CodeModNode).callee) {
-          if ((assertionTarget as CodeModNode).callee.object.name === 'cy') {
-            return j.callExpression(
-              j.memberExpression(
-                (assertionTarget as CodeModNode).callee.object as MemberExpression,
-                (assertionTarget as CodeModNode).callee.property as MemberExpression,
-                false,
-              ),
-              ((assertionTarget as CodeModNode).arguments as CodeModNode[]).length
-                ? ((assertionTarget as CodeModNode).arguments as MemberExpression[])
-                : [],
-            )
-          }
-          return (assertionTarget as CodeModNode).callee.object
-        } else {
-          return (assertionTarget as CodeModNode).arguments[0].callee.object
-        }
-      }
+      const assertionTargetExpression: string | CodeModNode | CodeModNode[] = getAssertionTargetExpression(
+        j,
+        assertionTarget,
+      )
 
       const hasCount: boolean =
         (assertionTarget as CodeModNode).callee && hasProperty((assertionTarget as CodeModNode).callee, 'count')
@@ -99,7 +106,7 @@ export function transformAssertions(
       // add arguments of literal types to assertion
       if (
         (assertion.value.arguments as CodeModNode[]).length > 0 &&
-        assertion.value.arguments[0].type !== 'BooleanLiteral'
+        typeof assertion.value.arguments[0].value !== 'boolean'
       ) {
         assertionArgs.push(assertion.value.arguments[0] as StringLiteral)
       }
@@ -149,7 +156,7 @@ export function transformAssertions(
               )
         } else {
           return j.callExpression(
-            j.memberExpression(assertionTargetExpression() as CallExpression, j.identifier('should'), false),
+            j.memberExpression(assertionTargetExpression as CallExpression, j.identifier('should'), false),
             assertionArgs,
           )
         }

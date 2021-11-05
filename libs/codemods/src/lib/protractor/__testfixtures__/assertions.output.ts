@@ -28,6 +28,7 @@ describe('Assertions', () => {
 
   it('should transform isSelected()', () => {
     cy.get('.test-checkbox').should('not.be.selected')
+    cy.get('.test-checkbox').should('be.selected')
     cy.get('#test-checkbox').should('be.selected')
     element.should('be.selected')
   })
