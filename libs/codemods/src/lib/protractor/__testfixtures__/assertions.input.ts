@@ -8,8 +8,9 @@ describe('Assertions', () => {
     expect(testObject).toBe({ id: test })
   })
 
-  it('should transform toEqual()', () => {
+  it('should transform count correctly', () => {
     expect(by.css('.list').count()).toEqual(3)
+    expect(by.css('.list').count()).not.toEqual(5)
   })
 
   it('should transform isDisplayed()', () => {

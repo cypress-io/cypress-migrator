@@ -83,7 +83,7 @@ export function transformAssertions(
         (assertionTarget as CodeModNode).callee && hasProperty((assertionTarget as CodeModNode).callee, 'count')
       const hasNegative: boolean =
         ['toBeFalse', 'toBeFalsy'].includes(assertionType) ||
-        hasProperty(assertion.value, 'not') ||
+        hasProperty(assertion.value.callee.object, 'not') ||
         ((assertion.value?.arguments as CodeModNode[]).length > 0 && assertion.value?.arguments[0].value === false)
       const transformedAssertion: string =
         assertionTargetType && assertionTransforms[assertionTargetType]
