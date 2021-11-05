@@ -81,10 +81,8 @@ export function transformAssertions(
       const assertionType: string = assertion.value.callee.property.name
       const assertionTarget: string | CodeModNode | CodeModNode[] = getAssertionTarget(assertion.value.callee.object)
       const assertionTargetType: string = getAssertionTargetType(assertionTarget as CodeModNode)
-      const assertionTargetExpression: string | CodeModNode | CodeModNode[] = getAssertionTargetExpression(
-        j,
-        assertionTarget,
-      )
+      const assertionTargetExpression: string | CallExpression | CodeModNode | CodeModNode[] =
+        getAssertionTargetExpression(j, assertionTarget)
 
       const hasCount: boolean =
         (assertionTarget as CodeModNode).callee && hasProperty((assertionTarget as CodeModNode).callee, 'count')
