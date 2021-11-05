@@ -8,8 +8,9 @@ describe('Assertions', () => {
     testObject.should('deepEqual', { id: test })
   })
 
-  it('should transform toEqual()', () => {
+  it('should transform count correctly', () => {
     cy.get('.list').its('length').should('equal', 3)
+    cy.get('.list').its('length').should('not.equal', 5)
   })
 
   it('should transform isDisplayed()', () => {
@@ -27,6 +28,7 @@ describe('Assertions', () => {
 
   it('should transform isSelected()', () => {
     cy.get('.test-checkbox').should('not.be.selected')
+    cy.get('.test-checkbox').should('be.selected')
     cy.get('#test-checkbox').should('be.selected')
     element.should('be.selected')
   })

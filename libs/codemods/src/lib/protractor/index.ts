@@ -36,6 +36,10 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   const j: JSCodeshift = api.jscodeshift
   const root: Collection = j(file.source)
 
+  /**
+   * Get callExpressions by their AST path
+   * @param  {ExpressionKind} path?
+   */
   function getCallExpressions(path?: ExpressionKind): Collection<CodeModNode> {
     return root.find(j.CallExpression, path) as Collection<CodeModNode>
   }
@@ -73,6 +77,22 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
       object: {
         callee: {
           name: 'expect',
+        },
+      },
+    },
+  } as ExpressionKind)
+
+  // all expect() nodes that include .not
+  const negatedExpectStatements: Collection<CodeModNode> = getCallExpressions({
+    callee: {
+      object: {
+        object: {
+          callee: {
+            name: 'expect',
+          },
+        },
+        property: {
+          name: 'not',
         },
       },
     },
@@ -140,6 +160,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // transform assertion statements
   transformAssertions(j, expectStatements as Collection<CodeModNode>, file) as CodeModNode
+  transformAssertions(j, negatedExpectStatements as Collection<CodeModNode>, file) as CodeModNode
 
   // transform locators
   transformLocators(j, callExpressions)
