@@ -5,6 +5,7 @@ import {
   INotifications,
   selectErrorAlert,
   selectNotifications,
+  selectSentAddTranslationRequest,
   selectXPathTranslated,
   setCopiedNotification,
 } from '.'
@@ -24,6 +25,7 @@ import reducer, {
   selectModified,
   selectNoTranslationsMade,
   selectOriginal,
+  sentAddTranslationRequest,
   setDisplayDiff,
   setLanguage,
   translate,
@@ -282,6 +284,11 @@ describe('translatorSlice', () => {
     const notifications: INotifications = { ...initialState.notifications, copied: true }
     const nextState = reducer(initialState, setCopiedNotification(true))
     expect(selectNotifications({ translator: nextState })).toEqual(notifications)
+  })
+
+  it('should correctly set the sentAddTranslationRequest flag in state', () => {
+    const nextState = reducer(initialState, sentAddTranslationRequest(true))
+    expect(selectSentAddTranslationRequest({ translator: nextState })).toEqual(true)
   })
 
   it('should correctly get the DiffEditorThemeColors when displayDiff is true', () => {

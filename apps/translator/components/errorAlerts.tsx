@@ -1,15 +1,45 @@
 import { ReactElement } from 'react'
-import { selectError, selectErrorAlert, useAppSelector } from '../app'
+import { useDispatch } from 'react-redux'
+import {
+  selectError,
+  selectErrorAlert,
+  selectModified,
+  selectOriginal,
+  sentAddTranslationRequest,
+  useAppSelector,
+} from '../app'
 import AlertType, { AlertIconType } from './alertType'
+
+type CTA = {
+  text: string
+  action: () => void
+}
+
+const ErrorCTA = ({ cta }: { cta: CTA }): ReactElement => (
+  <>
+    {cta ? (
+      <p className="mt-3 text-sm md:mt-4">
+        <button
+          onClick={cta.action}
+          className="inline-flex items-center px-2.5 py-1.5 border border-yellow-300 shadow-sm text-xs font-medium rounded text-yellow-700 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+        >
+          {cta.text} <span aria-hidden="true">&rarr;</span>
+        </button>
+      </p>
+    ) : null}
+  </>
+)
 
 const ErrorAlert = ({
   title,
   description,
   alertType,
+  cta,
 }: {
   title: string
   description: string
   alertType: AlertIconType
+  cta?: CTA
 }): ReactElement => {
   return (
     <>
@@ -23,6 +53,7 @@ const ErrorAlert = ({
               <h3 className="text-sm font-medium text-yellow-800">{title}</h3>
               <div className="mt-2 text-sm text-yellow-700">
                 <p dangerouslySetInnerHTML={{ __html: description }} />
+                <ErrorCTA cta={cta} />
               </div>
             </div>
           </div>
@@ -35,6 +66,7 @@ const ErrorAlert = ({
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
               <p className="text-sm text-red-700" dangerouslySetInnerHTML={{ __html: description }} />
+              <ErrorCTA cta={cta} />
             </div>
           </div>
         </div>
@@ -46,6 +78,7 @@ const ErrorAlert = ({
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
               <p className="text-sm text-green-700" dangerouslySetInnerHTML={{ __html: description }} />
+              <ErrorCTA cta={cta} />
             </div>
           </div>
         </div>
@@ -57,6 +90,24 @@ const ErrorAlert = ({
 const ErrorAlerts = (): ReactElement => {
   const alerts = useAppSelector(selectErrorAlert)
   const error = useAppSelector(selectError)
+  const original = useAppSelector(selectOriginal)
+  const modified = useAppSelector(selectModified)
+  const dispatch = useDispatch()
+
+  const submitAnIssue = () => {
+    try {
+      fetch('/api/translation', {
+        method: 'POST',
+        body: JSON.stringify({
+          protractor: original,
+          cypresss: modified,
+        }),
+      }).then(() => dispatch(sentAddTranslationRequest(true)))
+    } catch {
+      console.error('There was an error submitting your issue')
+      dispatch(sentAddTranslationRequest(false))
+    }
+  }
 
   return (
     <>
@@ -64,7 +115,11 @@ const ErrorAlerts = (): ReactElement => {
         <ErrorAlert
           title="No Translations Found"
           alertType="Warning"
-          description="We were unable to find any translations. If you think there is an issue with a translated item, please file an issue in the Cypress Codemods repo <span><a class='text-yellow-500 text-underline' href='https://github.com/cypress-io/cypress-dx/issues' target='_blank' rel='noreferrer'>here</a></span>"
+          description="We were unable to find any translations. If you think there is an issue with a translated item, please submit an issue"
+          cta={{
+            text: 'Submit An Issue',
+            action: submitAnIssue,
+          }}
         />
       ) : null}
       {alerts.browserWaitTranslated ? (
