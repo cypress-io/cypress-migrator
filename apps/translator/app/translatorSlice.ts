@@ -94,9 +94,9 @@ export const translatorSlice = createSlice({
     ): ITranslatorState => ({
       ...state,
       diffArray: action.payload.result.diff,
-      original: format(action.payload.input),
+      original: !action.payload.result.error ? format(action.payload.input) : action.payload.input,
       modified: format(action.payload.result.output),
-      error: action.payload.result.error ? action.payload.result.error : state.error,
+      error: action.payload.result.error ? action.payload.result.error : initialState.error,
       alerts: {
         ...state.alerts,
         noTranslationsMade: checkIfTranslationsHaveNotBeenMade(action.payload.result.diff),
@@ -184,6 +184,12 @@ export const selectDiffApiItems = (state: AppState): IDiffArrayApiItem[] => [
   ).values(),
 ]
 export const selectErrorAlert = (state: AppState): IErrorAlerts => state.translator.alerts
+export const shouldShowDetails = (state: AppState): boolean =>
+  state.translator.diffArray.length > 0 ||
+  !!state.translator.error ||
+  state.translator.alerts.browserWaitTranslated ||
+  state.translator.alerts.noTranslationsMade ||
+  state.translator.alerts.xPath
 
 export default translatorSlice.reducer
 
