@@ -1,14 +1,34 @@
 /// <reference types="cypress" />
 
+const clearProtractor = () => {
+  return cy.get('textArea').first().clear().type('{selectall}').type('{backspace}')
+}
+
 const enterProtractor = (value) => {
-  cy.get('textarea').first().clear().type('{selectall}').type('{backspace}').type(value)
+  cy.get('textArea').first().clear().type(value, { parseSpecialCharSequences: false })
 }
 
 const expectCypressTranslationToEqual = (value) => {
-  cy.get('.view-line').contains(value)
+  cy.get('.view-lines').contains(value)
+}
+
+const expectCypressTranslationToBeEmpty = () => {
+  cy.get('.view-line').first().should('contain', '')
 }
 
 const translate = () => cy.getBySel('translate-button').click()
+
+const verifyTranslation = (protractor, cypress) => {
+  enterProtractor(protractor)
+  translate()
+  expectCypressTranslationToEqual(cypress)
+}
+
+const verifyEmptyTranslation = (protractor) => {
+  clearProtractor().type(protractor)
+  translate()
+  expectCypressTranslationToBeEmpty()
+}
 
 describe('Translator app', () => {
   beforeEach(() => {
@@ -46,6 +66,7 @@ describe('Translator app', () => {
   })
 
   it('correctly displays antipattern warning', () => {
+    clearProtractor()
     enterProtractor('browser.wait(2000)')
     translate()
     expectCypressTranslationToEqual('cy.wait(2000)')
@@ -55,12 +76,14 @@ describe('Translator app', () => {
   })
 
   it('correctly displays no translation found warning', () => {
+    clearProtractor()
     enterProtractor('test()')
     translate()
     expectCypressTranslationToEqual('test()')
     cy.getBySel('error-alert-warning').should('contain', 'No Translations Found').should('have.class', 'bg-yellow-50')
   })
   it('correctly displays xpath warning', () => {
+    clearProtractor()
     enterProtractor("by.xpath('a')")
     translate()
     expectCypressTranslationToEqual("cy.xpath('a')")
@@ -68,11 +91,43 @@ describe('Translator app', () => {
   })
 
   it('correctly displays error from codemods lib as error', () => {
-    cy.get('textarea').first().clear().type('{selectall}').type('{backspace}')
+    clearProtractor()
     translate()
     cy.get('.view-line').should('have.value', '')
     cy.getBySel('error-alert-error')
       .should('contain', 'Please provide an input value to translate')
       .should('have.class', 'bg-red-50')
+  })
+
+  it('verifies all the selector translations work', () => {
+    clearProtractor()
+    cy.fixture('selectors').then((translations) => {
+      translations.forEach((translation) => verifyTranslation(translation.protractor, translation.cypress))
+    })
+  })
+
+  it('verifies all the interaction translations work', () => {
+    clearProtractor()
+    cy.fixture('interactions').then((translations) => {
+      translations.forEach((translation) => verifyTranslation(translation.protractor, translation.cypress))
+    })
+  })
+
+  it('verifies all the browser method translations work', () => {
+    clearProtractor()
+    cy.fixture('browser-methods').then((translations) => {
+      translations.forEach((translation) =>
+        translation.cypress === ''
+          ? verifyEmptyTranslation(translation.protractor)
+          : verifyTranslation(translation.protractor, translation.cypress),
+      )
+    })
+  })
+
+  it('verifies all the assertion method translations work', () => {
+    clearProtractor()
+    cy.fixture('assertions').then((translations) => {
+      translations.forEach((translation) => verifyTranslation(translation.protractor, translation.cypress))
+    })
   })
 })

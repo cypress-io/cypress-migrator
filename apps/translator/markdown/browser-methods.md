@@ -13,8 +13,8 @@
 | browser.restart()                                   | _Removed from file._            |
 | browser.restartSync()                               | _Removed from file._            |
 | browser.ignoreSynchronization = true                | _Removed from file._            |
-| browser.manage().timeouts().implicitlyWait(15000);  | _Removed from file._            |
-| browser.waitForAngular();                           | _Removed from file._            |
-| browser.waitForAngularEnabled();                    | _Removed from file._            |
-| browser.pause();                                    | _Removed from file._            |
-| browser.getId();                                    | _Removed from file._            |
+| browser.manage().timeouts().implicitlyWait(15000)   | _Removed from file._            |
+| browser.waitForAngular()                            | _Removed from file._            |
+| browser.waitForAngularEnabled()                     | _Removed from file._            |
+| browser.pause()                                     | _Removed from file._            |
+| browser.getId()                                     | _Removed from file._            |

@@ -21,7 +21,7 @@
 | $$('li').get(1)                              | cy.get('li').eq(1)                       |
 | element(by.css('.an-element'))               | cy.get('.an-element')                    |
 | element.all(by.css('.list-items'))           | cy.get('.list-items')                    |
-| el.getAttribute('abc' )                      | el.invoke('attr', 'abc')                 |
+| el.getAttribute('abc')                       | cy.get(el).invoke('attr', 'abc')         |
 | testElement.getDriver()                      | testElement.parent()                     |
 | $('.parent').getWebElement()                 | cy.get('.parent')                        |
 | element(by.css('.my-class')).getWebElement() | cy.get('.my-class')                      |

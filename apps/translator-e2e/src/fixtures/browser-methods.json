@@ -1,0 +1,66 @@
+[
+  {
+    "protractor": "browser.wait(5000)",
+    "cypress": "cy.wait(5000)"
+  },
+  {
+    "protractor": "browser.getTitle()",
+    "cypress": "cy.title()"
+  },
+  {
+    "protractor": "browser.getCurrentUrl()",
+    "cypress": "cy.location('href')"
+  },
+  {
+    "protractor": "browser.setLocation('faq')",
+    "cypress": "cy.get('#faq').scrollIntoView()"
+  },
+  {
+    "protractor": "browser.refresh()",
+    "cypress": "cy.reload()"
+  },
+  {
+    "protractor": "browser.debugger()",
+    "cypress": "cy.debug()"
+  },
+  {
+    "protractor": "browser.findElement(by.css('.list'))",
+    "cypress": "cy.get('.list')"
+  },
+  {
+    "protractor": "browser.driver.findElement(by.css('.another-list'))",
+    "cypress": "cy.get('.another-list')"
+  },
+  {
+    "protractor": "browser.restart()",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.restartSync()",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.ignoreSynchronization = true;",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.manage().timeouts().implicitlyWait(15000)",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.waitForAngular()",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.waitForAngularEnabled()",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.pause()",
+    "cypress": ""
+  },
+  {
+    "protractor": "browser.getId()",
+    "cypress": ""
+  }
+]
