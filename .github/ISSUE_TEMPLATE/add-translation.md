@@ -7,14 +7,14 @@ assignees: ''
 
 ---
 
-*Original Translation*
+*Translation Input*
 What is the translation that needs to be added?
 
-*Original Translation Language/Framework*
+*Translation Language/Framework*
 Whtat is the original translation framework _(ie: Protractor)_?
 
-*Current Cypress Translated Output*
+*Cypress Translated Output*
 What is the current Cypress output for this translation?
 
-* Expected Cypress*
+*Expected Cypress Translation*
 What is the expected Cypress output if known?
