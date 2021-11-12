@@ -76,11 +76,18 @@ describe('Translator app', () => {
   })
 
   it('correctly displays no translation found warning', () => {
+    cy.intercept('/api/translation', { statusCode: 201, body: { protractor: 'test()', cypress: 'test()' } }).as(
+      'translate',
+    )
     clearProtractor()
     enterProtractor('test()')
     translate()
     expectCypressTranslationToEqual('test()')
     cy.getBySel('error-alert-warning').should('contain', 'No Translations Found').should('have.class', 'bg-yellow-50')
+    cy.getBySel('errorCTAButton').should('contain', 'Submit An Issue').click()
+    cy.wait('@translate').then(() => {
+      cy.getBySel('error-alert-warning').should('contain', 'Issue Submission Succeeded')
+    })
   })
   it('correctly displays xpath warning', () => {
     clearProtractor()

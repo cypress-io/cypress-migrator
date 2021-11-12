@@ -16,7 +16,9 @@
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods",
     "affected:deploy": "nx affected --target=deploy",
-    "deploy:translator": "nx deploy translator"
+    "deploy:translator": "nx deploy translator",
+    "netlify": "netlify",
+    "netlify:dev": "netlify dev"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +34,7 @@
     "ast-types": "^0.14.2",
     "autoprefixer": "^10.3.6",
     "core-js": "^3.6.5",
+    "env-cmd": "^10.1.0",
     "gray-matter": "^4.0.3",
     "jscodeshift": "^0.13.0",
     "next": "11.1.0",
@@ -64,6 +67,7 @@
     "@types/jest": "26.0.24",
     "@types/jscodeshift": "^0.11.2",
     "@types/node": "^14.17.32",
+    "@types/node-fetch": "^3.0.3",
     "@types/react": "17.0.3",
     "@types/react-dom": "17.0.3",
     "@types/vscode": "^1.61.0",

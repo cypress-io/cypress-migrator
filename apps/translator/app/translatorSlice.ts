@@ -113,10 +113,6 @@ export const translatorSlice = createSlice({
     }),
     sentAddTranslationRequest: (state: ITranslatorState, action: PayloadAction<boolean>): ITranslatorState => ({
       ...state,
-      alerts: {
-        ...state.alerts,
-        noTranslationsMade: action.payload ? false : state.alerts.noTranslationsMade,
-      },
       notifications: {
         ...state.notifications,
         sentAddTranslationRequest: action.payload,
