@@ -13,13 +13,15 @@ declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
     login(email: string, password: string): void
+    getBySel(selector: string): Chainable<Element>
+    getBySelLike(selector: string): Chainable<Element>
   }
 }
 
-Cypress.Commands.add('getBySel', (selector, ...args) => {
+Cypress.Commands.add('getBySel', (selector: string, ...args): Cypress.CanReturnChainable => {
   return cy.get(`[data-test=${selector}]`, ...args)
 })
 
-Cypress.Commands.add('getBySelLike', (selector, ...args) => {
+Cypress.Commands.add('getBySelLike', (selector: string, ...args): Cypress.CanReturnChainable => {
   return cy.get(`[data-test*=${selector}]`, ...args)
 })

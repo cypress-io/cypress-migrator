@@ -1,31 +1,37 @@
 /// <reference types="cypress" />
 
-const clearProtractor = () => {
-  return cy.get('textArea').first().clear().type('{selectall}').type('{backspace}')
+interface ITranslation {
+  protractor: string
+  cypress: string
 }
 
-const enterProtractor = (value) => {
-  cy.get('textArea').first().clear().type(value, { parseSpecialCharSequences: false })
+const clearProtractor = (): Cypress.Chainable<JQuery<HTMLElement>> => {
+  return cy.get('textArea').first().clear().type('{selectall}{backspace}')
 }
 
-const expectCypressTranslationToEqual = (value) => {
+const enterProtractor = (value: string): void => {
+  cy.get('textArea').first().type(value, { parseSpecialCharSequences: false })
+}
+
+const expectCypressTranslationToEqual = (value: string): void => {
   cy.get('.view-lines').contains(value)
 }
 
-const expectCypressTranslationToBeEmpty = () => {
+const expectCypressTranslationToBeEmpty = (): void => {
   cy.get('.view-line').first().should('contain', '')
 }
 
-const translate = () => cy.getBySel('translate-button').click()
+const translate = (): Cypress.Chainable<Element> => cy.getBySel('translate-button').click()
 
-const verifyTranslation = (protractor, cypress) => {
-  enterProtractor(protractor)
+const verifyTranslation = (translation: ITranslation): void => {
+  clearProtractor()
+  enterProtractor(translation.protractor)
   translate()
-  expectCypressTranslationToEqual(cypress)
+  expectCypressTranslationToEqual(translation.cypress)
 }
 
-const verifyEmptyTranslation = (protractor) => {
-  clearProtractor().type(protractor)
+const verifyEmptyTranslation = (value: string): void => {
+  clearProtractor().type(value)
   translate()
   expectCypressTranslationToBeEmpty()
 }
@@ -107,34 +113,28 @@ describe('Translator app', () => {
   })
 
   it('verifies all the selector translations work', () => {
-    clearProtractor()
-    cy.fixture('selectors').then((translations) => {
-      translations.forEach((translation) => verifyTranslation(translation.protractor, translation.cypress))
+    cy.fixture('selectors').then((translations: ITranslation[]) => {
+      translations.forEach((translation: ITranslation) => verifyTranslation(translation))
     })
   })
 
   it('verifies all the interaction translations work', () => {
-    clearProtractor()
-    cy.fixture('interactions').then((translations) => {
-      translations.forEach((translation) => verifyTranslation(translation.protractor, translation.cypress))
+    cy.fixture('interactions').then((translations: ITranslation[]) => {
+      translations.forEach((translation: ITranslation) => verifyTranslation(translation))
     })
   })
 
   it('verifies all the browser method translations work', () => {
-    clearProtractor()
-    cy.fixture('browser-methods').then((translations) => {
-      translations.forEach((translation) =>
-        translation.cypress === ''
-          ? verifyEmptyTranslation(translation.protractor)
-          : verifyTranslation(translation.protractor, translation.cypress),
+    cy.fixture('browser-methods').then((translations: ITranslation[]) => {
+      translations.forEach((translation: ITranslation) =>
+        translation.cypress === '' ? verifyEmptyTranslation(translation.protractor) : verifyTranslation(translation),
       )
     })
   })
 
   it('verifies all the assertion method translations work', () => {
-    clearProtractor()
-    cy.fixture('assertions').then((translations) => {
-      translations.forEach((translation) => verifyTranslation(translation.protractor, translation.cypress))
+    cy.fixture('assertions').then((translations: ITranslation[]) => {
+      translations.forEach((translation: ITranslation) => verifyTranslation(translation))
     })
   })
 })
