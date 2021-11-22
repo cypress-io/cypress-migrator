@@ -8,6 +8,7 @@ import {
   selectSentAddTranslationRequest,
   selectXPathTranslated,
   setCopiedNotification,
+  shouldShowDetails,
 } from '.'
 import reducer, {
   checkIfBrowserWaitTranslationMade,
@@ -110,6 +111,64 @@ describe('translatorSlice', () => {
       expect(selectDiff({ translator: nextState })).toEqual(diffArray)
       expect(selectNoTranslationsMade({ translator: nextState })).toBeTruthy()
       expect(selectErrorAlert({ translator: nextState })).toEqual(alerts)
+    })
+
+    it('should show the Details section given state has diffAPIItems', () => {
+      // arrange
+      const diffArrays: IDiffArrayItem[] = [
+        {
+          original: 'test',
+          modified: 'test',
+          api: [
+            {
+              url: 'https://docs.cypress.io',
+              command: 'get',
+            },
+          ],
+        },
+      ]
+
+      // act
+      const nextState = reducer(
+        initialState,
+        translate({ result: { diff: diffArrays, output: 'test' }, input: 'test' }),
+      )
+
+      // assert
+      expect(shouldShowDetails({ translator: nextState })).toBeTruthy()
+    })
+
+    it('should show the Details section given state has an alert flag', () => {
+      // arrange
+      const alerts: IErrorAlerts = {
+        browserWaitTranslated: true,
+        noTranslationsMade: false,
+        xPath: false,
+      }
+
+      // act
+      const nextState = { ...initialState, alerts }
+
+      // assert
+      expect(shouldShowDetails({ translator: nextState })).toBeTruthy()
+    })
+
+    it('should show the Details section given state has an error', () => {
+      // arrange
+      const error: IError = { level: 'warning', message: 'Real Bad Error' }
+
+      // act
+      const nextState = { ...initialState, error }
+
+      // assert
+      expect(shouldShowDetails({ translator: nextState })).toBeTruthy()
+    })
+
+    it('should NOT show the Details section if no error, alert or diffAPIItems in state', () => {
+      // arrange
+      // act
+      // assert
+      expect(shouldShowDetails({ translator: initialState })).toBeFalsy()
     })
 
     it('should correctly set the browserWaitTranslated alert flag to true when one found in diff', () => {
@@ -229,6 +288,17 @@ describe('translatorSlice', () => {
       const input = "by.className('this-class')"
       const nextState = reducer(initialState, translate({ input, result }))
       expect(selectError({ translator: nextState })).toEqual(error)
+    })
+
+    it('correctly clears alerts when none returned in response', () => {
+      const result: TransformResult = {
+        diff: [],
+        output: 'cy.wait(2000)',
+        error: undefined,
+      }
+      const input = "by.className('this-class')"
+      const nextState = reducer(initialState, translate({ input, result }))
+      expect(selectError({ translator: nextState })).toBeUndefined()
     })
 
     it('should correctly get the list of diffArray Api items', () => {
