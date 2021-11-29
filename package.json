@@ -16,9 +16,7 @@
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods",
     "affected:deploy": "nx affected --target=deploy",
-    "deploy:translator": "nx deploy translator",
-    "netlify": "netlify",
-    "netlify:dev": "netlify dev"
+    "deploy:translator": "nx deploy translator"
   },
   "private": true,
   "dependencies": {
