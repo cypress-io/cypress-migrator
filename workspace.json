@@ -34,34 +34,34 @@
         }
       }
     },
-    "translator": {
-      "root": "apps/translator",
-      "sourceRoot": "apps/translator",
+    "migrator": {
+      "root": "apps/migrator",
+      "sourceRoot": "apps/migrator",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/next:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "root": "apps/translator",
-            "outputPath": "dist/apps/translator"
+            "root": "apps/migrator",
+            "outputPath": "dist/apps/migrator"
           },
           "configurations": {
             "production": {
-              "buildTarget": "translator:build:production",
-              "outputPath": "dist/apps/translator"
+              "buildTarget": "migrator:build:production",
+              "outputPath": "dist/apps/migrator"
             }
           }
         },
         "serve": {
           "executor": "@nrwl/next:server",
           "options": {
-            "buildTarget": "translator:build",
+            "buildTarget": "migrator:build",
             "dev": true
           },
           "configurations": {
             "production": {
-              "buildTarget": "translator:build:production",
+              "buildTarget": "migrator:build:production",
               "dev": false
             }
           }
@@ -69,14 +69,14 @@
         "export": {
           "executor": "@nrwl/next:export",
           "options": {
-            "buildTarget": "translator:build:production"
+            "buildTarget": "migrator:build:production"
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/translator"],
+          "outputs": ["coverage/apps/migrator"],
           "options": {
-            "jestConfig": "apps/translator/jest.config.js",
+            "jestConfig": "apps/migrator/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -84,33 +84,33 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/translator/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/migrator/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "deploy": {
           "executor": "@nrwl/workspace:run-commands",
           "outputs": [],
           "options": {
-            "command": "nx affected --target=build --base=master --head=HEAD && nx build translator --prod && cp -R dist/apps/translator/next.config.js apps/translator/.dist"
+            "command": "nx affected --target=build --base=master --head=HEAD && nx build migrator --prod && cp -R dist/apps/migrator/next.config.js apps/migrator/.dist"
           }
         }
       }
     },
-    "translator-e2e": {
-      "root": "apps/translator-e2e",
-      "sourceRoot": "apps/translator-e2e/src",
+    "migrator-e2e": {
+      "root": "apps/migrator-e2e",
+      "sourceRoot": "apps/migrator-e2e/src",
       "projectType": "application",
       "targets": {
         "e2e": {
           "executor": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/translator-e2e/cypress.json",
-            "devServerTarget": "translator:serve",
-            "tsConfig": "apps/translator-e2e/tsconfig.json"
+            "cypressConfig": "apps/migrator-e2e/cypress.json",
+            "devServerTarget": "migrator:serve",
+            "tsConfig": "apps/migrator-e2e/tsconfig.json"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "translator:serve:production"
+              "devServerTarget": "migrator:serve:production"
             }
           }
         },
@@ -118,28 +118,28 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/translator-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/migrator-e2e/**/*.{js,ts}"]
           }
         }
       }
     },
-    "translator-vscode": {
-      "root": "libs/translator-vscode",
-      "sourceRoot": "libs/translator-vscode/src",
+    "vscode-migrator": {
+      "root": "libs/vscode-migrator",
+      "sourceRoot": "libs/vscode-migrator/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/translator-vscode/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["libs/vscode-migrator/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/translator-vscode"],
+          "outputs": ["coverage/libs/vscode-migrator"],
           "options": {
-            "jestConfig": "libs/translator-vscode/jest.config.js",
+            "jestConfig": "libs/vscode-migrator/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -147,11 +147,11 @@
           "executor": "@nrwl/node:package",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/libs/translator-vscode",
-            "tsConfig": "libs/translator-vscode/tsconfig.lib.json",
-            "packageJson": "libs/translator-vscode/package.json",
-            "main": "libs/translator-vscode/src/extension.ts",
-            "assets": ["libs/translator-vscode/*.md"]
+            "outputPath": "dist/libs/vscode-migrator",
+            "tsConfig": "libs/vscode-migrator/tsconfig.lib.json",
+            "packageJson": "libs/vscode-migrator/package.json",
+            "main": "libs/vscode-migrator/src/extension.ts",
+            "assets": ["libs/vscode-migrator/*.md"]
           }
         }
       }
@@ -173,5 +173,5 @@
       }
     }
   },
-  "defaultProject": "translator"
+  "defaultProject": "migrator"
 }

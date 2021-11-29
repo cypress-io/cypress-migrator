@@ -31,14 +31,14 @@
     "codemods": {
       "tags": []
     },
-    "translator": {
+    "migrator": {
       "tags": []
     },
-    "translator-e2e": {
+    "migrator-e2e": {
       "tags": [],
-      "implicitDependencies": ["translator"]
+      "implicitDependencies": ["migrator"]
     },
-    "translator-vscode": {
+    "vscode-migrator": {
       "tags": []
     }
   }

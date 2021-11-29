@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@cypress-dx/codemods": ["libs/codemods/src/index.ts"],
-      "@cypress-dx/translator-vscode": ["libs/translator-vscode/src/index.ts"]
+      "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
