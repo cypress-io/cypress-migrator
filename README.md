@@ -4,11 +4,11 @@ CypressDx is a monorepo for DX team shippable applications and libraries. This p
 
 ---
 
-## Translator
+## Migrator
 
 An application developed to help with migration to Cypress from other frameworks.
 
-If you think there is an issue with a translated item, please file an issue in the Cypress Codemods repo [here](https://github.com/cypress-io/cypress-codemods/issues/new).
+If you think there is an issue with a migrated item, please file an issue in the Cypress Codemods repo [here](https://github.com/cypress-io/cypress-codemods/issues/new).
 <br /><br />
 
 # NX Workspace

@@ -37,9 +37,9 @@ jobs:
       - name: Run Tests
         run: yarn test:affected --base=origin/master
 
-      # Run translator e2e tests
-      - name: Run Translator E2E Tests
-        run: yarn run test:translator-e2e:ci
+      # Run Migrator e2e tests
+      - name: Run Migrator E2E Tests
+        run: yarn run test:migrator-e2e:ci
 
       #Run unit tests on codemods lib
       - name: Build

@@ -2,7 +2,7 @@ import * as jscodeshift from 'jscodeshift/dist/core'
 import protractorTransformer from './lib/protractor'
 import { createDiffArray, DiffArrayItem } from './lib/utils'
 
-export interface TransformResult {
+export interface MigrateResult {
   output: string | undefined
   diff: DiffArrayItem[]
   error?: {
@@ -26,8 +26,8 @@ export default function applyTransforms({
   warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-dx repo.',
   notSupportedMessage = 'We currently do not support transforming this. There is no Cypress equivalent.',
   errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-dx repo.',
-  noInputProvided = 'Please provide an input value to translate.',
-}: TransformProps): TransformResult {
+  noInputProvided = 'Please provide an input value to migrate.',
+}: TransformProps): MigrateResult {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   // const jscodeshift = require('../../node_modules/jscodeshift/dist/core.js');
 

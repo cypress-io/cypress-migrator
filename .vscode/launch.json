@@ -9,10 +9,10 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}/dist/libs/translator-vscode"],
-      "preLaunchTask": "tsc: watch - libs/translator-vscode/tsconfig.json",
-      "outFiles": ["${workspaceFolder}/dist/libs/translator-vscode/**/*.js"],
-      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"],
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}/dist/libs/vscode-migrator"],
+      "preLaunchTask": "tsc: watch - libs/vscode-migrator/tsconfig.json",
+      "outFiles": ["${workspaceFolder}/dist/libs/vscode-migrator/**/*.js"],
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*.js", "<node_internals>/**/*.js"]
     }
   ]
 }

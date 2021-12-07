@@ -22,7 +22,7 @@ Codemods formulated with help from [AST Explorer](https://astexplorer.net/) and 
 
 ### Protractor
 
-You can see a full list of mappings by category at `apps/translator/markdown/`
+You can see a full list of mappings by category at `apps/migrator/markdown/`
 
 #### Async / Await
 
