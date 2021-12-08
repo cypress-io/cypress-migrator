@@ -5,9 +5,7 @@ module.exports = {
     domains: ['tailwindui.com', 'images.unsplash.com'],
   },
   distDir: '.dist',
-  target: 'serverless',
-
-  //webpack5: false,
+  webpack5: true,
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
