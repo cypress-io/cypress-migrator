@@ -16,16 +16,12 @@ const Navigation = (): ReactElement => {
       <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">
         <div className="flex w-full justify-between items-center">
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/">
-              <a>
-                <Image src="/logo.png" alt="Cypress Logo" width="50" height="50" />
-              </a>
-            </Link>
-            <Link href="/">
-              <a>
-                <span className="text-xl font-bold mx-2">Migrator</span>
-              </a>
-            </Link>
+            <a>
+              <Image src="/logo.png" alt="Cypress Logo" width="50" height="50" />
+            </a>
+            <a>
+              <span className="text-xl font-bold mx-2">Migrator</span>
+            </a>
           </div>
 
           <ul
