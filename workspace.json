@@ -123,6 +123,174 @@
         }
       }
     },
+    "migrator-migrator-editor": {
+      "projectType": "library",
+      "root": "libs/migrator/migrator-editor",
+      "sourceRoot": "libs/migrator/migrator-editor/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/migrator/migrator-editor"],
+          "options": {
+            "jestConfig": "libs/migrator/migrator-editor/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/migrator/migrator-editor/src/**/*.ts",
+              "libs/migrator/migrator-editor/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "migrator-migrator-state": {
+      "projectType": "library",
+      "root": "libs/migrator/migrator-state",
+      "sourceRoot": "libs/migrator/migrator-state/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/migrator/migrator-state"],
+          "options": {
+            "jestConfig": "libs/migrator/migrator-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/migrator/migrator-state/src/**/*.ts",
+              "libs/migrator/migrator-state/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
+    "migrator-new": {
+      "projectType": "application",
+      "root": "apps/migrator-new",
+      "sourceRoot": "apps/migrator-new/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/migrator-new",
+            "index": "apps/migrator-new/src/index.html",
+            "main": "apps/migrator-new/src/main.ts",
+            "polyfills": "apps/migrator-new/src/polyfills.ts",
+            "tsConfig": "apps/migrator-new/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/migrator-new/src/favicon.ico", "apps/migrator-new/src/assets"],
+            "styles": ["apps/migrator-new/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/migrator-new/src/environments/environment.ts",
+                  "with": "apps/migrator-new/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "migrator-new:build:production"
+            },
+            "development": {
+              "browserTarget": "migrator-new:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "migrator-new:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/migrator-new/src/**/*.ts", "apps/migrator-new/src/**/*.html"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/migrator-new"],
+          "options": {
+            "jestConfig": "apps/migrator-new/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "migrator-new-e2e": {
+      "root": "apps/migrator-new-e2e",
+      "sourceRoot": "apps/migrator-new-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/migrator-new-e2e/cypress.json",
+            "devServerTarget": "migrator-new:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "migrator-new:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/migrator-new-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["migrator-new"]
+    },
     "vscode-migrator": {
       "root": "libs/vscode-migrator",
       "sourceRoot": "libs/vscode-migrator/src",
@@ -156,22 +324,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "migrator"
+  }
 }
