@@ -1,1 +1,1 @@
-export * from './lib/migrator-migrator-state.module'
+export * from './lib/migrator-state.module'

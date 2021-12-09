@@ -123,7 +123,7 @@
         }
       }
     },
-    "migrator-migrator-editor": {
+    "migrator-editor": {
       "projectType": "library",
       "root": "libs/migrator/migrator-editor",
       "sourceRoot": "libs/migrator/migrator-editor/src",
@@ -149,7 +149,7 @@
       },
       "tags": []
     },
-    "migrator-migrator-state": {
+    "migrator-state": {
       "projectType": "library",
       "root": "libs/migrator/migrator-state",
       "sourceRoot": "libs/migrator/migrator-state/src",
@@ -193,7 +193,8 @@
             "inlineStyleLanguage": "scss",
             "assets": ["apps/migrator-new/src/favicon.ico", "apps/migrator-new/src/assets"],
             "styles": ["apps/migrator-new/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "assets": [{ "glob": "**/*", "input": "node_modules/monaco-editor", "output": "assets/monaco-editor" }]
           },
           "configurations": {
             "production": {

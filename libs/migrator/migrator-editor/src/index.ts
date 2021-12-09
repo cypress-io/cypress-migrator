@@ -1,1 +1,1 @@
-export * from './lib/migrator-migrator-editor.module'
+export * from './lib/migrator-editor.module'
