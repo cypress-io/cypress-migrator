@@ -1,12 +1,14 @@
 import { Component } from '@angular/core'
+import { migrate } from '@cypress-dx/migrator-state'
+import { Store } from '@ngrx/store'
 import { DiffEditorModel } from 'ngx-monaco-editor'
 
 @Component({
-  selector: 'cypress-dx-migrator-editor',
-  templateUrl: './migrator-editor.component.html',
-  styleUrls: ['./migrator-editor.component.css'],
+  selector: 'cypress-dx-migration-editor',
+  templateUrl: './migration-editor.component.html',
+  styleUrls: ['./migration-editor.component.scss'],
 })
-export class MigratorEditorComponent {
+export class MigrationEditorComponent {
   options = {
     theme: 'vs-light',
     language: 'javascript',
@@ -41,5 +43,11 @@ export class MigratorEditorComponent {
   modifiedModel: DiffEditorModel = {
     code: '',
     language: 'javascript',
+  }
+
+  constructor(private readonly store: Store) {}
+
+  triggerMigration(): void {
+    this.store.dispatch(migrate({ input: '' }))
   }
 }

@@ -127,32 +127,6 @@
       "tags": [],
       "implicitDependencies": ["migrator"]
     },
-    "migrator-editor": {
-      "projectType": "library",
-      "root": "libs/migrator/migrator-editor",
-      "sourceRoot": "libs/migrator/migrator-editor/src",
-      "prefix": "cypress-dx",
-      "targets": {
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/migrator/migrator-editor"],
-          "options": {
-            "jestConfig": "libs/migrator/migrator-editor/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/migrator/migrator-editor/src/**/*.ts",
-              "libs/migrator/migrator-editor/src/**/*.html"
-            ]
-          }
-        }
-      },
-      "tags": []
-    },
     "migrator-new": {
       "projectType": "application",
       "root": "apps/migrator-new",
@@ -278,28 +252,32 @@
     },
     "migrator-state": {
       "projectType": "library",
-      "root": "libs/migrator/migrator-state",
-      "sourceRoot": "libs/migrator/migrator-state/src",
+      "root": "libs/migrator-state",
+      "sourceRoot": "libs/migrator-state/src",
       "prefix": "cypress-dx",
       "targets": {
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/migrator/migrator-state"],
+          "outputs": ["coverage/libs/migrator-state"],
           "options": {
-            "jestConfig": "libs/migrator/migrator-state/jest.config.js",
+            "jestConfig": "libs/migrator-state/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/migrator/migrator-state/src/**/*.ts",
-              "libs/migrator/migrator-state/src/**/*.html"
-            ]
+            "lintFilePatterns": ["libs/migrator-state/src/**/*.ts", "libs/migrator-state/src/**/*.html"]
           }
         }
       },
+      "tags": []
+    },
+    "tailwind": {
+      "root": "libs/tailwind",
+      "sourceRoot": "libs/tailwind",
+      "projectType": "library",
+      "targets": {},
       "tags": []
     },
     "vscode-migrator": {

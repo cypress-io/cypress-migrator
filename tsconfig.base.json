@@ -16,8 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@cypress-dx/codemods": ["libs/codemods/src/index.ts"],
-      "@cypress-dx/migrator/migrator-editor": ["libs/migrator/migrator-editor/src/index.ts"],
-      "@cypress-dx/migrator/migrator-state": ["libs/migrator/migrator-state/src/index.ts"],
+      "@cypress-dx/migrator-state": ["libs/migrator-state/src/index.ts"],
       "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"]
     }
   },

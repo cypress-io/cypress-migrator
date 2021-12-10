@@ -13,22 +13,12 @@
       </div>
       <div class="flex pt-4 h-3/5 gap-2 flex-col">
         <cypress-dx-language-pills></cypress-dx-language-pills>
-
         <div class="justify-between flex">
           <cypress-dx-diff-toggle></cypress-dx-diff-toggle>
           <cypress-dx-copy-button></cypress-dx-copy-button>
         </div>
 
-        <div class="flex h-full">
-          <div class="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
-            <cypress-dx-migrator-editor></cypress-dx-migrator-editor>
-          </div>
-        </div>
-
-        <div class="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
-          <cypress-dx-dig-deeper></cypress-dx-dig-deeper>
-          <cypress-dx-migrate-button></cypress-dx-migrate-button>
-        </div>
+        <cypress-dx-migration-editor></cypress-dx-migration-editor>
       </div>
 
       <cypress-dx-migration-diff></cypress-dx-migration-diff>

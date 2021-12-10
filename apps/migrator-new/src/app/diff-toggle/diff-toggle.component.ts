@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { selectDisplayDiff, toggleDisplayDiff } from '@cypress-dx/migrator/migrator-state'
+import { selectDisplayDiff, toggleDisplayDiff } from '@cypress-dx/migrator-state'
 import { Store } from '@ngrx/store'
 
 @Component({

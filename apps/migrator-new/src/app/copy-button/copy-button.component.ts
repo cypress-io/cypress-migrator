@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { copyMigration } from '@cypress-dx/migrator/migrator-state'
+import { copyMigration } from '@cypress-dx/migrator-state'
 import { Store } from '@ngrx/store'
 
 @Component({

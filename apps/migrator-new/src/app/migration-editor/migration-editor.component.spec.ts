@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MigratorEditorComponent } from './migrator-editor.component';
+import { MigrationEditorComponent } from './migration-editor.component';
 
-describe('MigratorEditorComponent', () => {
-  let component: MigratorEditorComponent;
-  let fixture: ComponentFixture<MigratorEditorComponent>;
+describe('MigrationEditorComponent', () => {
+  let component: MigrationEditorComponent;
+  let fixture: ComponentFixture<MigrationEditorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MigratorEditorComponent ]
+      declarations: [ MigrationEditorComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MigratorEditorComponent);
+    fixture = TestBed.createComponent(MigrationEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'migrator-migrator-editor',
-  preset: '../../../jest.preset.js',
+  displayName: 'migrator-migrator-state',
+  preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/migrator/migrator-editor',
+  coverageDirectory: '../../coverage/libs/migrator-state',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
