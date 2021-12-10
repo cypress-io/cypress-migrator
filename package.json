@@ -61,6 +61,7 @@
     "remark-html": "^14.0.1",
     "remark-markdown": "^0.0.1",
     "rxjs": "~7.4.0",
+    "tailwind-forms": "^1.0.6",
     "tailwindcss": "^2.2.16",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -125,4 +126,3 @@
     ]
   }
 }
-

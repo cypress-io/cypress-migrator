@@ -8,6 +8,7 @@ export const migrate = createAction('[EDITOR] Do Migration', props<{ input: stri
 export const migrateResult = createAction('[CODEMODS] Migratation Result', props<{ result: MigrateResult }>())
 
 // NOTIFICATIONS
+export const copyMigration = createAction('[EDITOR] Copy Migrations')
 export const turnOnCopiedNotification = createAction('[NOTIFICATIONS] Turn On Copied Notification')
 export const turnOffCopiedNotification = createAction('[NOTIFICATIONS] Turn Off Copied Notification')
 export const turnOnAddMigrationNotification = createAction('[NOTIFICATIONS] Turn On Missing Migration Notification')

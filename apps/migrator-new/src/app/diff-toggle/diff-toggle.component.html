@@ -1,0 +1,43 @@
+<button
+  type="button"
+  (click)="toggle()"
+  [class.bg-green-300]="diffToggle$ | async"
+  [class.bg-gray-200]="(diffToggle$ | async) === false"
+  class="
+    relative
+    inline-flex
+    flex-shrink-0
+    h-6
+    w-11
+    border-2 border-transparent
+    rounded-full
+    cursor-pointer
+    transition-colors
+    ease-in-out
+    duration-200
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
+  "
+  role="switch"
+  aria-checked="false"
+>
+  <span class="sr-only">Display Toggle</span>
+  <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+  <span
+    aria-hidden="true"
+    class="
+      pointer-events-none
+      inline-block
+      h-5
+      w-5
+      rounded-full
+      bg-white
+      shadow
+      transform
+      ring-0
+      transition
+      ease-in-out
+      duration-200
+    "
+    [class.translate-x-5]="diffToggle$ | async"
+  ></span>
+</button>

@@ -1,34 +1,38 @@
-<cypress-dx-migrator-editor></cypress-dx-migrator-editor>
+<div class="h-full">
+  <cypress-dx-navigation></cypress-dx-navigation>
 
-<button
-  type="button"
-  class="
-    w-full
-    sm:w-auto sm:max-w-1/2
-    inline-flex
-    justify-center
-    items-center
-    px-6
-    py-3
-    my-4
-    border border-transparent
-    text-base
-    font-medium
-    rounded-md
-    shadow-sm
-    text-white
-    bg-green-500
-    hover:bg-green-600
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
-    transition
-    duration-300
-    ease-in-out
-    transform
-    hover:-translate-y-0 hover:scale-105
-  "
-  onClick="{migrateEditorValue}"
-  data-test="migrate-button"
->
-  Migrate to Cypress
-  <!-- <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" /> -->
-</button>
+  <main class="h-full">
+    <div class="max-w-7xl h-full mx-auto py-6 px-6 lg:px-8">
+      <div class="flex items-center justify-center pb-6">
+        <p class="text-xl sm:text-3xl">Migrate</p>
+        <div class="px-3">
+          <cypress-dx-select-list></cypress-dx-select-list>
+        </div>
+
+        <p class="text-xl sm:text-3xl">code to Cypress.</p>
+      </div>
+      <div class="flex pt-4 h-3/5 gap-2 flex-col">
+        <cypress-dx-language-pills></cypress-dx-language-pills>
+
+        <div class="justify-between flex">
+          <cypress-dx-diff-toggle></cypress-dx-diff-toggle>
+          <cypress-dx-copy-button></cypress-dx-copy-button>
+        </div>
+
+        <div class="flex h-full">
+          <div class="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
+            <cypress-dx-migrator-editor></cypress-dx-migrator-editor>
+          </div>
+        </div>
+
+        <div class="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
+          <cypress-dx-dig-deeper></cypress-dx-dig-deeper>
+          <cypress-dx-migrate-button></cypress-dx-migrate-button>
+        </div>
+      </div>
+
+      <cypress-dx-migration-diff></cypress-dx-migration-diff>
+    </div>
+  </main>
+  <cypress-dx-footer></cypress-dx-footer>
+</div>

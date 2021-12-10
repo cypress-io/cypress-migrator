@@ -170,6 +170,7 @@
             "tsConfig": "apps/migrator-new/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "apps/migrator-new/src/assets",
               {
                 "glob": "**/*",
                 "input": "node_modules/monaco-editor",

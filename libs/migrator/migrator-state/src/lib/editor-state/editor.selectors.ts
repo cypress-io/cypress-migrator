@@ -54,6 +54,11 @@ export const selectShouldShowDetails = createSelector(
     state.alerts.xPathFound,
 )
 
+export const selectDiffApiItems = createSelector(
+  editorFeatureSelector,
+  (state) => [{ url: 'https://docs.cypress.io/get', command: 'get' }] as DiffArrayApiItem[],
+)
+
 // export const selectApiItems: MemoizedSelector<EditorState, DiffArrayApiItem[]> = createSelector(selectDiff, diff => {
 //     // diff.filter((item: DiffArrayItem) => item?.api && item?.api?.length > 0)?.map((item: DiffArrayItem) => item.api)
 //     const items: DiffArrayApiItem[] = diff.filter(x => !!x.api).map(item => item.api)
