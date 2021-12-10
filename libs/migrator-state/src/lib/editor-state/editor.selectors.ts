@@ -31,6 +31,20 @@ export const selectDisplayDiff = createSelector(editorFeatureSelector, (state) =
 export const selectDiffEditorThemeColors = createSelector(selectDisplayDiff, (displayDiff) =>
   displayDiff ? { ...themeDefaultColors, ...diffColors } : { ...themeDefaultColors, ...noDiffColors },
 )
+export const selectOriginalModel = createSelector(selectOriginal, (original) => ({
+  code: original,
+  language: 'javascript',
+}))
+
+export const selectModifiedModel = createSelector(selectModified, (modified) => ({
+  code: modified,
+  language: 'javascript',
+}))
+
+export const selectEditorViewModel = createSelector(selectOriginalModel, selectModifiedModel, (original, modified) => ({
+  original,
+  modified,
+}))
 
 export const selectNotifications = createSelector(editorFeatureSelector, (state) => state.notifications)
 export const selectCopiedNotification = createSelector(selectNotifications, (notifications) => notifications.copied)

@@ -1,7 +1,6 @@
-import { Component } from '@angular/core'
-import { migrate } from '@cypress-dx/migrator-state'
+import { Component, ElementRef, ViewChild } from '@angular/core'
+import { migrate, selectEditorViewModel } from '@cypress-dx/migrator-state'
 import { Store } from '@ngrx/store'
-import { DiffEditorModel } from 'ngx-monaco-editor'
 
 @Component({
   selector: 'cypress-dx-migration-editor',
@@ -29,25 +28,16 @@ export class MigrationEditorComponent {
     overviewRulerLanes: 0,
   }
 
-  originalModel: DiffEditorModel = {
-    code: `describe('Cypress Docs', () => {
-      it('should show the correct site title and redirect url', () => {
-        browser.driver.get('https://docs.cypress.io/');
-        expect(browser.getTitle()).toEqual('Why Cypress? | Cypress Documentation');
-        expect(browser.getCurrentUrl()).toEqual('https://docs.cypress.io/guides/overview/why-cypress');
-      });
-    });`,
-    language: 'javascript',
-  }
-
-  modifiedModel: DiffEditorModel = {
-    code: '',
-    language: 'javascript',
-  }
+  editorVM$ = this.store.select(selectEditorViewModel)
+  editor: any
 
   constructor(private readonly store: Store) {}
 
+  initEditor(editor: any): void {
+    this.editor = editor.getOriginalEditor()
+  }
+
   triggerMigration(): void {
-    this.store.dispatch(migrate({ input: '' }))
+    this.store.dispatch(migrate({ input: this.editor.getValue() }))
   }
 }
