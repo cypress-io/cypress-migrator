@@ -1,3 +1,3 @@
 module.exports = {
-  presets: [require('../../tailwind-workspace-preset.js')],
+  presets: [require('../../libs/tailwind/tailwind.config')],
 }
