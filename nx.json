@@ -15,7 +15,8 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "MmFmNTgzNzctZmYzMS00OTU3LWJhYTAtZWMxOThjOGFlYTIzfHJlYWQtd3JpdGU="
+        "accessToken": "MmFmNTgzNzctZmYzMS00OTU3LWJhYTAtZWMxOThjOGFlYTIzfHJlYWQtd3JpdGU=",
+        "parallel": 1
       }
     }
   },
@@ -26,21 +27,6 @@
         "projects": "dependencies"
       }
     ]
-  },
-  "projects": {
-    "codemods": {
-      "tags": []
-    },
-    "migrator": {
-      "tags": []
-    },
-    "migrator-e2e": {
-      "tags": [],
-      "implicitDependencies": ["migrator"]
-    },
-    "vscode-migrator": {
-      "tags": []
-    }
   },
   "cli": {
     "defaultCollection": "@nrwl/next"

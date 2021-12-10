@@ -32,7 +32,8 @@
             "assets": ["libs/codemods/*.md"]
           }
         }
-      }
+      },
+      "tags": []
     },
     "migrator": {
       "root": "apps/migrator",
@@ -94,7 +95,8 @@
             "command": "nx affected --target=build --base=master --head=HEAD && nx build migrator --prod && cp -R dist/apps/migrator/next.config.js apps/migrator/.dist"
           }
         }
-      }
+      },
+      "tags": []
     },
     "migrator-e2e": {
       "root": "apps/migrator-e2e",
@@ -121,7 +123,9 @@
             "lintFilePatterns": ["apps/migrator-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["migrator"]
     },
     "migrator-editor": {
       "projectType": "library",
@@ -149,32 +153,6 @@
       },
       "tags": []
     },
-    "migrator-state": {
-      "projectType": "library",
-      "root": "libs/migrator/migrator-state",
-      "sourceRoot": "libs/migrator/migrator-state/src",
-      "prefix": "cypress-dx",
-      "targets": {
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/migrator/migrator-state"],
-          "options": {
-            "jestConfig": "libs/migrator/migrator-state/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/migrator/migrator-state/src/**/*.ts",
-              "libs/migrator/migrator-state/src/**/*.html"
-            ]
-          }
-        }
-      },
-      "tags": []
-    },
     "migrator-new": {
       "projectType": "application",
       "root": "apps/migrator-new",
@@ -191,10 +169,15 @@
             "polyfills": "apps/migrator-new/src/polyfills.ts",
             "tsConfig": "apps/migrator-new/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/migrator-new/src/favicon.ico", "apps/migrator-new/src/assets"],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor"
+              }
+            ],
             "styles": ["apps/migrator-new/src/styles.scss"],
-            "scripts": [],
-            "assets": [{ "glob": "**/*", "input": "node_modules/monaco-editor", "output": "assets/monaco-editor" }]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -292,6 +275,32 @@
       "tags": [],
       "implicitDependencies": ["migrator-new"]
     },
+    "migrator-state": {
+      "projectType": "library",
+      "root": "libs/migrator/migrator-state",
+      "sourceRoot": "libs/migrator/migrator-state/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/migrator/migrator-state"],
+          "options": {
+            "jestConfig": "libs/migrator/migrator-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/migrator/migrator-state/src/**/*.ts",
+              "libs/migrator/migrator-state/src/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "vscode-migrator": {
       "root": "libs/vscode-migrator",
       "sourceRoot": "libs/vscode-migrator/src",
@@ -323,7 +332,8 @@
             "assets": ["libs/vscode-migrator/*.md"]
           }
         }
-      }
+      },
+      "tags": []
     }
   }
 }
