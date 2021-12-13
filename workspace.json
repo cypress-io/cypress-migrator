@@ -273,6 +273,29 @@
       },
       "tags": []
     },
+    "ng-codemods": {
+      "projectType": "library",
+      "root": "libs/ng-codemods",
+      "sourceRoot": "libs/ng-codemods/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ng-codemods"],
+          "options": {
+            "jestConfig": "libs/ng-codemods/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ng-codemods/src/**/*.ts", "libs/ng-codemods/src/**/*.html"]
+          }
+        }
+      },
+      "tags": []
+    },
     "tailwind": {
       "root": "libs/tailwind",
       "sourceRoot": "libs/tailwind",

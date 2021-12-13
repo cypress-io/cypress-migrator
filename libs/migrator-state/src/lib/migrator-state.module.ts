@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { EffectsModule } from '@ngrx/effects'
 import { EditorStateModule } from './editor-state/editor-state.module'
+import { NgCodemodsModule } from '@cypress-dx/ng-codemods'
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { EditorStateModule } from './editor-state/editor-state.module'
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([]),
     EditorStateModule,
+    NgCodemodsModule,
   ],
 })
 export class MigratorStateModule {}

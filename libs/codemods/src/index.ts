@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import jscodeshift = require('jscodeshift/dist/core')
+import * as jscodeshift from 'jscodeshift/dist/core'
 import protractorTransformer from './lib/protractor'
 import { createDiffArray, DiffArrayItem } from './lib/utils'
 
