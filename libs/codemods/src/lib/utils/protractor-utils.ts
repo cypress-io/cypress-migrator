@@ -1,5 +1,6 @@
+import { ASTNode } from 'ast-types'
 import * as chalk from 'chalk'
-import { CallExpression, Collection, FileInfo, Identifier, JSCodeshift, Printable } from 'jscodeshift'
+import { CallExpression, Collection, FileInfo, Identifier, JSCodeshift, Printable, SourceLocation } from 'jscodeshift'
 import { ProtractorSelectors, protractorSelectors } from '../protractor/constants'
 import { CodeModNode, ReplacementValues, Selector, TypedElementInExpression } from '../types'
 /**
@@ -16,7 +17,7 @@ export function isSelector(path: Selector): boolean {
   return (
     (path.object && protractorSelectors.includes(path.object.name as ProtractorSelectors)) ||
     (path.property && protractorSelectors.includes(path.property.name as ProtractorSelectors)) ||
-    protractorSelectors.includes(path.name)
+    protractorSelectors.includes(path.name as ProtractorSelectors)
   )
 }
 
@@ -30,7 +31,7 @@ export function getAssertionTarget(node: CodeModNode): string | CodeModNode | Co
     return node
   }
 
-  return node.arguments ? node.arguments[0] : getAssertionTarget(node.object)
+  return node.arguments ? (node.arguments as CodeModNode[])[0] : getAssertionTarget(node.object as CodeModNode)
 }
 
 /**
@@ -40,13 +41,13 @@ export function getAssertionTarget(node: CodeModNode): string | CodeModNode | Co
  */
 export function getAssertionTargetType(node: CodeModNode): string {
   if (!node.callee && node.type === 'Identifier') {
-    return node.name
+    return node.name as string
   }
-  if (node.callee.type === 'MemberExpression' && node.callee.property) {
-    return node.callee.property.name
+  if (!!node.callee && node.callee.type === 'MemberExpression' && node.callee.property) {
+    return node.callee.property.name as string
   }
 
-  return getAssertionTargetType(node.arguments[0])
+  return getAssertionTargetType((node.arguments as CodeModNode[])[0])
 }
 
 /**
@@ -75,6 +76,7 @@ export function getPropertyName(path: CodeModNode): string {
     const prop = path.property
     return (prop as Identifier).name
   }
+  return ''
 }
 
 /**
@@ -84,7 +86,9 @@ export function getPropertyName(path: CodeModNode): string {
  * @returns TypedElementInExpression
  */
 export function findElementInExpression(path: CodeModNode, elementName: string): TypedElementInExpression {
-  return path[elementName] ? path[elementName] : findElementInExpression(path.callee, elementName)
+  return (path as any)[elementName]
+    ? ((path as any)[elementName] as TypedElementInExpression)
+    : findElementInExpression(path.callee as CodeModNode, elementName)
 }
 /**
  * Determine if node has specific property
@@ -94,7 +98,13 @@ export function findElementInExpression(path: CodeModNode, elementName: string):
  * @returns boolean
  */
 export function hasProperty(node: CodeModNode, name: string): boolean {
-  return node.type === 'MemberExpression' && node.property && node.property.name === name
+  return (
+    !!node.type &&
+    node.type === 'MemberExpression' &&
+    !!node.property &&
+    !!node.property.name &&
+    node.property.name === name
+  )
 }
 
 /**
@@ -121,12 +131,12 @@ export function setProperty(node: any, property: Identifier, args?: any[]): any 
  * @param  {CodeModNode} path
  * @returns any
  */
-export function removeByPath<T extends CodeModNode>(
+export function removeByPath<T extends ASTNode>(
   root: Collection<T>,
   expression: any,
   path: CodeModNode,
 ): Collection<T> {
-  return root.find<T>(expression, path).remove()
+  return root.find<T>(expression, path as any).remove()
 }
 
 /**
@@ -169,9 +179,9 @@ export function replaceCySelector(
     j.memberExpression(j.identifier('cy'), j.identifier(method), false),
     (nodeArgs as CodeModNode[])?.length > 0
       ? [
-          typeof nodeArgs[0].value === 'string'
-            ? j.stringLiteral(replaceValue(nodeArgs[0].value, selector))
-            : nodeArgs[0],
+          typeof (nodeArgs as CodeModNode[])[0].value === 'string'
+            ? j.stringLiteral(replaceValue((nodeArgs as CodeModNode[])[0]?.value as string, selector))
+            : ((nodeArgs as CodeModNode[])[0] as CallExpression),
         ]
       : [],
   )
@@ -197,15 +207,20 @@ export function replaceCyContainsSelector(
 
 export function errorMessage(message: string, expr: Printable, file: FileInfo): string {
   const source = file.source.split('\n')
-  const line = source.slice(expr.loc.start.line - 1, expr.loc.end.line)[0]
-  const expression = line.slice(0, expr.loc.end.column)
+  const line = source.slice((expr.loc as SourceLocation)?.start.line - 1, (expr.loc as SourceLocation)?.end.line)[0]
+  const expression = line.slice(0, (expr.loc as SourceLocation)?.end.column)
 
   const chalkErrorMessage = chalk.bold.red
 
   const logMessage = chalkErrorMessage(message)
 
   const fullMessage =
-    '\n\n' + `> ${expression}\n` + ' '.repeat(expr.loc.start.column + 2) + '^\n\n' + logMessage + '\n\n'
+    '\n\n' +
+    `> ${expression}\n` +
+    ' '.repeat((expr.loc as SourceLocation)?.start.column + 2) +
+    '^\n\n' +
+    logMessage +
+    '\n\n'
 
   return fullMessage
 }
