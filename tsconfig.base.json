@@ -18,7 +18,9 @@
       "@cypress-dx/codemods": ["libs/codemods/src/index.ts"],
       "@cypress-dx/migrator-state": ["libs/migrator-state/src/index.ts"],
       "@cypress-dx/ng-codemods": ["libs/ng-codemods/src/index.ts"],
-      "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"]
+      "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"],
+      "os": ["node_modules/os-browserify/browser.js"],
+      "constants": ["node_modules/constants-browserify"]
     }
   },
   "exclude": ["node_modules", "tmp"]

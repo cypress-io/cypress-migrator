@@ -20,8 +20,6 @@ interface TransformProps {
   noInputProvided?: string
 }
 
-export const parser = 'babel'
-
 export default function applyTransforms({
   input,
   warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-dx repo.',

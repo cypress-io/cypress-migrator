@@ -12,6 +12,7 @@ import {
   turnOnCopiedNotification,
   turnOnMigrationNotFoundAlert,
   turnOnXPathMigrationFoundAlert,
+  migrateResult,
 } from './editor.actions'
 import { AvailableLanguage, CodemodError, defaultText, DiffArrayItem, ErrorAlerts, Notifications } from './models'
 
@@ -127,6 +128,12 @@ const editorRducer = createReducer(
       ...state.alerts,
       xPathFound: false,
     },
+  })),
+  on(migrateResult, (state, { result }) => ({
+    ...state,
+    modified: !!result?.output ? result.output : '',
+    diffArray: result?.diff,
+    error: result?.error,
   })),
 )
 
