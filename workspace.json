@@ -32,7 +32,8 @@
             "assets": ["libs/codemods/*.md"]
           }
         }
-      }
+      },
+      "tags": []
     },
     "migrator": {
       "root": "apps/migrator",
@@ -94,7 +95,8 @@
             "command": "nx affected --target=build --base=master --head=HEAD && nx build migrator --prod && cp -R dist/apps/migrator/next.config.js apps/migrator/.dist"
           }
         }
-      }
+      },
+      "tags": []
     },
     "migrator-e2e": {
       "root": "apps/migrator-e2e",
@@ -121,7 +123,9 @@
             "lintFilePatterns": ["apps/migrator-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["migrator"]
     },
     "vscode-migrator": {
       "root": "libs/vscode-migrator",
@@ -154,24 +158,8 @@
             "assets": ["libs/vscode-migrator/*.md"]
           }
         }
-      }
+      },
+      "tags": []
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "migrator"
+  }
 }
