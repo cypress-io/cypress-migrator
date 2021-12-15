@@ -1,6 +1,6 @@
-# CypressDx
+# CypressMigrator
 
-CypressDx is a monorepo for DX team shippable applications and libraries. This project was generated using [Nx](https://nx.dev).
+CypressMigrator is a monorepo for DX team migration shippable applications and libraries. This project was generated using [Nx](https://nx.dev).
 
 ---
 
