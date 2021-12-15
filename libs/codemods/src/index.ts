@@ -23,9 +23,9 @@ export const parser = 'babel'
 
 export default function applyTransforms({
   input,
-  warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-dx repo.',
+  warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-migrator repo.',
   notSupportedMessage = 'We currently do not support transforming this. There is no Cypress equivalent.',
-  errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-dx repo.',
+  errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-migrator repo.',
   noInputProvided = 'Please provide an input value to migrate.',
 }: TransformProps): MigrateResult {
   // eslint-disable-next-line @typescript-eslint/no-var-requires

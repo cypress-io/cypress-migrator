@@ -1,4 +1,4 @@
 {
-  "name": "@cypress-dx/codemods",
+  "name": "@cypress-migrator/codemods",
   "version": "0.0.1"
 }
