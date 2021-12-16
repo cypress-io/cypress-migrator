@@ -1,7 +1,7 @@
 import { DiffArrayItem, MigrationError } from '@cypress-dx/codemods'
 import { Action, createReducer, on } from '@ngrx/store'
 import { defaultText } from './constants'
-import { setLanguage, toggleDisplayDiff, migrateResult } from './editor.actions'
+import { setLanguage, toggleDisplayDiff, migrateResult, formatedResult, formatInput } from './editor.actions'
 
 export const EDITOR_FEATURE = 'editor'
 
@@ -39,9 +39,16 @@ const reducer = createReducer(
   })),
   on(migrateResult, (state, { result }) => ({
     ...state,
-    modified: !!result?.output ? result.output : '',
     diffArray: result?.diff,
     error: result?.error,
+  })),
+  on(formatedResult, (state, { result }) => ({
+    ...state,
+    modified: result,
+  })),
+  on(formatInput, (state, { input }) => ({
+    ...state,
+    original: input,
   })),
 )
 

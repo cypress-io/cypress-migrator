@@ -6,5 +6,7 @@ export const setLanguage = createAction('[EDITOR] Set Available Language', props
 export const toggleDisplayDiff = createAction('[EDITOR] Toggle Display Diff')
 
 export const migrate = createAction('[EDITOR] Do Migration', props<{ input: string }>())
+export const formatInput = createAction('[EDITOR] Format Codemods Input', props<{ input: string }>())
+export const formatedResult = createAction('[EDITOR] Format Codemods Results', props<{ result: string }>())
 export const migrateResult = createAction('[CODEMODS] Migratation Result', props<{ result: MigrateResult }>())
 export const copyMigration = createAction('[EDITOR] Copy Migrations')

@@ -5,14 +5,16 @@ import { EDITOR_FEATURE, editorRducer } from './editor.reducer'
 import { EffectsModule } from '@ngrx/effects'
 import { MigratorService } from './migrator.service'
 import { EditorEffects } from './editor.effects'
+import { FormatEffects } from './format.effects'
+import { FormatService } from './format.service'
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     StoreModule.forFeature(EDITOR_FEATURE, editorRducer),
-    EffectsModule.forFeature([EditorEffects]),
+    EffectsModule.forFeature([EditorEffects, FormatEffects]),
   ],
-  providers: [MigratorService],
+  providers: [MigratorService, FormatService],
 })
 export class EditorStateModule {}
