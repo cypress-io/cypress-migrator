@@ -1,4 +1,4 @@
-import cypressCodemods from '@cypress-migrator/codemods'
+import cypressCodemods from '@cypress-dx/codemods'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import Link from 'next/link'

@@ -1,5 +1,5 @@
 {
-  "name": "@cypress-migrator/vscode-migrator",
+  "name": "@cypress-dx/vscode-migrator",
   "displayName": "Cypress Migrator for VS Code",
   "description": "Cypress Migrator for VS Code",
   "version": "0.0.1",

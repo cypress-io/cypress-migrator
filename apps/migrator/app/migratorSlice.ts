@@ -1,4 +1,4 @@
-import { MigrateResult } from '@cypress-migrator/codemods'
+import { MigrateResult } from '@cypress-dx/codemods'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { defaultText } from '../constants'
 import { AppState } from './store'
