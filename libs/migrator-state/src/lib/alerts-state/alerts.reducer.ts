@@ -22,7 +22,7 @@ const initialState: AlertsState = {
   xPathFound: false,
 }
 
-const alertsReducer = createReducer(
+const reducer = createReducer(
   initialState,
   on(turnOnMigrationNotFoundAlert, (state) => ({
     ...state,
@@ -50,6 +50,6 @@ const alertsReducer = createReducer(
   })),
 )
 
-export function reducer(state = initialState, action: Action): AlertsState {
-  return alertsReducer(state, action)
+export function alertsReducer(state = initialState, action: Action): AlertsState {
+  return reducer(state, action)
 }

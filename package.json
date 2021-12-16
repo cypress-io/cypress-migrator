@@ -48,6 +48,7 @@
     "gray-matter": "^4.0.3",
     "jscodeshift": "^0.13.0",
     "next": "12.0.0",
+    "ngx-monaco-editor": "^12.0.0",
     "postcss": "^8.3.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -59,6 +60,7 @@
     "remark-html": "^14.0.1",
     "remark-markdown": "^0.0.1",
     "rxjs": "~7.4.0",
+    "tailwind-forms": "^1.0.6",
     "tailwindcss": "^2.2.16",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

@@ -27,7 +27,7 @@ const initialState: EditorState = {
   error: undefined,
 }
 
-const editorRducer = createReducer(
+const reducer = createReducer(
   initialState,
   on(setLanguage, (state, { language }) => ({
     ...state,
@@ -45,6 +45,6 @@ const editorRducer = createReducer(
   })),
 )
 
-export function reducer(state = initialState, action: Action): EditorState {
-  return editorRducer(state, action)
+export function editorRducer(state = initialState, action: Action): EditorState {
+  return reducer(state, action)
 }

@@ -18,7 +18,7 @@ const initialState: NotificationState = {
   sentAddMigrationRequestion: false,
 }
 
-const notificationReducer = createReducer(
+const reducer = createReducer(
   initialState,
   on(turnOnCopiedNotification, (state) => ({
     ...state,
@@ -38,6 +38,6 @@ const notificationReducer = createReducer(
   })),
 )
 
-export function reducer(state = initialState, action: Action): NotificationState {
-  return notificationReducer(state, action)
+export function notificationReducer(state = initialState, action: Action): NotificationState {
+  return reducer(state, action)
 }

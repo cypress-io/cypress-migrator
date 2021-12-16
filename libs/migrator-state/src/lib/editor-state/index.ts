@@ -1,3 +1,4 @@
 export * from './editor.actions'
-export { AvailableLanguage, reducer, EDITOR_FEATURE, EditorState } from './editor.reducer'
+export * from './editor.selectors'
+export { AvailableLanguage, editorRducer, EDITOR_FEATURE, EditorState } from './editor.reducer'
 export { EditorStateModule } from './editor-state.module'

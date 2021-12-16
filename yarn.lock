@@ -10840,6 +10840,13 @@ next@12.0.0:
     "@next/swc-win32-ia32-msvc" "12.0.0"
     "@next/swc-win32-x64-msvc" "12.0.0"
 
+ngx-monaco-editor@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-monaco-editor/-/ngx-monaco-editor-12.0.0.tgz#060b46d764df68319826e3664358cf1529c5ca11"
+  integrity sha512-/HXTILVwWvrk4OkT1p88nb+PGEqlecQot2VMTdSLbVW7A24fNZpDAF6tNR4Bp3V/abZjShDK8LfsqLePA0tPmw==
+  dependencies:
+    tslib "^2.1.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -14251,6 +14258,11 @@ table@^6.0.9:
     string-width "^4.2.3"
     strip-ansi "^6.0.1"
 
+tailwind-forms@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/tailwind-forms/-/tailwind-forms-1.0.6.tgz#0850fda72cd80aeb7cb4d7306d41e6fe636c31cd"
+  integrity sha512-NcqVdBVu9CBj/fEDKFixAEoiQ4qUd6SeXKg4e3hWJrrqjWa20yFjAoKfdZOQ18Bk/axcTnxtV4JtMRA6FIJB2Q==
+
 tailwindcss@^2.2.16:
   version "2.2.19"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-2.2.19.tgz#540e464832cd462bb9649c1484b0a38315c2653c"
@@ -14606,7 +14618,7 @@ tslib@2.1.0, tslib@~2.1.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
-tslib@2.3.1, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.3.0:
+tslib@2.3.1, tslib@^2.0.0, tslib@^2.0.1, tslib@^2.1.0, tslib@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
