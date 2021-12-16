@@ -4,7 +4,7 @@ const sharedTailwindConfig = require('../../tailwind-workspace-preset')
 module.exports = {
   presets: [sharedTailwindConfig],
   mode: 'jit',
-  purge: ['./apps/migrator-new/src/**/*.{html, ts}', ...createGlobPatternsForDependencies(__dirname)],
+  purge: ['./apps/ng-migrator/src/**/*.{html, ts}', ...createGlobPatternsForDependencies(__dirname)],
   theme: {
     extend: {},
   },

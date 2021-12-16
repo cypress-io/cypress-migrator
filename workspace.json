@@ -166,7 +166,15 @@
             "polyfills": "apps/ng-migrator/src/polyfills.ts",
             "tsConfig": "apps/ng-migrator/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/ng-migrator/src/favicon.ico", "apps/ng-migrator/src/assets"],
+            "assets": [
+              "apps/ng-migrator/src/favicon.ico",
+              "apps/ng-migrator/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor"
+              }
+            ],
             "styles": ["apps/ng-migrator/src/styles.scss"],
             "scripts": [],
             "customWebpackConfig": {
