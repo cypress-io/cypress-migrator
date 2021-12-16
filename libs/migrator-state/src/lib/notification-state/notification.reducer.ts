@@ -1,21 +1,16 @@
 import { Action, createReducer, on } from '@ngrx/store'
-import {
-  turnOffAddMigrationNotification,
-  turnOffCopiedNotification,
-  turnOnAddMigrationNotification,
-  turnOnCopiedNotification,
-} from './notification.actions'
+import { turnOffCopiedNotification, turnOnCopiedNotification, turnOffNotification } from './notification.actions'
 
 export const NOTIFICATION_FEATURE = 'notification'
 
 export interface NotificationState {
   copied: boolean
-  sentAddMigrationRequestion: boolean
+  sentAddMigrationRequest: boolean
 }
 
 const initialState: NotificationState = {
   copied: false,
-  sentAddMigrationRequestion: false,
+  sentAddMigrationRequest: false,
 }
 
 const reducer = createReducer(
@@ -28,13 +23,8 @@ const reducer = createReducer(
     ...state,
     copied: false,
   })),
-  on(turnOnAddMigrationNotification, (state) => ({
-    ...state,
-    sentAddMigrationRequestion: true,
-  })),
-  on(turnOffAddMigrationNotification, (state) => ({
-    ...state,
-    sentAddMigrationRequestion: false,
+  on(turnOffNotification, (state) => ({
+    ...initialState,
   })),
 )
 
