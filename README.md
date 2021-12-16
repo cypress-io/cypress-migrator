@@ -1,6 +1,6 @@
 # Cypress Migrator
 
-Cypress Migrator is a monorepo for migration applications and libraries. This project was generated using [Nx](https://nx.dev).
+Cypress Migrator is a monorepo for Cypress migration applications and libraries. This project was generated using [Nx](https://nx.dev).
 
 ---
 
