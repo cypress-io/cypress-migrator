@@ -127,6 +127,29 @@
       "tags": [],
       "implicitDependencies": ["migrator"]
     },
+    "migrator-state": {
+      "projectType": "library",
+      "root": "libs/migrator-state",
+      "sourceRoot": "libs/migrator-state/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/migrator-state"],
+          "options": {
+            "jestConfig": "libs/migrator-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/migrator-state/src/**/*.ts", "libs/migrator-state/src/**/*.html"]
+          }
+        }
+      },
+      "tags": []
+    },
     "vscode-migrator": {
       "root": "libs/vscode-migrator",
       "sourceRoot": "libs/vscode-migrator/src",

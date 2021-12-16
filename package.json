@@ -16,14 +16,26 @@
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods",
     "affected:deploy": "nx affected --target=deploy",
-    "deploy:migrator": "nx deploy migrator"
+    "deploy:migrator": "nx deploy migrator",
+    "postinstall": "ngcc --properties es2015 browser module main"
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^13.0.0",
+    "@angular/common": "^13.0.0",
+    "@angular/compiler": "^13.0.0",
+    "@angular/core": "^13.0.0",
+    "@angular/forms": "^13.0.0",
+    "@angular/platform-browser": "^13.0.0",
+    "@angular/platform-browser-dynamic": "^13.0.0",
+    "@angular/router": "^13.0.0",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
     "@monaco-editor/react": "^4.3.1",
     "@netlify/functions": "^0.8.0",
+    "@ngrx/effects": "^13.0.2",
+    "@ngrx/store": "^13.0.2",
+    "@ngrx/store-devtools": "^13.0.2",
     "@nrwl/next": "13.2.4",
     "@nrwl/node": "13.2.4",
     "@reduxjs/toolkit": "1.6.2",
@@ -46,10 +58,20 @@
     "remark-gfm": "^2.0.0",
     "remark-html": "^14.0.1",
     "remark-markdown": "^0.0.1",
+    "rxjs": "~7.4.0",
     "tailwindcss": "^2.2.16",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~13.0.0",
+    "@angular-eslint/eslint-plugin": "~13.0.1",
+    "@angular-eslint/eslint-plugin-template": "~13.0.1",
+    "@angular-eslint/template-parser": "~13.0.1",
+    "@angular/cli": "~13.0.0",
+    "@angular/compiler-cli": "^13.0.0",
+    "@angular/language-service": "^13.0.0",
+    "@nrwl/angular": "^13.3.6",
     "@nrwl/cli": "13.2.4",
     "@nrwl/cypress": "13.2.4",
     "@nrwl/eslint-plugin-nx": "13.2.4",
@@ -83,6 +105,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "husky": "^7.0.2",
     "jest": "27.2.3",
+    "jest-preset-angular": "11.0.0",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.1",
     "ts-jest": "27.0.5",
@@ -100,4 +123,3 @@
     ]
   }
 }
-

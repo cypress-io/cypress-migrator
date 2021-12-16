@@ -8,6 +8,16 @@ export interface DiffArrayItem {
   api?: APIItem[]
 }
 
+export interface MigrationError {
+  message: string
+  level: 'warning' | 'error' | 'info'
+}
+export interface MigrateResult {
+  output: string | undefined
+  diff: DiffArrayItem[]
+  error?: MigrationError
+}
+
 function splitTrim(value: string): string[] {
   return value.split('\n').map((item) => item.trim())
 }

@@ -1,0 +1,50 @@
+import { DiffArrayItem, MigrationError } from '@cypress-dx/codemods'
+import { Action, createReducer, on } from '@ngrx/store'
+import { defaultText } from './constants'
+import { setLanguage, toggleDisplayDiff, migrateResult } from './editor.actions'
+
+export const EDITOR_FEATURE = 'editor'
+
+export type AvailableLanguage = 'protractor'
+
+export interface EditorState {
+  language: AvailableLanguage
+  availableLanguages: AvailableLanguage[]
+  diffArray: DiffArrayItem[]
+  original: string
+  modified: string
+  error?: MigrationError
+  displayDiff: boolean
+}
+
+const initialState: EditorState = {
+  language: 'protractor',
+  availableLanguages: ['protractor'],
+  displayDiff: true,
+  diffArray: [],
+  original: defaultText['protractor'],
+  modified: '',
+  error: undefined,
+}
+
+const editorRducer = createReducer(
+  initialState,
+  on(setLanguage, (state, { language }) => ({
+    ...state,
+    language,
+  })),
+  on(toggleDisplayDiff, (state) => ({
+    ...state,
+    displayDiff: !state.displayDiff,
+  })),
+  on(migrateResult, (state, { result }) => ({
+    ...state,
+    modified: !!result?.output ? result.output : '',
+    diffArray: result?.diff,
+    error: result?.error,
+  })),
+)
+
+export function reducer(state = initialState, action: Action): EditorState {
+  return editorRducer(state, action)
+}
