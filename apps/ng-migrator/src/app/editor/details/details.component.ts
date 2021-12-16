@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { selectDiffApiItems, selectShouldShowDetails } from '@cypress-dx/migrator-state'
+import { selectShouldShowDetails, selectUniqueDiffApiItems } from '@cypress-dx/migrator-state'
 import { Store } from '@ngrx/store'
 
 @Component({
@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store'
 })
 export class DetailsComponent {
   showDetails$ = this.store.select(selectShouldShowDetails)
-  diffItems$ = this.store.select(selectDiffApiItems)
+  diffItems$ = this.store.select(selectUniqueDiffApiItems)
 
   constructor(private readonly store: Store) {}
 }

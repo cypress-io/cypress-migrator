@@ -1,6 +1,6 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'
+import { APIItem, DiffArrayItem } from '@cypress-dx/codemods'
+import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store'
 import { EditorState, EDITOR_FEATURE } from './editor.reducer'
-import { APIItem } from '@cypress-dx/codemods'
 
 export const editorFeatureSelector = createFeatureSelector<EditorState>(EDITOR_FEATURE)
 
@@ -23,9 +23,20 @@ export const selectEditorViewModel = createSelector(selectOriginalModel, selectM
   modified,
 }))
 
-export const selectDiffApiItems = createSelector(
+const flatten = (array: DiffArrayItem[]): APIItem[] => {
+  const items: APIItem[] = []
+  array.map((x) => x?.api?.map((api) => items.push(api)))
+  return items
+}
+
+export const selectDiffApiItems: MemoizedSelector<EditorState, APIItem[]> = createSelector(
   editorFeatureSelector,
-  (state) => [{ url: 'https://docs.cypress.io/get', command: 'get' }] as APIItem[],
+  (state) => flatten(state.diffArray),
+)
+
+export const selectUniqueDiffApiItems: MemoizedSelector<EditorState, APIItem[]> = createSelector(
+  selectDiffApiItems,
+  (items) => [...new Map(items.map((item: APIItem) => [item.command, item])).values()],
 )
 
 export const selectThemeOptions = createSelector(selectDisplayDiff, (displayDiff) => ({
