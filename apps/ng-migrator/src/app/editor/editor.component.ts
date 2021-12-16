@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { migrate, selectEditorViewModel } from '@cypress-dx/migrator-state'
+import { migrate, selectEditorViewModel, selectThemeOptions } from '@cypress-dx/migrator-state'
 import { Store } from '@ngrx/store'
 
 @Component({
@@ -8,26 +8,7 @@ import { Store } from '@ngrx/store'
   styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent {
-  options = {
-    theme: 'vs-light',
-    language: 'javascript',
-    lineNumbers: 'on',
-    originalEditable: true,
-    fontSize: 14,
-    codeLens: true,
-    wordWrap: 'on',
-    scrollbar: {
-      vertical: 'hidden',
-    },
-    colorDecorators: false,
-    minimap: { enabled: false },
-    renderIndicators: false,
-    renderLineHighlight: 'none',
-    renderOverviewRuler: false,
-    readOnly: true,
-    overviewRulerLanes: 0,
-  }
-
+  options$ = this.store.select(selectThemeOptions)
   editorVM$ = this.store.select(selectEditorViewModel)
   editor: any
 

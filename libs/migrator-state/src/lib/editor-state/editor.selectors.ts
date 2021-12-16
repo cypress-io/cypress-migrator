@@ -27,3 +27,23 @@ export const selectDiffApiItems = createSelector(
   editorFeatureSelector,
   (state) => [{ url: 'https://docs.cypress.io/get', command: 'get' }] as APIItem[],
 )
+
+export const selectThemeOptions = createSelector(selectDisplayDiff, (displayDiff) => ({
+  theme: displayDiff ? 'cypress-diff' : 'cypress-no-diff',
+  language: 'javascript',
+  lineNumbers: 'on',
+  originalEditable: true,
+  fontSize: 14,
+  codeLens: true,
+  wordWrap: 'on',
+  scrollbar: {
+    vertical: 'hidden',
+  },
+  colorDecorators: false,
+  minimap: { enabled: false },
+  renderIndicators: false,
+  renderLineHighlight: 'none',
+  renderOverviewRuler: false,
+  readOnly: true,
+  overviewRulerLanes: 0,
+}))
