@@ -4,7 +4,7 @@
   "description": "Cypress Migrator for VS Code",
   "version": "0.0.1",
   "publisher": "cypress",
-  "repository": "https://github.com/cypress-io/cypress-dx",
+  "repository": "https://github.com/cypress-io/cypress-migrator",
   "engines": {
     "vscode": "^1.52.0"
   },
@@ -17,9 +17,9 @@
   "author": "Cypress DX",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cypress-io/cypress-dx/issues"
+    "url": "https://github.com/cypress-io/cypress-migrator/issues"
   },
-  "homepage": "https://github.com/cypress-io/cypress-dx#readme",
+  "homepage": "https://github.com/cypress-io/cypress-migrator#readme",
   "categories": [
     "Formatters"
   ],

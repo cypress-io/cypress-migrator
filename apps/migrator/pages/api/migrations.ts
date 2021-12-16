@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const API_URL = 'https://api.github.com/repos/cypress-io/cypress-dx/issues'
+const API_URL = 'https://api.github.com/repos/cypress-io/cypress-migrator/issues'
 
 async function createIssueInGitHub(protractor: string, cypress: string): Promise<Response> {
   return await fetch(API_URL, {
@@ -15,13 +15,13 @@ async function createIssueInGitHub(protractor: string, cypress: string): Promise
       body: `
             \n### Migration Input
             \n${protractor}
-            
+
             \n### Migration Language/Framework
             \nProtractor
-            
+
             \n### Cypress Migrated Output
             \n${cypress}
-            
+
             \n### Expected Cypress Migration
             \n unknown
             `,
