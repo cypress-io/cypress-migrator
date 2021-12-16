@@ -5,6 +5,9 @@ module.exports = {
     domains: ['tailwindui.com', 'images.unsplash.com'],
   },
   distDir: '.dist',
+  output: {
+    hashFunction: 'xxhash64',
+  },
   webpack5: true,
   webpack: (config) => {
     config.resolve.fallback = {

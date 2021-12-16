@@ -157,7 +157,7 @@
       "prefix": "cypress-dx",
       "targets": {
         "build": {
-          "executor": "@angular-devkit/build-angular:browser",
+          "executor": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/ng-migrator",
@@ -168,7 +168,10 @@
             "inlineStyleLanguage": "scss",
             "assets": ["apps/ng-migrator/src/favicon.ico", "apps/ng-migrator/src/assets"],
             "styles": ["apps/ng-migrator/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "apps/ng-migrator/webpack.config.js"
+            }
           },
           "configurations": {
             "production": {
@@ -204,7 +207,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "executor": "@angular-devkit/build-angular:dev-server",
+          "executor": "@nrwl/angular:webpack-server",
           "configurations": {
             "production": {
               "browserTarget": "ng-migrator:build:production"
