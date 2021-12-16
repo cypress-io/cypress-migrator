@@ -41,7 +41,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
    * @param  {ExpressionKind} path?
    */
   function getCallExpressions(path?: ExpressionKind): Collection<CodeModNode> {
-    return root.find(j.CallExpression, path) as Collection<CodeModNode>
+    return root.find(j.CallExpression, path as any) as Collection<CodeModNode>
   }
 
   // all class methods
@@ -100,12 +100,12 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // remove element() wrappers
   if (elementExpressions.size() > 0) {
-    elementExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
+    elementExpressions.replaceWith((path: ASTPath<CodeModNode>) => (path.node.arguments as CodeModNode[])[0])
   }
 
   // remove elementAll() wrappers
   if (elementAllExpressions.size() > 0) {
-    elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
+    elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => (path.node.arguments as CodeModNode[])[0])
   }
 
   // remove await expressions
@@ -167,7 +167,9 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // transform non-selector expressions
   callExpressions
-    .filter((path: ASTPath<CodeModNode>) => path.node?.callee && !isSelector(path.node.callee as Selector))
+    .filter((path: ASTPath<CodeModNode>) =>
+      path.node?.callee && !isSelector(path.node.callee as Selector) ? true : false,
+    )
     .forEach((path: any) => {
       const { node } = path
       const propertyName =
@@ -176,8 +178,8 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
           : node.callee.name
       const pathArguments = path.get('arguments')
 
-      if (nonLocatorMethodTransforms[propertyName]) {
-        node.callee.property.name = nonLocatorMethodTransforms[propertyName]
+      if ((nonLocatorMethodTransforms as any)[propertyName]) {
+        node.callee.property.name = (nonLocatorMethodTransforms as any)[propertyName]
       }
 
       // transforms items like element(by.css('.this-class')).getWebElement()
@@ -214,6 +216,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
       else if (propertyName === 'get' && node.callee?.object.callee?.property.name === 'get') {
         node.callee.property.name = 'eq'
       }
+      return
     })
 
   // ensure all variable declarations using cy. get wrapped in an arrow function

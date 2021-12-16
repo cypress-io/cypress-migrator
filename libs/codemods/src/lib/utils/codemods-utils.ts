@@ -28,7 +28,7 @@ export function createDiffArray(input: string, output: string): DiffArrayItem[] 
   const diffArray: DiffArrayItem[] = []
 
   outputArray.forEach((item, index): void => {
-    const cyMatches: RegExpMatchArray = item.match(/(?<!')\.(.*?)\(/g)
+    const cyMatches: RegExpMatchArray | null = item.match(/(?<!')\.(.*?)\(/g)
     const commands: APIItem[] = []
 
     if (cyMatches) {

@@ -17,18 +17,22 @@ export function removeUnsupportedBrowserMethods(
 ): Collection<CodeModNode> {
   return nodes
     .filter((path: ASTPath<CodeModNode>) => {
-      const identifier: CodeModNode = getIdentifier(path.node.callee)
+      const identifier: CodeModNode = getIdentifier(path.node.callee as CodeModNode) as CodeModNode
 
       return (
         identifier?.name === 'browser' &&
-        unsupportedBrowserMethods.includes(path.node.callee.property.name as UnsupportedBrowserMethods)
+        unsupportedBrowserMethods.includes(
+          ((path.node.callee as CodeModNode)?.property as CodeModNode)?.name as UnsupportedBrowserMethods,
+        )
       )
     })
     .forEach(() => {
       return (path: ASTPath<CodeModNode>) =>
         report(
           errorMessage(
-            `This codemod does not support transforming browser.${path.node.callee.property.name}(). Instead, it removes the method entirely.`,
+            `This codemod does not support transforming browser.${
+              ((path.node.callee as CodeModNode)?.property as CodeModNode)?.name
+            }(). Instead, it removes the method entirely.`,
             path.value as Printable,
             file,
           ),
@@ -44,13 +48,15 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: Collection<CodeMo
 
       return (
         identifier?.name === 'browser' &&
-        supportedBrowserMethods.includes(path.node.callee.property.name as SupportedBrowserMethods)
+        supportedBrowserMethods.includes(
+          ((path.node.callee as CodeModNode)?.property as CodeModNode)?.name as SupportedBrowserMethods,
+        )
       )
     })
     .forEach((path: ASTPath<CodeModNode>) => {
       const { node, parentPath } = path
-      const method = node.callee.property.name
-      const replacedMethod = browserMethodTransforms[method] ?? method
+      const method: string = ((node.callee as CodeModNode)?.property as CodeModNode)?.name as string
+      const replacedMethod = (browserMethodTransforms as any)[method] ?? method
 
       // transform browser.wait()
       if (method === 'wait') {
@@ -66,12 +72,17 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: Collection<CodeMo
         const propertyName = parentPath.value.expression.callee.object.callee.property.name
 
         const transformedArg =
-          node.callee.object.arguments[0].callee &&
+          (((node.callee as CodeModNode)?.object as CodeModNode)?.arguments as CodeModNode[])[0].callee &&
           replaceCySelector(
             j,
-            node.callee.object.arguments[0],
+            (((node.callee as CodeModNode)?.object as CodeModNode)?.arguments as CodeModNode[])[0],
             'get',
-            node.callee.object.arguments[0].callee.property.name,
+            (
+              (
+                (((node.callee as CodeModNode)?.object as CodeModNode)?.arguments as CodeModNode[])[0]
+                  ?.callee as CodeModNode
+              )?.property as CodeModNode
+            )?.name,
           )
 
         // if (path.parentPath.value.property.name === 'click' or in list of supported transforms) {
@@ -79,16 +90,24 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: Collection<CodeMo
           j.callExpression(
             j.memberExpression(
               j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('get'), false), [
-                node.callee.object.arguments[0].name
-                  ? j.identifier(node.callee.object.arguments[0].name)
+                (((node.callee as CodeModNode)?.object as CodeModNode)?.arguments as CodeModNode[])[0]?.name
+                  ? j.identifier(
+                      (((node.callee as CodeModNode)?.object as CodeModNode)?.arguments as CodeModNode[])[0]
+                        ?.name as string,
+                    )
                   : j.stringLiteral(
                       transformedArg && transformedArg.arguments[0]
-                        ? transformedArg.arguments[0]['value']
-                        : node.callee.object.arguments[0].arguments[0].value,
+                        ? (transformedArg.arguments[0] as any)['value']
+                        : (
+                            (((node.callee as CodeModNode)?.object as CodeModNode)?.arguments as CodeModNode[])[0]
+                              .arguments as CodeModNode[]
+                          )[0].value,
                     ),
               ]),
               j.identifier(
-                supportedBrowserMethods.includes(propertyName) ? browserMethodTransforms[propertyName] : propertyName,
+                supportedBrowserMethods.includes(propertyName)
+                  ? (browserMethodTransforms as any)[propertyName]
+                  : propertyName,
               ),
               false,
             ),
@@ -127,7 +146,11 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: Collection<CodeMo
       }
 
       return j(path as ASTPath<ASTNode>).replaceWith(
-        replaceCySelector(j, method === 'findElement' ? node.arguments[0] : path.value, replacedMethod),
+        replaceCySelector(
+          j,
+          method === 'findElement' ? (node.arguments as CodeModNode[])[0] : path.value,
+          replacedMethod,
+        ),
       )
     })
 }
@@ -151,7 +174,7 @@ export function transformBrowserNavigate(j: JSCodeshift, root: Collection<CodeMo
     })
     .replaceWith((path: ASTPath<CallExpression>) =>
       j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('go'), false), [
-        j.stringLiteral((path.node.callee as CodeModNode).property.name),
+        j.stringLiteral(((path.node.callee as CodeModNode).property as CodeModNode).name as string),
       ]),
     )
 }
