@@ -1,8 +1,25 @@
-export type CodemodConstantTypes = ProtractorSelectors | CyGetLocators | CyContainLocatorsKeys | CyContainLocatorsValues | CyContainLocators | UnsupportedLocators | NonLocatorMethodTransformsKeys | NonLocatorMethodTransformsValues | NonLocatorMethodTransforms | SupportedBrowserMethods | BrowserMethodTransformsKeys | BrowserMethodTransformsValues | BrowserMethodTransforms | UnsupportedBrowserMethods | SupportedAssertionTypes | AssertionTransformsKeys | AssertionTransformsValues | AssertionTransforms
+export type CodemodConstantTypes =
+  | ProtractorSelectors
+  | CyGetLocators
+  | CyContainLocatorsKeys
+  | CyContainLocatorsValues
+  | CyContainLocators
+  | UnsupportedLocators
+  | NonLocatorMethodTransformsKeys
+  | NonLocatorMethodTransformsValues
+  | NonLocatorMethodTransforms
+  | SupportedBrowserMethods
+  | BrowserMethodTransformsKeys
+  | BrowserMethodTransformsValues
+  | BrowserMethodTransforms
+  | UnsupportedBrowserMethods
+  | SupportedAssertionTypes
+  | AssertionTransformsKeys
+  | AssertionTransformsValues
+  | AssertionTransforms
 
 export type ProtractorSelectors = 'by' | '$' | '$$'
 export const protractorSelectors: ProtractorSelectors[] = ['by', '$', '$$']
-
 
 // protractor locators that resolve to cy.get
 export type CyGetLocators =
