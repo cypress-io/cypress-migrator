@@ -5,6 +5,7 @@ import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
 import { MigrationsComponent } from './migrations.component'
 import { MigrationTableComponent } from './migration-table/migration-table.component'
 import { markdownOptionsFactory } from './markdown-options-factory'
+import { HttpClient } from '@angular/common/http'
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MarkdownModule.forRoot({
+      loader: HttpClient,
       markedOptions: {
         provide: MarkedOptions,
         useFactory: markdownOptionsFactory,

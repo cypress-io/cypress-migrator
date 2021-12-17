@@ -40,13 +40,6 @@
       "sourceRoot": "libs/markdown/src",
       "projectType": "library",
       "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["libs/markdown/**/*.ts", "libs/markdown/**/**.md"]
-          }
-        },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/markdown"],
@@ -214,8 +207,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "8mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",

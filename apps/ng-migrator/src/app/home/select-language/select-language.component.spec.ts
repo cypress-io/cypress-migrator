@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { SelectLanguageComponent } from './select-language.component'
+import { provideMockStore } from '@ngrx/store/testing'
 
-import { SelectListComponent } from './select-list.component';
-
-describe('SelectListComponent', () => {
-  let component: SelectListComponent;
-  let fixture: ComponentFixture<SelectListComponent>;
+describe('SelectLanguageComponent', () => {
+  let component: SelectLanguageComponent
+  let fixture: ComponentFixture<SelectLanguageComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectListComponent ]
-    })
-    .compileComponents();
-  });
+      declarations: [SelectLanguageComponent],
+      providers: [provideMockStore()],
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SelectLanguageComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

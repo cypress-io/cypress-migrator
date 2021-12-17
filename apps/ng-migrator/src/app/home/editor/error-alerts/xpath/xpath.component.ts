@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'cypress-dx-xpath',
   templateUrl: './xpath.component.html',
-  styleUrls: ['./xpath.component.scss']
+  styleUrls: ['./xpath.component.scss'],
 })
-export class XpathComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class XpathComponent {}

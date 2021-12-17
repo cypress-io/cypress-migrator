@@ -2,6 +2,7 @@ import { NgxMonacoEditorConfig } from 'ngx-monaco-editor'
 
 const MonacoConfig: NgxMonacoEditorConfig = {
   onMonacoLoad: () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const monaco = (window as any).monaco
     monaco.editor.defineTheme('cypress-diff', {
       base: 'vs',

@@ -1,25 +1,37 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown'
+import { markdownOptionsFactory } from '../markdown-options-factory'
 
-import { MigrationTableComponent } from './migration-table.component';
+import { MigrationTableComponent } from './migration-table.component'
 
 describe('MigrationTableComponent', () => {
-  let component: MigrationTableComponent;
-  let fixture: ComponentFixture<MigrationTableComponent>;
+  let component: MigrationTableComponent
+  let fixture: ComponentFixture<MigrationTableComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MigrationTableComponent ]
-    })
-    .compileComponents();
-  });
+      declarations: [MigrationTableComponent],
+      imports: [
+        HttpClientModule,
+        MarkdownModule.forRoot({
+          loader: HttpClient,
+          markedOptions: {
+            provide: MarkedOptions,
+            useFactory: markdownOptionsFactory,
+          },
+        }),
+      ],
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MigrationTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(MigrationTableComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

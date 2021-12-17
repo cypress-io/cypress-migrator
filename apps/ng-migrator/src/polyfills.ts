@@ -50,4 +50,6 @@ import 'zone.js' // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+// KEEP THIS. RUN TIME FAILS WITHOUT IT
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ;(window as any).process = { env: { DEBUG: undefined } }
