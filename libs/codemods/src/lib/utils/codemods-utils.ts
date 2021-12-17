@@ -23,7 +23,12 @@ export function createDiffArray(input: string, output: string): DiffArrayItem[] 
 
     if (cyMatches) {
       cyMatches.map((item: string) => {
-        const name: string = item.replace('.', '').replace('(', '')
+        let name: string = item.replace('.', '').replace('(', '')
+
+        if (item.includes('should')) {
+          name = 'should'
+        }
+
         return commands.push({
           command: name,
           url: `https://on.cypress.io/${name}`,
