@@ -1,4 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+// import { NextApiRequest, NextApiResponse } from 'next'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 
 const API_URL = 'https://api.github.com/repos/cypress-io/cypress-dx/issues'
 
@@ -30,7 +31,7 @@ async function createIssueInGitHub(protractor: string, cypress: string): Promise
   })
 }
 
-export default async function handler(request: NextApiRequest, response: NextApiResponse): Promise<void> {
+export default async function handler(request: VercelRequest, response: VercelResponse): Promise<VercelResponse> {
   const { protractor, cypress }: { protractor: string; cypress: string } = JSON.parse(request.body)
 
   const body = JSON.stringify(protractor === cypress ? { protractor } : { protractor, cypress })
@@ -40,5 +41,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
   const issue: Response = await createIssueInGitHub(protractor, cypress)
 
-  return issue.status === 201 ? response.status(issue.status).json(issue.body) : response.status(500).end()
+  return issue.status === 201
+    ? response.status(issue.status).send(issue.body)
+    : response.status(500).send({ error: 'There was an error sending the add migration request' })
 }
