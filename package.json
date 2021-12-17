@@ -50,6 +50,7 @@
     "jscodeshift": "^0.13.0",
     "monaco-editor": "^0.31.1",
     "next": "12.0.7",
+    "ngx-markdown": "^13.0.0",
     "ngx-monaco-editor": "^12.0.0",
     "postcss": "^8.3.8",
     "react": "17.0.2",

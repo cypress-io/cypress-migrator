@@ -176,7 +176,7 @@
               }
             ],
             "styles": ["apps/ng-migrator/src/styles.scss"],
-            "scripts": [],
+            "scripts": ["node_modules/marked/lib/marked.js"],
             "customWebpackConfig": {
               "path": "apps/ng-migrator/webpack.config.js"
             }
