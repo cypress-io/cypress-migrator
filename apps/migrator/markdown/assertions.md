@@ -11,3 +11,4 @@
 | expect(element(by.className('test-checkbox').isSelected())).toBe(true) | cy.get('.test-checkbox').should('be.selected')        |
 | expect(element(by.className('input-field').isEnabled())).toBe(false)   | cy.get('.input-field').should('not.be.enabled')       |
 | expect(element(by.id('user-name')).getText()).toBe('Joe Smith')        | cy.get('#user-name').should('have.text', 'Joe Smith') |
+| element.all(by.css('.list-item')).get(3)                               | cy.get('.list-item').eq(3)                            |

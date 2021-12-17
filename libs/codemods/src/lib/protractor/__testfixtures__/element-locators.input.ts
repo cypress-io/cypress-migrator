@@ -111,4 +111,8 @@ describe('ElementLocators', () => {
     by.xpath('//ul[@class="todo-list"]//li')
     element(by.xpath('//ul[@class="todo-list"]//li'))
   })
+
+  it('should transform get', () => {
+    element.all(by.css('.list-item')).get(3)
+  })
 })

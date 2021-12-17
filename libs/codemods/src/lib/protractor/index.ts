@@ -209,6 +209,11 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
           ),
         )
       }
+
+      //transforms get into eq
+      else if (propertyName === 'get' && node.callee?.object.callee?.property.name === 'get') {
+        node.callee.property.name = 'eq'
+      }
     })
 
   // ensure all variable declarations using cy. get wrapped in an arrow function
