@@ -10,3 +10,7 @@ export const formatInput = createAction('[EDITOR] Format Codemods Input', props<
 export const formatedResult = createAction('[EDITOR] Format Codemods Results', props<{ result: string }>())
 export const migrateResult = createAction('[CODEMODS] Migratation Result', props<{ result: MigrateResult }>())
 export const copyMigration = createAction('[EDITOR] Copy Migrations')
+
+export const addMigration = createAction('[EDITOR] Add Migration')
+export const addMigrationSuccess = createAction('[EDITOR] Add Migration Request Succeeded')
+export const addMigrationFailed = createAction('[EDITOR] Add Migration Request Failed')

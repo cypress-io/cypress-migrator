@@ -1,7 +1,9 @@
 <div *ngIf="showDetails$ | async" class="md:w-full transition duration-500 ease-in-out" data-test="more-details">
   <h2 class="text-3xl leading-6 font-bold text-gray-900 my-4 capitalize">More details about your migration:</h2>
   <hr />
-  <!-- <ErrorAlerts /> -->
+
+  <cypress-dx-error-alerts></cypress-dx-error-alerts>
+
   <div class="flex justify-between">
     <div data-test="api-details">
       <p class="py-4">

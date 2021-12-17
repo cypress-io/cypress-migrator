@@ -9,6 +9,10 @@ export const selectAvailableLanguages = createSelector(editorFeatureSelector, (s
 export const selectDisplayDiff = createSelector(editorFeatureSelector, (state) => state.displayDiff)
 export const selectOriginal = createSelector(editorFeatureSelector, (state) => state.original)
 export const selectModified = createSelector(editorFeatureSelector, (state) => state.modified)
+export const selectOriginalAndModified = createSelector(selectOriginal, selectModified, (original, modified) => ({
+  original,
+  modified,
+}))
 export const selectOriginalModel = createSelector(selectOriginal, (original) => ({
   code: original,
   language: 'javascript',

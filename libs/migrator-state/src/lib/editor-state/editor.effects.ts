@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
-import { map, switchMap, tap } from 'rxjs'
-import { selectModified } from './editor.selectors'
-import { migrate, migrateResult, copyMigration } from './editor.actions'
+import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs'
+import { selectModified, selectOriginalAndModified } from './editor.selectors'
+import {
+  migrate,
+  migrateResult,
+  copyMigration,
+  addMigration,
+  addMigrationSuccess,
+  addMigrationFailed,
+} from './editor.actions'
 import { MigratorService } from './migrator.service'
 
 @Injectable()
@@ -30,5 +37,18 @@ export class EditorEffects {
         tap(([action, modified]) => navigator.clipboard.writeText(modified)),
       ),
     { dispatch: false },
+  )
+
+  addMigration$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addMigration),
+      concatLatestFrom(() => this.store.select(selectOriginalAndModified)),
+      exhaustMap(([action, { original: protractor, modified: cypress }]) =>
+        this.migratorService.addMigration(protractor, cypress).pipe(
+          map(() => addMigrationSuccess()),
+          catchError(() => of(addMigrationFailed())),
+        ),
+      ),
+    ),
   )
 }
