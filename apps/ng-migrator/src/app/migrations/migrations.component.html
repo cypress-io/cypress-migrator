@@ -1,3 +1,17 @@
-<h2 class="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">{{ selectedLanguage$ | async }} Migrations</h2>
+<div class="-mt-px flex-1 flex">
+  <a routerLink="/" class="py-8 pr-1 inline-flex items-center text-sm font-medium text-green-500 hover:text-green-700">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6 mr-3 text-gray-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+    </svg>
+    Back To Migrator
+  </a>
+</div>
 
+<h2 class="text-3xl leading-6 font-bold text-gray-900 mb-4 capitalize">{{ selectedLanguage$ | async }} Migrations</h2>
 <cypress-dx-migration-table></cypress-dx-migration-table>

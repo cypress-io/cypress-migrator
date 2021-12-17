@@ -35,6 +35,29 @@
       },
       "tags": []
     },
+    "markdown": {
+      "root": "libs/markdown",
+      "sourceRoot": "libs/markdown/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/markdown/**/*.ts", "libs/markdown/**/**.md"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/markdown"],
+          "options": {
+            "jestConfig": "libs/markdown/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "migrator": {
       "root": "apps/migrator",
       "sourceRoot": "apps/migrator",
@@ -173,6 +196,11 @@
                 "glob": "**/*",
                 "input": "node_modules/monaco-editor",
                 "output": "assets/monaco-editor"
+              },
+              {
+                "input": "libs/markdown/src/lib",
+                "glob": "**/*.md",
+                "output": "assets"
               }
             ],
             "styles": ["apps/ng-migrator/src/styles.scss"],

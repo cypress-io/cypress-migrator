@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 
 type CodeModTypes = 'assertions' | 'browser-methods' | 'interactions' | 'selectors'
 
-const codeModsDirectory = join(process.cwd(), 'apps/migrator/markdown')
+const codeModsDirectory = join(process.cwd(), 'libs/markdown/src/lib')
 
 const getCodeModSlugs = (): string[] => fs.readdirSync(codeModsDirectory)
 
