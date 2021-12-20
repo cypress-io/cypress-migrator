@@ -1,35 +1,10 @@
 import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
 import { CodeModNode, ExpressionKind, Selector } from '../types'
-import { getPropertyName, isSelector, removeByPath } from '../utils'
+import { getPropertyName, isSelector, removeByPath, sanitize } from '../utils'
 import { transformAssertions } from './assertions'
 import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrowserNavigate } from './browser'
 import { nonLocatorMethodTransforms } from './constants'
 import { transformLocators } from './locators'
-
-const needsSanitized = (value: string): boolean => {
-  switch (value[value.length - 1]) {
-    case '.':
-    case '(':
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      return true
-
-    default:
-      return false
-  }
-}
-
-const sanitize = (value: string): string => {
-  return needsSanitized(value) ? sanitize(value.slice(0, -1)) : value
-}
 
 const transformer: Transform = (file: FileInfo, api: API): string => {
   file.source = sanitize(file.source)
@@ -108,11 +83,6 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
     elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
   }
 
-  // remove await expressions
-  if (awaitExpressions.size() > 0) {
-    awaitExpressions.replaceWith((path: ASTPath<AwaitExpression>) => path.node.argument)
-  }
-
   // remove async, private/protected, and return types from each class method
   if (classMethods.size() > 0) {
     classMethods.forEach((method: ASTPath<ClassMethod>) => {
@@ -164,6 +134,11 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // transform locators
   transformLocators(j, callExpressions)
+
+  // remove await expressions
+  if (awaitExpressions.size() > 0) {
+    awaitExpressions.replaceWith((path: ASTPath<any>) => path.node.argument)
+  }
 
   // transform non-selector expressions
   callExpressions

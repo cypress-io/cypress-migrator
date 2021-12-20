@@ -8,8 +8,33 @@ export interface DiffArrayItem {
   api?: APIItem[]
 }
 
+const needsSanitized = (value: string): boolean => {
+  switch (value[value.length - 1]) {
+    case '.':
+    case '(':
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      return true
+
+    default:
+      return false
+  }
+}
+
 function splitTrim(value: string): string[] {
   return value.split('\n').map((item) => item.trim())
+}
+
+export function sanitize(value: string): string {
+  return needsSanitized(value) ? sanitize(value.slice(0, -1)) : value
 }
 
 export function createDiffArray(input: string, output: string): DiffArrayItem[] {
