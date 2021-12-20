@@ -9,7 +9,7 @@ import {
   CyContainLocatorsKeys,
   SupportedAssertionTypes,
   UnsupportedLocators,
-} from './constants'
+} from '../common/constants'
 import { isSelector, getPropertyName, replaceCySelector, replaceCyContainsSelector } from '../utils'
 import { CodeModNode, Selector } from '../types'
 

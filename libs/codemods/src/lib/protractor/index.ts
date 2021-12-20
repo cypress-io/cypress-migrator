@@ -2,8 +2,8 @@ import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCod
 import { CodeModNode, ExpressionKind, Selector } from '../types'
 import { getPropertyName, isSelector, removeByPath, sanitize } from '../utils'
 import { transformAssertions } from './assertions'
-import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrowserNavigate } from './browser'
-import { nonLocatorMethodTransforms } from './constants'
+import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrowserNavigate } from '../common/browser'
+import { nonLocatorMethodTransforms } from '../common/constants'
 import { transformLocators } from './locators'
 
 const transformer: Transform = (file: FileInfo, api: API): string => {
@@ -46,6 +46,24 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
     },
   } as ExpressionKind)
 
+  // all findElement() nodes
+  const findElementExpressions = getCallExpressions({
+    callee: {
+      property: {
+        name: 'findElement',
+      },
+    },
+  } as ExpressionKind)
+
+  // all findElements() nodes
+  const findElementsExpressions = getCallExpressions({
+    callee: {
+      property: {
+        name: 'findElements',
+      },
+    },
+  } as ExpressionKind)
+
   // all expect() nodes
   const expectStatements: Collection<CodeModNode> = getCallExpressions({
     callee: {
@@ -81,6 +99,16 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // remove elementAll() wrappers
   if (elementAllExpressions.size() > 0) {
     elementAllExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
+  }
+
+  // remove findElement() wrappers
+  if (findElementExpressions.size() > 0) {
+    findElementExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
+  }
+
+  // remove findElement() wrappers
+  if (findElementsExpressions.size() > 0) {
+    findElementsExpressions.replaceWith((path: ASTPath<CodeModNode>) => path.node.arguments[0])
   }
 
   // remove async, private/protected, and return types from each class method

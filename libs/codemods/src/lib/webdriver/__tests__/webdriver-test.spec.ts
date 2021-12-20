@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import * as jscodeshiftTestUtils from 'jscodeshift/dist/testUtils'
-import * as transform from '../index'
+import * as transform from '../../protractor/index'
 
 describe('webdriver', () => {
   const driverMethodsInput = `
@@ -16,8 +16,7 @@ describe('webdriver', () => {
   driver.getCurrentUrl()
   driver.setLocation('faq')
   driver.debugger()
-  driver.findElement(by.css('.list'))
-  driver.driver.findElement(by.css('.list'))
+  driver.findElement(By.css('.list'))
   // Everything below this is removed via codemods
   driver.restart()
   driver.restartSync()
@@ -40,7 +39,6 @@ describe('webdriver', () => {
   cy.location('href')
   cy.get('#faq').scrollIntoView()
   cy.debug()
-  cy.get('.list')
   cy.get('.list')
   `
 

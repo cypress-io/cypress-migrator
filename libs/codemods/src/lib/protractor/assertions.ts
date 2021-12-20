@@ -33,7 +33,7 @@ import {
   CyGetLocators,
   SupportedAssertionTypes,
   supportedAssertionTypes,
-} from './constants'
+} from '../common/constants'
 
 // transform cyGetLocators items into cy.get()
 // transform cyContainLocators items into cy.contains()

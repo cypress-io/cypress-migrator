@@ -94,7 +94,6 @@ export type SupportedBrowserMethods =
   | 'perform'
   | 'getCurrentUrl'
   | 'debugger'
-  | 'findElement'
 export const supportedBrowserMethods: SupportedBrowserMethods[] = [
   'get',
   'wait',
@@ -109,7 +108,6 @@ export const supportedBrowserMethods: SupportedBrowserMethods[] = [
   'perform',
   'getCurrentUrl',
   'debugger',
-  'findElement',
 ]
 
 // protractor browser methods and their cy equivalents
@@ -122,7 +120,6 @@ export type BrowserMethodTransformsKeys =
   | 'setLocation'
   | 'setLocation'
   | 'debugger'
-  | 'findElement'
 export type BrowserMethodTransformsValues =
   | 'visit'
   | 'reload'
@@ -142,7 +139,6 @@ export const browserMethodTransforms: BrowserMethodTransforms = {
   mouseMove: 'scrollIntoView',
   setLocation: 'get',
   debugger: 'debug',
-  findElement: 'get',
 }
 
 export type UnsupportedBrowserMethods =
@@ -204,4 +200,4 @@ export const assertionTransforms: AssertionTransforms = {
 }
 
 export type BrowserSelectors = 'browser' | 'driver'
-export const browserSelectors: BrowserSelectors[] = [ 'browser', 'driver']
+export const browserSelectors: BrowserSelectors[] = ['browser', 'driver']

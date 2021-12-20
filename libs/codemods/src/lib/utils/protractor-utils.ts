@@ -1,6 +1,6 @@
 import * as chalk from 'chalk'
 import { CallExpression, Collection, FileInfo, Identifier, JSCodeshift, Printable } from 'jscodeshift'
-import { ProtractorSelectors, protractorSelectors } from '../protractor/constants'
+import { ProtractorSelectors, protractorSelectors } from '../common/constants'
 import { CodeModNode, ReplacementValues, Selector, TypedElementInExpression } from '../types'
 /**
  * Check to see if path is a selector.
