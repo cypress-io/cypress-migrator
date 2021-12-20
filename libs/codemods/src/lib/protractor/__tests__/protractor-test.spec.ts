@@ -1,7 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// const defineTest = require('jscodeshift/dist/testUtils').defineTest;
-// const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
-// const transform = require('../index.ts');
 
 import * as jscodeshiftTestUtils from 'jscodeshift/dist/testUtils'
 import * as transform from '../index'

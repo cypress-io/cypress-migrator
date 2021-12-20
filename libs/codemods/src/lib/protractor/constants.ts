@@ -18,8 +18,8 @@ export type CodemodConstantTypes =
   | AssertionTransformsValues
   | AssertionTransforms
 
-export type ProtractorSelectors = 'by' | '$' | '$$'
-export const protractorSelectors: ProtractorSelectors[] = ['by', '$', '$$']
+export type ProtractorSelectors = 'by' | 'By' | '$' | '$$'
+export const protractorSelectors: ProtractorSelectors[] = ['by', 'By', '$', '$$']
 
 // protractor locators that resolve to cy.get
 export type CyGetLocators =
@@ -202,3 +202,6 @@ export const assertionTransforms: AssertionTransforms = {
   isSelected: 'be.selected',
   isEnabled: 'be.enabled',
 }
+
+export type BrowserSelectors = 'browser' | 'driver'
+export const browserSelectors: BrowserSelectors[] = [ 'browser', 'driver']

@@ -6,6 +6,8 @@ import {
   supportedBrowserMethods,
   UnsupportedBrowserMethods,
   unsupportedBrowserMethods,
+  BrowserSelectors,
+  browserSelectors,
 } from './constants'
 import { errorMessage, getIdentifier, replaceCySelector } from '../utils'
 import { CodeModNode } from '../types'
@@ -20,7 +22,7 @@ export function removeUnsupportedBrowserMethods(
       const identifier: CodeModNode = getIdentifier(path.node.callee)
 
       return (
-        identifier?.name === 'browser' &&
+        browserSelectors.includes(identifier?.name as BrowserSelectors) &&
         unsupportedBrowserMethods.includes(path.node.callee.property.name as UnsupportedBrowserMethods)
       )
     })
@@ -43,7 +45,7 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: Collection<CodeMo
       const identifier = getIdentifier(path.value)
 
       return (
-        identifier?.name === 'browser' &&
+        browserSelectors.includes(identifier?.name as BrowserSelectors) &&
         supportedBrowserMethods.includes(path.node.callee.property.name as SupportedBrowserMethods)
       )
     })
@@ -132,26 +134,31 @@ export function transformBrowserMethods(j: JSCodeshift, nodes: Collection<CodeMo
     })
 }
 
-export function transformBrowserNavigate(j: JSCodeshift, root: Collection<CodeModNode>): Collection<CallExpression> {
-  return root
-    .find(j.CallExpression, {
-      callee: {
-        object: {
-          callee: {
-            object: {
-              name: 'browser',
-            },
+export function transformBrowserNavigate(
+  j: JSCodeshift,
+  root: Collection<CodeModNode>,
+): Collection<CallExpression> | void {
+  browserSelectors.forEach((selector) => {
+    return root
+      .find(j.CallExpression, {
+        callee: {
+          object: {
+            callee: {
+              object: {
+                name: selector,
+              },
 
-            property: {
-              name: 'navigate',
+              property: {
+                name: 'navigate',
+              },
             },
           },
         },
-      },
-    })
-    .replaceWith((path: ASTPath<CallExpression>) =>
-      j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('go'), false), [
-        j.stringLiteral((path.node.callee as CodeModNode).property.name),
-      ]),
-    )
+      })
+      .replaceWith((path: ASTPath<CallExpression>) =>
+        j.callExpression(j.memberExpression(j.identifier('cy'), j.identifier('go'), false), [
+          j.stringLiteral((path.node.callee as CodeModNode).property.name),
+        ]),
+      )
+  })
 }

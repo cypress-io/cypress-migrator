@@ -119,6 +119,15 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
     },
   })
 
+  // remove driver assignment expressions (eg. browser.ignoreSynchronization = true)
+  removeByPath(root, j.AssignmentExpression, {
+    left: {
+      object: {
+        name: 'driver',
+      },
+    },
+  })
+
   // remove browser methods that are not supported
   removeUnsupportedBrowserMethods(api.report, callExpressions, file)
 
