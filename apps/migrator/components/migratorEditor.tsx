@@ -109,7 +109,7 @@ const MigrateEditor = (): ReactElement => {
       </div>
       <div className="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
         <div>
-          <h4 className="font-bold">Want to dig deeper?</h4>
+          <h4 className="font-bold text-xl pb-1">Want to dig deeper?</h4>
           <p>
             <Link href="/migrations">
               <a className="text-green-400 hover:text-green-500" data-test="all-migrations-link">

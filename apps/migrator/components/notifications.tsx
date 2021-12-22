@@ -24,8 +24,7 @@ const Notifications = (): ReactElement => {
     <>
       {showCopiedNotification ? (
         <Toast
-          title="Sucessfully copied!"
-          message="You sucessfully copied the Cypress migration to clipboard"
+          title="Migration copied!"
           alertType="Success"
           hideToastAlert={toggleOffCopiedNotification}
         />

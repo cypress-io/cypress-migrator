@@ -54,7 +54,7 @@ const SelectList = (): ReactElement => {
                   >
                     {({ selected, active }) => (
                       <>
-                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block text-2xl')}>
+                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block text-xl capitalize')}>
                           {item}
                         </span>
 
@@ -65,7 +65,7 @@ const SelectList = (): ReactElement => {
                               'absolute inset-y-0 right-0 flex items-center px-4',
                             )}
                           >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                            <CheckIcon className="h-5 w-5 ml-2" aria-hidden="true" />
                           </span>
                         ) : null}
                       </>

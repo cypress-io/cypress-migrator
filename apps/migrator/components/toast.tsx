@@ -11,7 +11,7 @@ const Toast = ({
   hideToastAlert,
 }: {
   title: string
-  message: string
+  message?: string
   alertType: AlertIconType
   hideToastAlert(): void
 }): ReactElement => {
@@ -54,7 +54,7 @@ const Toast = ({
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-900">{title}</p>
-                    <p className="mt-1 text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: message }} />
+                    {message ? <p className="mt-1 text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: message }} /> : null}
                   </div>
                   <div className="ml-4 flex-shrink-0 flex">
                     <button

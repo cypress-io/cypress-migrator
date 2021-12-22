@@ -23,8 +23,7 @@ const MigrationDiff = (): ReactElement => {
             {diff.length > 0 ? (
               <>
                 <p className="py-4">
-                  The following Cypress API items were found in the migrated code. For more detailed information about
-                  each item, click the link to its page within our documentation.
+                  The following Cypress API items were found in the migrated code. Click an item to view detailed information within our documentation.
                 </p>
                 <ul className="list-inside list-none mb-4" data-test="api-details-list">
                   {diff.map((d, i: number) => (
