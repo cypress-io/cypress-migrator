@@ -39,6 +39,7 @@ const needsSanitized = (value: string): boolean => {
   }
 }
 
+
 export function sanitize(value: string): string {
   return needsSanitized(value) ? sanitize(value.slice(0, -1)) : value
 }
