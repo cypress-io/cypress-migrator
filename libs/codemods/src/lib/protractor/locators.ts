@@ -19,16 +19,17 @@ export function handleCyGetTransform(
   j: JSCodeshift,
   path: CodeModNode,
   propertyName: CyGetLocators,
-): Collection<CallExpression> {
+): Collection<CallExpression> | undefined {
   // if $$ is after another expression, transform it into .find()
   // otherwise, transform $, $$, and by locators as documented
-  if (propertyName === '$$' && path.value?.callee.object) {
-    path.value.callee.property.name = 'find'
+  if (propertyName === '$$' && !!path.value && !!path.value.callee && path.value?.callee.object) {
+    ;((path.value.callee as CodeModNode).property as CodeModNode).name = 'find'
   } else {
     if (cyGetLocators.includes(propertyName as CyGetLocators)) {
       return j(path as ASTNode).replaceWith((path: any) => replaceCySelector(j, path.value, 'get', propertyName))
     }
   }
+  return
 }
 
 // transform locators in cyContainLocators list
@@ -36,29 +37,34 @@ export function handleCyContainsTransform(
   j: JSCodeshift,
   path: CodeModNode,
   propertyName: CyContainLocatorsKeys,
-): Collection<CallExpression> {
+): Collection<CallExpression> | undefined {
   const args = path.value ? path.value.arguments : path.arguments
   if (propertyName in cyContainLocators) {
     return j(path as ASTNode).replaceWith(() => {
       return replaceCyContainsSelector(j, propertyName, cyContainLocators[propertyName], args as CodeModNode[])
     })
   }
+
+  return
 }
 
 // exclude non-locators and assertions from this group
 
 export function transformLocators(j: JSCodeshift, nodes: Collection<CodeModNode>): Collection<CodeModNode> {
   return nodes
-    .filter((path: ASTPath<CodeModNode>) => {
-      return (
-        path.value?.callee &&
+    .filter((path: ASTPath<CodeModNode>): boolean => {
+      return path.value?.callee &&
         isSelector(path.value.callee as Selector) &&
         !supportedAssertionTypes.includes(path.value?.callee?.property?.name as SupportedAssertionTypes)
-      )
+        ? true
+        : false
     })
     .forEach((path: ASTPath<CodeModNode>) => {
       const { value } = path
-      const propertyName = value.callee.type === 'MemberExpression' ? getPropertyName(value.callee) : value.callee.name
+      const propertyName: string =
+        !!value.callee && value.callee.type === 'MemberExpression'
+          ? getPropertyName(value.callee)
+          : ((value.callee as CodeModNode).name as string)
 
       // transform $$('item').get(1)
       if (propertyName === '$$' && path.parentPath.value.property?.name === 'get') {
@@ -77,5 +83,7 @@ export function transformLocators(j: JSCodeshift, nodes: Collection<CodeModNode>
           return replaceCySelector(j, path.value, propertyName)
         })
       }
+
+      return
     })
 }

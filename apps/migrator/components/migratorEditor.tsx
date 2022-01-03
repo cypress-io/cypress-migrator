@@ -1,4 +1,4 @@
-import cypressCodemods from '@cypress-dx/codemods'
+import { applyTransforms } from '@cypress-dx/codemods'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import Link from 'next/link'
@@ -61,7 +61,7 @@ const MigrateEditor = (): ReactElement => {
 
   const migrateEditorValue = (): void => {
     const input = diffEditorRef.current.getOriginalEditor().getValue()
-    const result = cypressCodemods({ input })
+    const result = applyTransforms({ input })
     dispatch(migrate({ input, result }))
   }
 

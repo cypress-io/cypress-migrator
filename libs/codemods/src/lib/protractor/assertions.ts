@@ -47,11 +47,11 @@ function getAssertionTargetExpression(
   if ((assertionTarget as CodeModNode).type === 'Identifier') {
     return assertionTarget as CodeModNode
   } else if ((assertionTarget as CodeModNode).callee) {
-    if ((assertionTarget as CodeModNode).callee.object.name === 'cy') {
+    if ((((assertionTarget as CodeModNode).callee as CodeModNode)?.object as CodeModNode)?.name === 'cy') {
       return j.callExpression(
         j.memberExpression(
-          (assertionTarget as CodeModNode).callee.object as MemberExpression,
-          (assertionTarget as CodeModNode).callee.property as MemberExpression,
+          ((assertionTarget as CodeModNode).callee as CodeModNode)?.object as MemberExpression,
+          ((assertionTarget as CodeModNode).callee as CodeModNode)?.property as MemberExpression,
           false,
         ),
         ((assertionTarget as CodeModNode).arguments as CodeModNode[]).length
@@ -59,9 +59,10 @@ function getAssertionTargetExpression(
           : [],
       )
     }
-    return (assertionTarget as CodeModNode).callee.object
+    return ((assertionTarget as CodeModNode).callee as CodeModNode)?.object as CodeModNode
   } else {
-    return (assertionTarget as CodeModNode).arguments[0].callee.object
+    return (((assertionTarget as CodeModNode).arguments as CodeModNode[])[0]?.callee as CodeModNode)
+      ?.object as CodeModNode
   }
 }
 
@@ -72,28 +73,36 @@ export function transformAssertions(
 ): Collection<CodeModNode> {
   return nodes
     .filter((path: ASTPath<CodeModNode>): boolean => {
-      return (
-        path.value.callee.property &&
-        supportedAssertionTypes.includes(path.value.callee.property.name as SupportedAssertionTypes)
-      )
+      return (path.value.callee as CodeModNode)?.property &&
+        supportedAssertionTypes.includes(
+          ((path.value.callee as CodeModNode)?.property as CodeModNode)?.name as SupportedAssertionTypes,
+        )
+        ? true
+        : false
     })
     .forEach((assertion: ASTPath<CodeModNode>): void => {
-      const assertionType: string = assertion.value.callee.property.name
-      const assertionTarget: string | CodeModNode | CodeModNode[] = getAssertionTarget(assertion.value.callee.object)
+      const assertionType: string = ((assertion.value.callee as CodeModNode)?.property as CodeModNode)?.name as string
+      const assertionTarget: string | CodeModNode | CodeModNode[] = getAssertionTarget(
+        (assertion.value.callee as CodeModNode)?.object as CodeModNode,
+      )
       const assertionTargetType: string = getAssertionTargetType(assertionTarget as CodeModNode)
       const assertionTargetExpression: string | CallExpression | CodeModNode | CodeModNode[] =
         getAssertionTargetExpression(j, assertionTarget)
 
       const hasCount: boolean =
-        (assertionTarget as CodeModNode).callee && hasProperty((assertionTarget as CodeModNode).callee, 'count')
+        (assertionTarget as CodeModNode).callee &&
+        hasProperty((assertionTarget as CodeModNode)?.callee as CodeModNode, 'count')
+          ? true
+          : false
       const hasNegative: boolean =
         ['toBeFalse', 'toBeFalsy'].includes(assertionType) ||
-        hasProperty(assertion.value.callee.object, 'not') ||
-        ((assertion.value?.arguments as CodeModNode[]).length > 0 && assertion.value?.arguments[0].value === false)
+        hasProperty((assertion.value.callee as CodeModNode)?.object as CodeModNode, 'not') ||
+        ((assertion.value?.arguments as CodeModNode[]).length > 0 &&
+          (assertion.value?.arguments as CodeModNode[])[0].value === false)
       const transformedAssertion: string =
-        assertionTargetType && assertionTransforms[assertionTargetType]
-          ? assertionTransforms[assertionTargetType]
-          : assertionTransforms[assertionType]
+        assertionTargetType && (assertionTransforms as any)[assertionTargetType]
+          ? (assertionTransforms as any)[assertionTargetType]
+          : (assertionTransforms as any)[assertionType]
 
       // TODO: add error message if no transformedAssertion
 
@@ -104,35 +113,36 @@ export function transformAssertions(
       // add arguments of literal types to assertion
       if (
         (assertion.value.arguments as CodeModNode[]).length > 0 &&
-        typeof assertion.value.arguments[0].value !== 'boolean'
+        typeof (assertion.value.arguments as CodeModNode[])[0].value !== 'boolean'
       ) {
-        assertionArgs.push(assertion.value.arguments[0] as StringLiteral)
+        assertionArgs.push((assertion.value.arguments as any)[0] as StringLiteral)
       }
 
       j(assertion as ASTPath<ASTNode>).replaceWith((): string | CallExpression => {
         // transform assertion that includes count()
         if (hasCount) {
           const countAssertion: TypedElementInExpression = findElementInExpression(
-            (assertionTarget as CodeModNode).callee.object,
+            ((assertionTarget as CodeModNode).callee as CodeModNode)?.object as CodeModNode,
             'property',
           )
-          let transformedCountSelector: CallExpression
+          let transformedCountSelector: CallExpression = {} as CallExpression
 
           if (cyGetLocators.includes((countAssertion as CyGetLocatorsObject).name)) {
             transformedCountSelector = replaceCySelector(
               j,
-              (assertionTarget as CodeModNode).callee.object,
+              ((assertionTarget as CodeModNode).callee as CodeModNode)?.object as CodeModNode,
               'get',
               (countAssertion as CyGetLocatorsObject).name,
             )
           }
 
-          if (cyContainLocators[(countAssertion as CyGetLocatorsObject).name]) {
+          if ((cyContainLocators as any)[(countAssertion as CyGetLocatorsObject).name]) {
             transformedCountSelector = replaceCyContainsSelector(
               j,
               (countAssertion as ProtractorSelectorsObject).name,
-              cyContainLocators[(countAssertion as ProtractorSelectorsObject).name],
-              (assertionTarget as CodeModNode).callee.object.callee.arguments as CodeModNode[],
+              (cyContainLocators as any)[(countAssertion as ProtractorSelectorsObject).name],
+              ((((assertionTarget as CodeModNode).callee as CodeModNode)?.object as CodeModNode)?.callee as CodeModNode)
+                ?.arguments as CodeModNode[],
             )
           }
 
@@ -161,11 +171,18 @@ export function transformAssertions(
       })
     })
     .forEach((path: ASTPath<CodeModNode>) => {
-      if (path.value.callee.object.callee) {
-        const propertyName = getPropertyName(path.value.callee.object.callee)
+      if (((path.value.callee as CodeModNode)?.object as CodeModNode)?.callee as CodeModNode) {
+        const propertyName = getPropertyName(
+          ((path.value.callee as CodeModNode)?.object as CodeModNode)?.callee as CodeModNode,
+        )
 
         if (propertyName && cyGetLocators.includes(propertyName as CyGetLocators)) {
-          path.value.callee.object = replaceCySelector(j, path.value.callee.object, 'get', propertyName) as CodeModNode
+          ;(path.value.callee as CodeModNode).object = replaceCySelector(
+            j,
+            (path.value.callee as CodeModNode)?.object as CodeModNode,
+            'get',
+            propertyName,
+          ) as CodeModNode
         }
       }
     })

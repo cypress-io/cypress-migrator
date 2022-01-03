@@ -8,6 +8,16 @@ export interface DiffArrayItem {
   api?: APIItem[]
 }
 
+export interface MigrationError {
+  message: string
+  level: 'warning' | 'error' | 'info'
+}
+export interface MigrateResult {
+  output: string | undefined
+  diff: DiffArrayItem[]
+  error?: MigrationError
+}
+
 const needsSanitized = (value: string): boolean => {
   switch (value[value.length - 1]) {
     case '.':
@@ -29,12 +39,13 @@ const needsSanitized = (value: string): boolean => {
   }
 }
 
-function splitTrim(value: string): string[] {
-  return value.split('\n').map((item) => item.trim())
-}
 
 export function sanitize(value: string): string {
   return needsSanitized(value) ? sanitize(value.slice(0, -1)) : value
+}
+
+function splitTrim(value: string): string[] {
+  return value.split('\n').map((item) => item.trim())
 }
 
 export function createDiffArray(input: string, output: string): DiffArrayItem[] {
@@ -43,7 +54,7 @@ export function createDiffArray(input: string, output: string): DiffArrayItem[] 
   const diffArray: DiffArrayItem[] = []
 
   outputArray.forEach((item, index): void => {
-    const cyMatches: RegExpMatchArray = item.match(/(?<!')\.(.*?)\(/g)
+    const cyMatches: RegExpMatchArray | null = item.match(/(?<!')\.(.*?)\(/g)
     const commands: APIItem[] = []
 
     if (cyMatches) {

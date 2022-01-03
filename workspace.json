@@ -35,6 +35,22 @@
       },
       "tags": []
     },
+    "markdown": {
+      "root": "libs/markdown",
+      "sourceRoot": "libs/markdown/src",
+      "projectType": "library",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/markdown"],
+          "options": {
+            "jestConfig": "libs/markdown/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "migrator": {
       "root": "apps/migrator",
       "sourceRoot": "apps/migrator",
@@ -126,6 +142,161 @@
       },
       "tags": [],
       "implicitDependencies": ["migrator"]
+    },
+    "migrator-state": {
+      "projectType": "library",
+      "root": "libs/migrator-state",
+      "sourceRoot": "libs/migrator-state/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/migrator-state"],
+          "options": {
+            "jestConfig": "libs/migrator-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/migrator-state/src/**/*.ts", "libs/migrator-state/src/**/*.html"]
+          }
+        }
+      },
+      "tags": []
+    },
+    "ng-migrator": {
+      "projectType": "application",
+      "root": "apps/ng-migrator",
+      "sourceRoot": "apps/ng-migrator/src",
+      "prefix": "cypress-dx",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ng-migrator",
+            "index": "apps/ng-migrator/src/index.html",
+            "main": "apps/ng-migrator/src/main.ts",
+            "polyfills": "apps/ng-migrator/src/polyfills.ts",
+            "tsConfig": "apps/ng-migrator/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/ng-migrator/src/favicon.ico",
+              "apps/ng-migrator/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor"
+              },
+              {
+                "input": "libs/markdown/src/lib",
+                "glob": "**/*.md",
+                "output": "assets"
+              }
+            ],
+            "styles": ["apps/ng-migrator/src/styles.scss"],
+            "scripts": ["node_modules/marked/lib/marked.js"],
+            "customWebpackConfig": {
+              "path": "apps/ng-migrator/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "8mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ng-migrator/src/environments/environment.ts",
+                  "with": "apps/ng-migrator/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@nrwl/angular:webpack-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-migrator:build:production"
+            },
+            "development": {
+              "browserTarget": "ng-migrator:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ng-migrator:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ng-migrator/src/**/*.ts", "apps/ng-migrator/src/**/*.html"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ng-migrator"],
+          "options": {
+            "jestConfig": "apps/ng-migrator/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "ng-migrator-e2e": {
+      "root": "apps/ng-migrator-e2e",
+      "sourceRoot": "apps/ng-migrator-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ng-migrator-e2e/cypress.json",
+            "devServerTarget": "ng-migrator:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-migrator:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ng-migrator-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["ng-migrator"]
     },
     "vscode-migrator": {
       "root": "libs/vscode-migrator",

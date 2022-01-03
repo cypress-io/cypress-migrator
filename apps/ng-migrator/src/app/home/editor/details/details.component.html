@@ -1,0 +1,36 @@
+<div *ngIf="showDetails$ | async" class="md:w-full transition duration-500 ease-in-out" data-test="more-details">
+  <h2 class="text-3xl leading-6 font-bold text-gray-900 my-4 capitalize">More details about your migration:</h2>
+  <hr />
+
+  <cypress-dx-error-alerts></cypress-dx-error-alerts>
+
+  <div class="flex justify-between">
+    <div data-test="api-details">
+      <p class="py-4">
+        The following Cypress API items were found in the migrated code. For more detailed information about each item,
+        click the link to its page within our documentation.
+      </p>
+      <ul class="list-inside list-none mb-4" data-test="api-details-list">
+        <li *ngFor="let item of diffItems$ | async" class="flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 ml-2 -mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <a class="ml-2 text-green-400 hover:text-green-500" [href]="item?.url" rel="noreferrer" target="_blank">
+            {{ item?.command }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
