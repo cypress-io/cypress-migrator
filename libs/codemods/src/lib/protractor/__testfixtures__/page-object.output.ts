@@ -7,6 +7,10 @@ export class TestPageObject {
     return cy.get('.protected-class');
   }
 
+  getPage() {
+    cy.visit('http://www.angularjs.org')
+  }
+
   search(term: string) {
     const input = () => cy.get('input[name="search-input"]')
     input.clear()

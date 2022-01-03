@@ -26,9 +26,7 @@ export function handleCyGetTransform(
     ;((path.value.callee as CodeModNode).property as CodeModNode).name = 'find'
   } else {
     if (cyGetLocators.includes(propertyName as CyGetLocators)) {
-      return j(path as ASTNode).replaceWith((path: any) => {
-        return replaceCySelector(j, path.value, 'get', propertyName)
-      })
+      return j(path as ASTNode).replaceWith((path: any) => replaceCySelector(j, path.value, 'get', propertyName))
     }
   }
   return

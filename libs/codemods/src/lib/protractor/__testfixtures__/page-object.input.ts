@@ -9,6 +9,10 @@ export class TestPageObject {
     return element(by.className('protected-class'))
   }
 
+  async getPage(): Promise<void> {
+    await browser.get('http://www.angularjs.org')
+  }
+
   async search(term: string): Promise<void> {
     const input = element(by.name('search-input'))
     await input.clear()
