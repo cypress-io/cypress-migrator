@@ -1,0 +1,29 @@
+{
+  "root": "apps/migrator-e2e",
+  "sourceRoot": "apps/migrator-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/migrator-e2e/cypress.json",
+        "devServerTarget": "migrator:serve",
+        "tsConfig": "apps/migrator-e2e/tsconfig.json"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "migrator:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/migrator-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["migrator"]
+}
