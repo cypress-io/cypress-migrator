@@ -8,6 +8,5 @@
   "video": true,
   "videosFolder": "../../dist/cypress/apps/migrator-e2e/videos",
   "screenshotsFolder": "../../dist/cypress/apps/migrator-e2e/screenshots",
-  "chromeWebSecurity": false,
-  "projectId": "pc1n6e"
+  "chromeWebSecurity": false
 }

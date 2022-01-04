@@ -3,18 +3,8 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
-    "types": ["jest", "node"],
-    "jsx": "react"
+    "types": ["jest", "node"]
   },
-  "include": [
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "**/*.spec.js",
-    "**/*.test.js",
-    "**/*.spec.jsx",
-    "**/*.test.jsx",
-    "**/*.d.ts"
-  ]
+  "files": ["src/test-setup.ts"],
+  "include": ["**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
 }

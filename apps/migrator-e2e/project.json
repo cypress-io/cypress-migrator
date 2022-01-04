@@ -7,8 +7,7 @@
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "apps/migrator-e2e/cypress.json",
-        "devServerTarget": "migrator:serve",
-        "tsConfig": "apps/migrator-e2e/tsconfig.json"
+        "devServerTarget": "migrator:serve:development"
       },
       "configurations": {
         "production": {

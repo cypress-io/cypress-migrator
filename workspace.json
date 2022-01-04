@@ -6,8 +6,6 @@
     "migrator": "apps/migrator",
     "migrator-e2e": "apps/migrator-e2e",
     "migrator-state": "libs/migrator-state",
-    "ng-migrator": "apps/ng-migrator",
-    "ng-migrator-e2e": "apps/ng-migrator-e2e",
     "vscode-migrator": "libs/vscode-migrator"
   }
 }

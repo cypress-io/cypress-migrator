@@ -1,39 +1,94 @@
 {
-  "root": "apps/migrator",
-  "sourceRoot": "apps/migrator",
   "projectType": "application",
+  "root": "apps/migrator",
+  "sourceRoot": "apps/migrator/src",
+  "prefix": "cypress-dx",
   "targets": {
     "build": {
-      "executor": "@nrwl/next:build",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "root": "apps/migrator",
-        "outputPath": "dist/apps/migrator"
+        "outputPath": "dist/apps/migrator",
+        "index": "apps/migrator/src/index.html",
+        "main": "apps/migrator/src/main.ts",
+        "polyfills": "apps/migrator/src/polyfills.ts",
+        "tsConfig": "apps/migrator/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/migrator/src/favicon.ico",
+          "apps/migrator/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/monaco-editor",
+            "output": "assets/monaco-editor"
+          },
+          {
+            "input": "libs/markdown/src/lib",
+            "glob": "**/*.md",
+            "output": "assets"
+          }
+        ],
+        "styles": ["apps/migrator/src/styles.scss"],
+        "scripts": ["node_modules/marked/lib/marked.js"],
+        "customWebpackConfig": {
+          "path": "apps/migrator/webpack.config.js"
+        }
       },
       "configurations": {
         "production": {
-          "buildTarget": "migrator:build:production",
-          "outputPath": "dist/apps/migrator"
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "8mb",
+              "maximumError": "10mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/migrator/src/environments/environment.ts",
+              "with": "apps/migrator/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
         }
-      }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/next:server",
-      "options": {
-        "buildTarget": "migrator:build",
-        "dev": true
-      },
+      "executor": "@nrwl/angular:webpack-server",
       "configurations": {
         "production": {
-          "buildTarget": "migrator:build:production",
-          "dev": false
+          "browserTarget": "migrator:build:production"
+        },
+        "development": {
+          "browserTarget": "migrator:build:development"
         }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "migrator:build"
       }
     },
-    "export": {
-      "executor": "@nrwl/next:export",
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
       "options": {
-        "buildTarget": "migrator:build:production"
+        "lintFilePatterns": ["apps/migrator/src/**/*.ts", "apps/migrator/src/**/*.html"]
       }
     },
     "test": {
@@ -42,20 +97,6 @@
       "options": {
         "jestConfig": "apps/migrator/jest.config.js",
         "passWithNoTests": true
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/migrator/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": [],
-      "options": {
-        "command": "nx affected --target=build --base=master --head=HEAD && nx build migrator --prod && cp -R dist/apps/migrator/next.config.js apps/migrator/.dist"
       }
     }
   },

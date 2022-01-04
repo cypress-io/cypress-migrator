@@ -50,19 +50,16 @@ describe('Migrator app', () => {
     cy.getBySel('nav-list').find('li').should('have.length', 2)
 
     // correctly selects language
-    cy.getBySel('language-select-button').find('span').contains('protractor')
-    cy.getBySel('language-select-button').click()
+    cy.getBySel('language-select-button').find('option').contains('protractor')
     cy.getBySel('language-select-options').should('have.length', 1)
-    cy.getBySel('language-select-options').contains('li', 'protractor').click()
+    cy.getBySel('language-select-button').contains('option', 'protractor')
     // test page elements that are dynamic based on selected language
     cy.getBySel('nav-list').contains('li', 'protractor')
     cy.getBySel('all-migrations-link').contains('span', 'protractor')
 
     // correctly migrates code
-    //cy.get('.original-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
     cy.get('.modified-in-monaco-diff-editor').find('.view-line').should('have.length', 1)
     cy.getBySel('migrate-button').click()
-    //cy.get('.modified-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
 
     // shows more details section
     cy.getBySel('more-details').should('be.visible')
@@ -82,7 +79,7 @@ describe('Migrator app', () => {
   })
 
   it('correctly displays no migration found warning', () => {
-    cy.intercept('/api/migrations', { statusCode: 201, body: { protractor: 'test()', cypress: 'test()' } }).as(
+    cy.intercept('**/api/migrations', { statusCode: 201, body: { protractor: 'test()', cypress: 'test()' } }).as(
       'migrate',
     )
     clearProtractor()
