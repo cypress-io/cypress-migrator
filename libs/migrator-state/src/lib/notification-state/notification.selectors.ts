@@ -23,3 +23,8 @@ export const selectNotification = createSelector(selectNotificationTitle, select
       }
     : null,
 )
+
+export const selectSentMigrationRequest = createSelector(
+  notificationFeatureSelector,
+  (state) => state.sentAddMigrationRequest,
+)

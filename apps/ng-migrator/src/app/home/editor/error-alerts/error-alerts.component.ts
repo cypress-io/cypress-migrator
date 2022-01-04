@@ -9,10 +9,5 @@ import { Store } from '@ngrx/store'
 })
 export class ErrorAlertsComponent {
   alerts$ = this.store.select(selectAlerts)
-
   constructor(private readonly store: Store) {}
-
-  addMigration(): void {
-    console.log('add migration')
-  }
 }

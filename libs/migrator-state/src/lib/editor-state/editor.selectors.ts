@@ -1,9 +1,10 @@
 import { APIItem, DiffArrayItem } from '@cypress-dx/codemods'
-import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store'
+import { createFeatureSelector, createSelector, MemoizedSelector, State } from '@ngrx/store'
 import { EditorState, EDITOR_FEATURE } from './editor.reducer'
 
 export const editorFeatureSelector = createFeatureSelector<EditorState>(EDITOR_FEATURE)
 
+export const selectMigrationError = createSelector(editorFeatureSelector, (state) => state.error)
 export const selectLanguage = createSelector(editorFeatureSelector, (state) => state.language)
 export const selectAvailableLanguages = createSelector(editorFeatureSelector, (state) => state.availableLanguages)
 export const selectDisplayDiff = createSelector(editorFeatureSelector, (state) => state.displayDiff)

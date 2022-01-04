@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { delay, map } from 'rxjs'
-import { turnOffNotification, turnOnCopiedNotification } from '.'
-import { copyMigration } from '../editor-state'
+import {
+  addMigrationRequestSuccessOn,
+  addMigrationrequestSuccesssOff,
+  turnOffNotification,
+  turnOnCopiedNotification,
+} from './notification.actions'
+import { addMigrationSuccess, copyMigration } from '../editor-state'
 
 @Injectable()
 export class NotificationEffects {
@@ -20,6 +25,21 @@ export class NotificationEffects {
       ofType(turnOnCopiedNotification),
       delay(5000),
       map(() => turnOffNotification()),
+    ),
+  )
+
+  turnOnAddMigrationRequestSuceessNotifcation$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addMigrationSuccess),
+      map(() => addMigrationRequestSuccessOn()),
+    ),
+  )
+
+  turnOffAddMigrationRequestSuceessNotifcation$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addMigrationRequestSuccessOn),
+      delay(5000),
+      map(() => addMigrationrequestSuccesssOff()),
     ),
   )
 }

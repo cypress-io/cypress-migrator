@@ -1,5 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store'
-import { turnOffCopiedNotification, turnOnCopiedNotification, turnOffNotification } from './notification.actions'
+import {
+  turnOffCopiedNotification,
+  turnOnCopiedNotification,
+  turnOffNotification,
+  addMigrationRequestSuccessOn,
+  addMigrationrequestSuccesssOff,
+} from './notification.actions'
 
 export const NOTIFICATION_FEATURE = 'notification'
 
@@ -25,6 +31,14 @@ const reducer = createReducer(
   })),
   on(turnOffNotification, (state) => ({
     ...initialState,
+  })),
+  on(addMigrationRequestSuccessOn, (state) => ({
+    ...state,
+    sentAddMigrationRequest: true,
+  })),
+  on(addMigrationrequestSuccesssOff, (state) => ({
+    ...state,
+    sentAddMigrationRequest: false,
   })),
 )
 

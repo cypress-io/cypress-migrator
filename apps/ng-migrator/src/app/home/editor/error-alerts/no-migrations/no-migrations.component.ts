@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { addMigration } from '@cypress-dx/migrator-state'
+import { addMigration, selectSentMigrationRequest } from '@cypress-dx/migrator-state'
 import { Store } from '@ngrx/store'
 
 @Component({
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store'
   styleUrls: ['./no-migrations.component.scss'],
 })
 export class NoMigrationsComponent {
+  sentMigrationRequest$ = this.store.select(selectSentMigrationRequest)
   constructor(private readonly store: Store) {}
 
   addMigration(): void {

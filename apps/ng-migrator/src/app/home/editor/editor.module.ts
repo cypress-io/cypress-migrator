@@ -14,6 +14,7 @@ import { NoMigrationsComponent } from './error-alerts/no-migrations/no-migration
 import { BrowserWaitComponent } from './error-alerts/browser-wait/browser-wait.component'
 import { XpathComponent } from './error-alerts/xpath/xpath.component'
 import { RouterModule } from '@angular/router'
+import { MigrationErrorsComponent } from './error-alerts/migration-errors/migration-errors.component'
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RouterModule } from '@angular/router'
     NoMigrationsComponent,
     BrowserWaitComponent,
     XpathComponent,
+    MigrationErrorsComponent,
   ],
   imports: [CommonModule, MonacoEditorModule.forRoot(), FormsModule, RouterModule],
   providers: [{ provide: NGX_MONACO_EDITOR_CONFIG, useValue: MonacoConfig }],
