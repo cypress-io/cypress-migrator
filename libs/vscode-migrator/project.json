@@ -1,0 +1,34 @@
+{
+  "root": "libs/vscode-migrator",
+  "sourceRoot": "libs/vscode-migrator/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/vscode-migrator/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/vscode-migrator"],
+      "options": {
+        "jestConfig": "libs/vscode-migrator/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/vscode-migrator",
+        "tsConfig": "libs/vscode-migrator/tsconfig.lib.json",
+        "packageJson": "libs/vscode-migrator/package.json",
+        "main": "libs/vscode-migrator/src/extension.ts",
+        "assets": ["libs/vscode-migrator/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

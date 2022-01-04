@@ -1,0 +1,63 @@
+{
+  "root": "apps/migrator",
+  "sourceRoot": "apps/migrator",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "root": "apps/migrator",
+        "outputPath": "dist/apps/migrator"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "migrator:build:production",
+          "outputPath": "dist/apps/migrator"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "options": {
+        "buildTarget": "migrator:build",
+        "dev": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "migrator:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "migrator:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/migrator"],
+      "options": {
+        "jestConfig": "apps/migrator/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/migrator/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx affected --target=build --base=master --head=HEAD && nx build migrator --prod && cp -R dist/apps/migrator/next.config.js apps/migrator/.dist"
+      }
+    }
+  },
+  "tags": []
+}
