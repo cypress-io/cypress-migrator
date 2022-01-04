@@ -98,6 +98,13 @@
         "jestConfig": "apps/migrator/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx affected --target=build --base=master --head=HEAD && nx build migrator --prod"
+      }
     }
   },
   "tags": []
