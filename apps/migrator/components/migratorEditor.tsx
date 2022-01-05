@@ -20,6 +20,9 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const monacoPackage = require('../../../node_modules/monaco-editor/package.json')
+
 const MigrateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const original = useAppSelector(selectOriginal)
@@ -79,7 +82,7 @@ const MigrateEditor = (): ReactElement => {
           rel="stylesheet"
           type="text/css"
           data-name="vs/editor/editor.main"
-          href="https://cdn.jsdelivr.net/npm/monaco-editor@0.31.1/min/vs/editor/editor.main.css"
+          href={`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoPackage.version}/min/vs/editor/editor.main.css`}
         ></link>
       </Head>
       <LanguagePills />
