@@ -1,8 +1,8 @@
 import { ReactElement } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { useAppSelector, selectLanguage } from '../app'
+import { Logo } from '../components'
 
 const Navigation = (): ReactElement => {
   const selectedLanguage: string = useAppSelector(selectLanguage).toLowerCase()
@@ -15,14 +15,9 @@ const Navigation = (): ReactElement => {
     <>
       <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">
         <div className="flex w-full justify-between items-center">
-          <div className="flex-shrink-0 flex items-center">
-            <a>
-              <Image src="/logo.png" alt="Cypress Logo" width="50" height="50" />
-            </a>
-            <a>
-              <span className="text-xl font-bold mx-2">Migrator</span>
-            </a>
-          </div>
+          <Link href="/" passHref>
+            <Logo />
+          </Link>
 
           <ul
             className="nav-list flex items-center sm:space-x-3 md:space-x-4 lg:space-x-8 leading-3 px-2"

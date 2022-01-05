@@ -12,6 +12,7 @@ import BackButton from './backButton'
 import Footer from './footer'
 import AlertType from './alertType'
 import ErrorAlerts from './errorAlerts'
+import Logo from './logo'
 
 export {
   AvailableCodeMods,
@@ -28,4 +29,5 @@ export {
   Footer,
   AlertType,
   ErrorAlerts,
+  Logo,
 }
