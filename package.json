@@ -12,7 +12,7 @@
     "lint:affected": "nx affected:lint",
     "test": "nx test",
     "test:migrator-e2e": "nx e2e migrator-e2e",
-    "test:migrator-e2e:ci": "nx e2e migrator-e2e --headless --record --key 6e1c1014-d3f1-4fb9-9146-407b3283ae98",
+    "test:migrator-e2e:ci": "nx e2e migrator-e2e --record --key 6e1c1014-d3f1-4fb9-9146-407b3283ae98",
     "test:affected": "nx affected:test",
     "test:codemods": "nx test codemods",
     "affected:deploy": "nx affected --target=deploy",
