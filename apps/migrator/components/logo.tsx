@@ -1,10 +1,9 @@
 import { forwardRef, MouseEventHandler } from 'react'
-import { LinkProps } from 'next/link'
 import Image from 'next/image'
 
 interface Props {
-  href: string
-  onClick: MouseEventHandler<HTMLAnchorElement> // <-------------------------
+  href?: string
+  onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
 const Logo = forwardRef<HTMLAnchorElement, Props>(({ href, onClick }, ref) => (
