@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { applyTransforms } from '@cypress-dx/codemods'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
@@ -19,41 +20,47 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    window.addEventListener('load', () => setIsMobile(window.innerWidth <= 768))
-    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 768))
-  })
-
-  return isMobile
-}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const monacoPackage = require('../../../node_modules/monaco-editor/package.json')
 
 const MigrateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
-  const error = useAppSelector(selectError)
   const original = useAppSelector(selectOriginal)
   const migrated = useAppSelector(selectModified)
   const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors)
-  const isMobile = useIsMobile()
+  const [isMobile, setIsMobile] = useState(false)
 
   const diffEditorRef = useRef(null)
   const monaco = useMonaco()
 
+  const setMonacoLight = (monaco) =>
+    monaco.editor.defineTheme('cypress-light', {
+      base: 'vs',
+      inherit: true,
+      rules: [],
+      colors: themeColors,
+    })
+
   useEffect(() => {
+    window.addEventListener('load', () => setIsMobile(window.innerWidth <= 768))
+    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 768))
+  }, [])
+
+  useEffect(() => {
+    // handles setting theme when diff colors are toggled
     if (monaco) {
-      monaco.editor.defineTheme('cypress-light', {
-        base: 'vs',
-        inherit: true,
-        rules: [],
-        colors: themeColors,
-      })
+      setMonacoLight(monaco)
 
       monaco.editor.setTheme('cypress-light')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monaco, themeColors])
+
+  // handles setting theme on editor mount
+  const handleEditorWillMount = (monaco) => {
+    setMonacoLight(monaco)
+  }
 
   const handleEditorMount = (editor) => {
     diffEditorRef.current = editor
@@ -67,6 +74,17 @@ const MigrateEditor = (): ReactElement => {
 
   return (
     <div className="flex pt-4 h-3/5 gap-2 flex-col">
+      <Head>
+        {/* Fix from https://github.com/suren-atoyan/monaco-react/issues/272#issuecomment-893672844
+  Fixes https://github.com/vercel/next.js/issues/11012 that causes Monaco Editor CSS to be removed
+  */}
+        <link
+          rel="stylesheet"
+          type="text/css"
+          data-name="vs/editor/editor.main"
+          href={`https://cdn.jsdelivr.net/npm/monaco-editor@${monacoPackage.version}/min/vs/editor/editor.main.css`}
+        ></link>
+      </Head>
       <LanguagePills />
       <div className={classNames(isMobile ? 'justify-end pt-2' : 'justify-between', 'flex')}>
         {!isMobile ? (
@@ -85,7 +103,9 @@ const MigrateEditor = (): ReactElement => {
             modified={!!migrated ? migrated : ''}
             keepCurrentOriginalModel={true}
             keepCurrentModifiedModel={true}
+            beforeMount={handleEditorWillMount}
             onMount={handleEditorMount}
+            theme={'cypress-light'}
             options={{
               lineNumbers: 'on',
               originalEditable: true,
