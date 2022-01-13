@@ -1,6 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { defineConfig } = require('cypress')
-module.exports = defineConfig({
+import { defineConfig } from 'cypress'
+
+export default defineConfig({
+  baseUrl: 'http://localhost:4200',
   e2e: {
     supportFile: 'src/support/e2e.js',
     specPattern: 'src/e2e/**/*.cy.{js,ts}',
@@ -14,7 +15,6 @@ module.exports = defineConfig({
     screenshotsFolder: '../../dist/src/apps/migrator-e2e/screenshots',
     chromeWebSecurity: false,
     projectId: 'pc1n6e',
-    baseUrl: 'http://localhost:4200',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setupNodeEvents(on, config) {
       //
