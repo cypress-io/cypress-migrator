@@ -12,7 +12,7 @@
   "include": [
     "**/*.spec.{js,jsx,ts,tsx}",
     "**/*.test.{js,jsx,ts,tsx}",
+    "**/*.cy.{js,jsx,ts,tsx}",
     "**/*.d.ts",
-    "**/*.cy.{js,jsx,ts,tsx}"
   ]
 }

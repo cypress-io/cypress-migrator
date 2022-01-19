@@ -6,7 +6,7 @@ export default defineConfig({
   component: {
     devServer,
     supportFile: 'cypress/support/component.ts',
-    specPattern: 'components/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: 'components/*.cy.{js,jsx,ts,tsx}',
     componentFolder: 'components',
   },
 })
