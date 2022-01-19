@@ -3,18 +3,16 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
-    "types": ["jest", "node"],
-    "jsx": "react"
+    "types": ["jest", "node", "cypress"],
+    "jsx": "react",
+    "isolatedModules": false,
+    "allowJs": true,
+    "noEmit": true
   },
   "include": [
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "**/*.spec.js",
-    "**/*.test.js",
-    "**/*.spec.jsx",
-    "**/*.test.jsx",
-    "**/*.d.ts"
+    "**/*.spec.{js,jsx,ts,tsx}",
+    "**/*.test.{js,jsx,ts,tsx}",
+    "**/*.d.ts",
+    "**/*.cy.{js,jsx,ts,tsx}"
   ]
 }
