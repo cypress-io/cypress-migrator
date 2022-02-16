@@ -15,7 +15,7 @@ import {
   CyGetLocatorsObject,
   ProtractorSelectorsObject,
   CodemodConstantTypesObject,
-} from '../types'
+} from '../../src/lib/types'
 import {
   errorMessage,
   findElementInExpression,
@@ -25,7 +25,7 @@ import {
   hasProperty,
   replaceCyContainsSelector,
   replaceCySelector,
-} from '../utils'
+} from '../../src/lib/utils'
 import {
   assertionTransforms,
   cyContainLocators,
@@ -33,7 +33,7 @@ import {
   CyGetLocators,
   SupportedAssertionTypes,
   supportedAssertionTypes,
-} from '../common/constants'
+} from '../../src/lib/common/constants'
 
 // transform cyGetLocators items into cy.get()
 // transform cyContainLocators items into cy.contains()

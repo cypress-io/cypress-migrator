@@ -1,9 +1,13 @@
 import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
-import { CodeModNode, ExpressionKind, Selector } from '../types'
-import { getPropertyName, isSelector, removeByPath, sanitize } from '../utils'
+import { CodeModNode, ExpressionKind, Selector } from '../../src/lib/types'
+import { getPropertyName, isSelector, removeByPath, sanitize } from '../../src/lib/utils'
 import { transformAssertions } from './assertions'
-import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrowserNavigate } from '../common/browser'
-import { nonLocatorMethodTransforms } from '../common/constants'
+import {
+  removeUnsupportedBrowserMethods,
+  transformBrowserMethods,
+  transformBrowserNavigate,
+} from '../../src/lib/common/browser'
+import { nonLocatorMethodTransforms } from '../../src/lib/common/constants'
 import { transformLocators } from './locators'
 
 const transformer: Transform = (file: FileInfo, api: API): string => {

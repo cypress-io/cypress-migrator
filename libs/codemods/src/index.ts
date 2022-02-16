@@ -1,5 +1,6 @@
 import * as jscodeshift from 'jscodeshift/dist/core'
-import protractorTransformer from './lib/protractor'
+import protractorTransformer from '@cypress-dx/codemods/protractor'
+import webdriverTransformer from '@cypress-dx/codemods/webdriver'
 import { createDiffArray, DiffArrayItem } from './lib/utils'
 
 export interface MigrateResult {
@@ -13,6 +14,7 @@ export interface MigrateResult {
 
 interface TransformProps {
   input: string
+  transformer: 'protractor' | 'webdriver'
   warningMessage?: string
   notSupportedMessage?: string
   errorMessage?: string
@@ -23,6 +25,7 @@ export const parser = 'babel'
 
 export default function applyTransforms({
   input,
+  transformer = 'protractor',
   warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-migrator repo.',
   notSupportedMessage = 'We currently do not support transforming this. There is no Cypress equivalent.',
   errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-migrator repo.',
@@ -40,18 +43,38 @@ export default function applyTransforms({
   }
 
   try {
-    const transform = protractorTransformer(
-      { path: 'transform.js', source: input },
-      {
-        jscodeshift,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        stats: () => {},
-        j: jscodeshift,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        report: () => {},
-      },
-      {},
-    )
+    let transform
+
+    switch (transformer) {
+      case 'protractor':
+        transform = protractorTransformer(
+          { path: 'transform.js', source: input },
+          {
+            jscodeshift,
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            stats: () => {},
+            j: jscodeshift,
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            report: () => {},
+          },
+          {},
+        )
+        break
+      case 'webdriver':
+        transform = webdriverTransformer(
+          { path: 'transform.js', source: input },
+          {
+            jscodeshift,
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            stats: () => {},
+            j: jscodeshift,
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            report: () => {},
+          },
+          {},
+        )
+        break
+    }
 
     // if the transform does not exist for some reason.
     if (typeof transform === 'undefined') {

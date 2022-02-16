@@ -10,7 +10,11 @@
           "executor": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/codemods/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/codemods/**/*.ts",
+              "libs/codemods/protractor/**/*.ts",
+              "libs/codemods/webdriver/**/*.ts"
+            ]
           }
         },
         "test": {

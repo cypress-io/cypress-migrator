@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import * as jscodeshiftTestUtils from 'jscodeshift/dist/testUtils'
-import * as transform from '../../protractor/index'
+import * as transform from '@cypress-dx/codemods/protractor'
 
 describe('webdriver', () => {
   const driverMethodsInput = `

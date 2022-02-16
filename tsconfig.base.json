@@ -16,6 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@cypress-dx/codemods": ["libs/codemods/src/index.ts"],
+      "@cypress-dx/codemods/protractor": ["libs/codemods/protractor/src/index.ts"],
+      "@cypress-dx/codemods/webdriver": ["libs/codemods/webdriver/src/index.ts"],
       "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"]
     }
   },

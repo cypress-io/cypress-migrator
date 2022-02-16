@@ -9,9 +9,9 @@ import {
   CyContainLocatorsKeys,
   SupportedAssertionTypes,
   UnsupportedLocators,
-} from '../common/constants'
-import { isSelector, getPropertyName, replaceCySelector, replaceCyContainsSelector } from '../utils'
-import { CodeModNode, Selector } from '../types'
+} from '../../src/lib/common/constants'
+import { isSelector, getPropertyName, replaceCySelector, replaceCyContainsSelector } from '../../src/lib/utils'
+import { CodeModNode, Selector } from '../../src/lib/types'
 
 // transform cyGetLocators items into cy.get()
 // transform cyContainLocators items into cy.contains()
