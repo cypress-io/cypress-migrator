@@ -9,6 +9,7 @@ import {
 } from '../../src/lib/common/browser'
 import { nonLocatorMethodTransforms } from '../../src/lib/common/constants'
 import { transformLocators } from './locators'
+import { transformElement } from './element'
 
 const transformer: Transform = (file: FileInfo, api: API): string => {
   file.source = sanitize(file.source)
@@ -175,6 +176,10 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // transform locators
   transformLocators(j, callExpressions)
+
+  // transform element api
+  transformElement(j, callExpressions)
+  console.log('🚀 ~ file: index.ts ~ line 182 ~ callExpressions', callExpressions)
 
   // remove await expressions
   if (awaitExpressions.size() > 0) {

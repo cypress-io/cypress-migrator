@@ -61,7 +61,7 @@ const MigrateEditor = (): ReactElement => {
 
   const migrateEditorValue = (): void => {
     const input = diffEditorRef.current.getOriginalEditor().getValue()
-    const result = cypressCodemods({ input })
+    const result = cypressCodemods({ input, transformer: selectedLanguage })
     dispatch(migrate({ input, result }))
   }
 

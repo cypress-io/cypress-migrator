@@ -63,7 +63,7 @@ export interface IMigratorState {
 }
 
 export const initialState: IMigratorState = {
-  language: 'protractor',
+  language: 'webdriver',
   availableLanguages: ['protractor', 'webdriver'],
   diffArray: [],
   original: defaultText['protractor'],
