@@ -1,0 +1,34 @@
+{
+  "root": "libs/migrate/chrome-recorder",
+  "sourceRoot": "libs/migrate/chrome-recorder/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/migrate/chrome-recorder/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/migrate/chrome-recorder"],
+      "options": {
+        "jestConfig": "libs/migrate/chrome-recorder/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/migrate/chrome-recorder",
+        "tsConfig": "libs/migrate/chrome-recorder/tsconfig.lib.json",
+        "packageJson": "libs/migrate/chrome-recorder/package.json",
+        "main": "libs/migrate/chrome-recorder/src/index.ts",
+        "assets": ["libs/migrate/chrome-recorder/*.md"]
+      }
+    }
+  },
+  "tags": []
+}

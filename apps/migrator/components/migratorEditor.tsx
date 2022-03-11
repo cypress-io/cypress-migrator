@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { applyTransforms } from '@cypress-dx/codemods'
+import { applyTransforms } from '@cypress-dx/migrate-protractor'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import Link from 'next/link'

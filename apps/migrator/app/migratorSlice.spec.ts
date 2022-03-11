@@ -1,4 +1,4 @@
-import { MigrateResult } from '@cypress-dx/codemods'
+import { MigrateResult } from '@cypress-dx/migrate-protractor'
 import {
   checkIfXPathMigrationMade,
   IErrorAlerts,
