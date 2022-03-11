@@ -7,7 +7,7 @@ interface MigrateTypes {
   type: 'protractor' | 'chrome-recorder'
 }
 
-export default function migrate({ input, type }: MigrateTypes): MigrateResult | undefined {
+export function migrate({ input, type }: MigrateTypes): MigrateResult | undefined {
   let result
   switch (type) {
     case 'protractor':

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { applyTransforms } from '@cypress-dx/migrate-protractor'
+import { migrate as cypressMigrate } from '@cypress-dx/migrate'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import Link from 'next/link'
@@ -68,7 +68,7 @@ const MigrateEditor = (): ReactElement => {
 
   const migrateEditorValue = (): void => {
     const input = diffEditorRef.current.getOriginalEditor().getValue()
-    const result = applyTransforms({ input })
+    const result = cypressMigrate({ input, type: selectedLanguage })
     dispatch(migrate({ input, result }))
   }
 
