@@ -1,7 +1,7 @@
 import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
 import { CodeModNode, ExpressionKind, Selector } from './types'
 import { getPropertyName, isSelector, removeByPath } from './utils'
-import { sanitize } from '../../../src/lib/utils'
+import { sanitize } from '@cypress-dx/migrate-utils'
 import { transformAssertions } from './assertions'
 import { removeUnsupportedBrowserMethods, transformBrowserMethods, transformBrowserNavigate } from './browser'
 import { nonLocatorMethodTransforms } from './constants'

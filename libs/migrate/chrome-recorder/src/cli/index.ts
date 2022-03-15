@@ -2,15 +2,15 @@
 
 // Based on https://github.com/reactjs/react-codemod/blob/master/bin/cli.js
 
-import { globbySync } from 'globby';
-import inquirer from 'inquirer';
-import meow from 'meow';
-import chalk from 'chalk';
+import { globbySync } from 'globby'
+import * as inquirer from 'inquirer'
+import meow from 'meow'
+import chalk from 'chalk'
 
-import { runTransforms } from './transforms.js';
+import { runTransforms } from './transforms.js'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import isGitClean from 'is-git-clean';
+const isGitClean = require('is-git-clean')
 
 // CLI
 const cli = meow(
@@ -40,50 +40,40 @@ Options:
         alias: 'p',
       },
     },
-  }
-);
+  },
+)
 
 function checkGitStatus(force: boolean | undefined) {
-  let clean = false;
-  let errorMessage = 'Unable to determine if git directory is clean';
+  let clean = false
+  let errorMessage = 'Unable to determine if git directory is clean'
   try {
-    clean = isGitClean.sync(process.cwd());
-    errorMessage = 'Git directory is not clean';
+    clean = isGitClean.sync(process.cwd())
+    errorMessage = 'Git directory is not clean'
   } catch (err: any) {
     if (err && err.stderr && err.stderr.indexOf('Not a git repository') >= 0) {
-      clean = true;
+      clean = true
     }
   }
 
   if (!clean) {
     if (force) {
-      console.log(`WARNING: ${errorMessage}. Forcibly continuing.`);
+      console.log(`WARNING: ${errorMessage}. Forcibly continuing.`)
     } else {
-      console.log('Thank you for using cypress-chrome-recorder.');
-      console.log(
-        chalk.yellow(
-          '\nBefore we continue, please stash or commit your git changes.'
-        )
-      );
-      console.log(
-        '\nYou may use the --force flag to override this safety check.'
-      );
-      process.exit(1);
+      console.log('Thank you for using cypress-chrome-recorder.')
+      console.log(chalk.yellow('\nBefore we continue, please stash or commit your git changes.'))
+      console.log('\nYou may use the --force flag to override this safety check.')
+      process.exit(1)
     }
   }
 }
 
 function expandedFilePaths(filesBeforeExpansion: string[]) {
-  const shouldExpandFiles = filesBeforeExpansion.some((file: string) =>
-    file.includes('*')
-  );
-  return shouldExpandFiles
-    ? globbySync(filesBeforeExpansion)
-    : filesBeforeExpansion;
+  const shouldExpandFiles = filesBeforeExpansion.some((file: string) => file.includes('*'))
+  return shouldExpandFiles ? globbySync(filesBeforeExpansion) : filesBeforeExpansion
 }
 
 if (!cli.flags.dry) {
-  checkGitStatus(cli.flags.force);
+  checkGitStatus(cli.flags.force)
 }
 
 inquirer
@@ -91,8 +81,7 @@ inquirer
     {
       type: 'input',
       name: 'files',
-      message:
-        'Which directory or files should be translated from Recorder JSON to Cypress?',
+      message: 'Which directory or files should be translated from Recorder JSON to Cypress?',
       when: () => !cli.input.length,
       default: '.',
       filter: (files: string) =>
@@ -105,21 +94,21 @@ inquirer
   ])
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .then((answers: any) => {
-    const { files } = answers;
+    const { files } = answers
 
-    const filesBeforeExpansion = cli.input.length ? cli.input : files;
-    const filesExpanded = expandedFilePaths([filesBeforeExpansion]);
+    const filesBeforeExpansion = cli.input.length ? cli.input : files
+    const filesExpanded = expandedFilePaths([filesBeforeExpansion])
 
     if (!filesExpanded.length) {
-      console.log(`No files found matching ${filesBeforeExpansion.join(' ')}`);
-      return null;
+      console.log(`No files found matching ${filesBeforeExpansion.join(' ')}`)
+      return null
     }
 
     return runTransforms({
       files: filesExpanded,
       flags: cli.flags,
-    });
+    })
   })
   .catch((errors) => {
-    console.log('errors: ', errors);
-  });
+    console.log('errors: ', errors)
+  })

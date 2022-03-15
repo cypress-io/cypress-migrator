@@ -1,11 +1,11 @@
-import { DiffArrayItem, MigrationError } from '@cypress-dx/migrate-protractor'
+import { DiffArrayItem, MigrationError } from '@cypress-dx/migrate-utils'
 import { Action, createReducer, on } from '@ngrx/store'
 import { defaultText } from './constants'
 import { setLanguage, toggleDisplayDiff, migrateResult, formatedResult, formatInput } from './editor.actions'
 
 export const EDITOR_FEATURE = 'editor'
 
-export type AvailableLanguage = 'protractor'
+export type AvailableLanguage = 'protractor' | 'chrome-recorder'
 
 export interface EditorState {
   language: AvailableLanguage
@@ -19,7 +19,7 @@ export interface EditorState {
 
 const initialState: EditorState = {
   language: 'protractor',
-  availableLanguages: ['protractor'],
+  availableLanguages: ['protractor', 'chrome-recorder'],
   displayDiff: true,
   diffArray: [],
   original: defaultText['protractor'],

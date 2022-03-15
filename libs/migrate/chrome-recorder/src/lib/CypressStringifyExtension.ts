@@ -14,29 +14,25 @@
     limitations under the License.
  */
 
-import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay';
+import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay'
 
 export class CypressStringifyExtension extends StringifyExtension {
   async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
     console.log(
       '🚀 ~ file: CypressStringifyExtension.ts ~ line 23 ~ CypressStringifyExtension ~ beforeAllSteps ~ flow',
-      flow
-    );
-    out.appendLine(`describe(${flow.title}, function() {`);
-    out.appendLine(`  it(tests ${flow.title}, function() {`).startBlock();
+      flow,
+    )
+    out.appendLine(`describe(${flow.title}, function() {`)
+    out.appendLine(`  it(tests ${flow.title}, function() {`).startBlock()
   }
 
-  async afterAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
-    out.appendLine('  });').endBlock();
-    out.appendLine('});');
+  async afterAllSteps(out: LineWriter): Promise<void> {
+    out.appendLine('  });').endBlock()
+    out.appendLine('});')
   }
 
-  async stringifyStep(
-    out: LineWriter,
-    step: Schema.Step,
-    flow: Schema.UserFlow
-  ): Promise<void> {
-    this.#appendStepType(out, step);
+  async stringifyStep(out: LineWriter, step: Schema.Step): Promise<void> {
+    this.#appendStepType(out, step)
 
     if (step.assertedEvents) {
       // TODO: handle assertions
@@ -46,15 +42,15 @@ export class CypressStringifyExtension extends StringifyExtension {
   #appendStepType(out: LineWriter, step: Schema.Step): void {
     switch (step.type) {
       case 'click':
-        return this.#appendClickStep(out, step);
+        return this.#appendClickStep(out, step)
       case 'change':
-        return this.#appendChangeStep(out, step);
+        return this.#appendChangeStep(out, step)
       case 'setViewport':
-        return this.#appendViewportStep(out, step);
+        return this.#appendViewportStep(out, step)
       case 'scroll':
-        return this.#appendScrollStep(out, step);
+        return this.#appendScrollStep(out, step)
       case 'navigate':
-        return this.#appendNavigationStep(out, step);
+        return this.#appendNavigationStep(out, step)
       //   case 'customStep':
       //     return; // TODO: implement these
       //   default:
@@ -65,30 +61,28 @@ export class CypressStringifyExtension extends StringifyExtension {
   #appendChangeStep(out: LineWriter, step: Schema.ChangeStep): void {
     console.log(
       '🚀 ~ file: CypressStringifyExtension.ts ~ line 85 ~ CypressStringifyExtension ~ #appendChangeStep ~ step',
-      step
-    );
+      step,
+    )
     // Handle text entry and form elements that update.
   }
 
   #appendClickStep(out: LineWriter, step: Schema.ClickStep): void {
-    out.appendLine(`cy.get('[${step.selectors[0]}]').click();`);
+    out.appendLine(`cy.get('[${step.selectors[0]}]').click();`)
   }
 
   #appendNavigationStep(out: LineWriter, step: Schema.NavigateStep): void {
-    out.appendLine(`cy.visit("${step.url}");`);
+    out.appendLine(`cy.visit("${step.url}");`)
   }
 
   #appendScrollStep(out: LineWriter, step: Schema.ScrollStep): void {
     if ('selectors' in step) {
-      out.appendLine(
-        `cy.get('[${step.selectors[0]}]').scrollTo(${step.x}, ${step.y});`
-      );
+      out.appendLine(`cy.get('[${step.selectors[0]}]').scrollTo(${step.x}, ${step.y});`)
     } else {
-      out.appendLine(`cy.scrollTo(${step.x}, ${step.y});`);
+      out.appendLine(`cy.scrollTo(${step.x}, ${step.y});`)
     }
   }
 
   #appendViewportStep(out: LineWriter, step: Schema.SetViewportStep): void {
-    out.appendLine(`cy.viewport(${step.width}, ${step.height})`);
+    out.appendLine(`cy.viewport(${step.width}, ${step.height})`)
   }
 }

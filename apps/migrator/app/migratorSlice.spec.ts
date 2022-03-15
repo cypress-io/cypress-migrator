@@ -1,4 +1,4 @@
-import { MigrateResult } from '@cypress-dx/migrate-protractor'
+import { MigrateResult } from '@cypress-dx/migrate-utils'
 import {
   checkIfXPathMigrationMade,
   IErrorAlerts,
@@ -52,7 +52,8 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = ''
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const type = 'protractor'
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       const selector = selectModified({ migrator: nextState })
       setTimeout(() => expect(selector).toBe(result.output))
     })
@@ -64,7 +65,8 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const type = 'protractor'
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       setTimeout(() => expect(selectOriginal({ migrator: nextState })).toEqual(input))
     })
 
@@ -87,7 +89,8 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const type = 'protractor'
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectDiff({ migrator: nextState })).toEqual(diffArray)
       expect(selectNoMigrationsMade({ migrator: nextState })).toBeFalsy()
     })
@@ -106,8 +109,9 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
       const alerts: IErrorAlerts = { ...initialState.alerts, noMigrationsMade: true }
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectDiff({ migrator: nextState })).toEqual(diffArray)
       expect(selectNoMigrationsMade({ migrator: nextState })).toBeTruthy()
       expect(selectErrorAlert({ migrator: nextState })).toEqual(alerts)
@@ -129,7 +133,10 @@ describe('migratorSlice', () => {
       ]
 
       // act
-      const nextState = reducer(initialState, migrate({ result: { diff: diffArrays, output: 'test' }, input: 'test' }))
+      const nextState = reducer(
+        initialState,
+        migrate({ result: { diff: diffArrays, output: 'test' }, input: 'test', type: 'protractor' }),
+      )
 
       // assert
       expect(shouldShowDetails({ migrator: nextState })).toBeTruthy()
@@ -187,8 +194,9 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
       const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitMigrated: true }
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectDiff({ migrator: nextState })).toEqual(diffArray)
       expect(selectBrowserWaitMigrated({ migrator: nextState })).toBeTruthy()
       expect(selectErrorAlert({ migrator: nextState })).toEqual(alerts)
@@ -213,8 +221,9 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
       const alerts: IErrorAlerts = { ...initialState.alerts, browserWaitMigrated: false }
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectDiff({ migrator: nextState })).toEqual(diffArray)
       expect(selectBrowserWaitMigrated({ migrator: nextState })).toBeFalsy()
       expect(selectErrorAlert({ migrator: nextState })).toEqual(alerts)
@@ -239,8 +248,9 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
       const alerts: IErrorAlerts = { ...initialState.alerts, xPath: true }
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectDiff({ migrator: nextState })).toEqual(diffArray)
       expect(selectXPathMigrated({ migrator: nextState })).toBeTruthy()
       expect(selectErrorAlert({ migrator: nextState })).toEqual(alerts)
@@ -265,8 +275,9 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
       const alerts: IErrorAlerts = { ...initialState.alerts, xPath: false }
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectDiff({ migrator: nextState })).toEqual(diffArray)
       expect(selectXPathMigrated({ migrator: nextState })).toBeFalsy()
       expect(selectErrorAlert({ migrator: nextState })).toEqual(alerts)
@@ -283,7 +294,8 @@ describe('migratorSlice', () => {
         error,
       }
       const input = "by.className('this-class')"
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const type = 'protractor'
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectError({ migrator: nextState })).toEqual(error)
     })
 
@@ -294,7 +306,8 @@ describe('migratorSlice', () => {
         error: undefined,
       }
       const input = "by.className('this-class')"
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const type = 'protractor'
+      const nextState = reducer(initialState, migrate({ input, type, result }))
       expect(selectError({ migrator: nextState })).toBeUndefined()
     })
 
@@ -314,9 +327,10 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
 
       // act
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
 
       // assert
       expect(selectDiffApiItems({ migrator: nextState })).toEqual(expected)
@@ -338,9 +352,10 @@ describe('migratorSlice', () => {
         error: null,
       }
       const input = "by.className('this-class')"
+      const type = 'protractor'
 
       // act
-      const nextState = reducer(initialState, migrate({ input, result }))
+      const nextState = reducer(initialState, migrate({ input, type, result }))
 
       // assert
       expect(selectDiffApiItems({ migrator: nextState })).toEqual(expected)

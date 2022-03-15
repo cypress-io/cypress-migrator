@@ -1,1 +1,1 @@
-export * from './lib/migrate-chrome-recorder'
+export { migrateChromeRecorder } from './lib/migrate'

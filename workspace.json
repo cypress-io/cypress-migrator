@@ -5,6 +5,7 @@
     "migrate": "libs/migrate",
     "migrate-chrome-recorder": "libs/migrate/chrome-recorder",
     "migrate-protractor": "libs/migrate/protractor",
+    "migrate-utils": "libs/migrate-utils",
     "migrator": "apps/migrator",
     "migrator-e2e": "apps/migrator-e2e",
     "vscode-migrator": "libs/vscode-migrator"
