@@ -14,7 +14,10 @@
     limitations under the License.
  */
 
+import { selectors } from '@cypress-dx/markdown'
 import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay'
+
+import { RecorderChangeTypes, recorderChangeTypes } from './constants'
 
 export class CypressStringifyExtension extends StringifyExtension {
   async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
@@ -64,25 +67,73 @@ export class CypressStringifyExtension extends StringifyExtension {
       step,
     )
     // Handle text entry and form elements that update.
+    handleChangeStep(out, step)
   }
 
   #appendClickStep(out: LineWriter, step: Schema.ClickStep): void {
-    out.appendLine(`cy.get('[${step.selectors[0]}]').click();`)
+    const cySelector = handleSelectors(step.selectors)
+
+    if (cySelector) {
+      out.appendLine(`${cySelector}.click();`)
+    } else {
+      out.appendLine(' // TODO')
+    }
+
+    out.appendLine('')
   }
 
   #appendNavigationStep(out: LineWriter, step: Schema.NavigateStep): void {
-    out.appendLine(`cy.visit("${step.url}");`)
+    out.appendLine(`cy.visit(${formatAsJSLiteral(step.url)}));`)
+    out.appendLine('')
   }
 
   #appendScrollStep(out: LineWriter, step: Schema.ScrollStep): void {
     if ('selectors' in step) {
-      out.appendLine(`cy.get('[${step.selectors[0]}]').scrollTo(${step.x}, ${step.y});`)
+      out.appendLine(`${handleSelectors(step.selectors)}.scrollTo(${step.x}, ${step.y});`)
     } else {
       out.appendLine(`cy.scrollTo(${step.x}, ${step.y});`)
     }
+    out.appendLine('')
   }
 
   #appendViewportStep(out: LineWriter, step: Schema.SetViewportStep): void {
     out.appendLine(`cy.viewport(${step.width}, ${step.height})`)
+    out.appendLine('')
   }
+}
+
+function formatAsJSLiteral(value: string) {
+  return JSON.stringify(value)
+}
+
+function handleSelectors(selectors: Schema.Selector[]): string | undefined {
+  const firstSelector = selectors[0][0]
+
+  if (!firstSelector) {
+    return
+  }
+
+  if (firstSelector.includes('aria/')) {
+    const ariaContent = firstSelector.split('aria/')[1]
+
+    return `cy.contains(${formatAsJSLiteral(ariaContent)}')`
+  } else {
+    return `cy.get(${formatAsJSLiteral(firstSelector)})`
+  }
+}
+
+function handleChangeStep(out: LineWriter, step: Schema.ChangeStep): string {
+  console.log('🚀 ~ file: CypressStringifyExtension.ts ~ line 130 ~ handleChangeStep ~ step', step)
+  const stepSelectors = step.selectors
+
+  const findChangeElement = stepSelectors.find((selector) =>
+    recorderChangeTypes.includes(selector as RecorderChangeTypes),
+  )
+  console.log(
+    '🚀 ~ file: CypressStringifyExtension.ts ~ line 132 ~ handleChangeStep ~ findChangeElement',
+    findChangeElement,
+  )
+
+  // stepSelectors.map((selector) => {})
+  return ''
 }
