@@ -17,7 +17,11 @@
     "paths": {
       "@cypress-dx/codemods": ["libs/codemods/src/index.ts"],
       "@cypress-dx/markdown": ["libs/markdown/src/index.ts"],
-      "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"]
+      "@cypress-dx/migrate": ["libs/migrate/src/index.ts"],
+      "@cypress-dx/migrate-protractor": ["libs/migrate/protractor/src/index.ts"],
+      "@cypress-dx/migrate-utils": ["libs/migrate-utils/src/index.ts"],
+      "@cypress-dx/vscode-migrator": ["libs/vscode-migrator/src/index.ts"],
+      "@cypress/chrome-recorder-migrate": ["libs/migrate/chrome-recorder-test/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,302 @@
+{
+  "title": "todomvc",
+  "steps": [
+    {
+      "type": "setViewport",
+      "width": 997,
+      "height": 942,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "isLandscape": false
+    },
+    {
+      "type": "navigate",
+      "url": "https://todomvc.com/examples/react/#/",
+      "assertedEvents": [
+        {
+          "type": "navigation",
+          "url": "https://todomvc.com/examples/react/#/",
+          "title": "React • TodoMVC"
+        }
+      ]
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/What needs to be done?"
+        ],
+        [
+          "body > section > div > header > input"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 168.5,
+      "offsetY": 36
+    },
+    {
+      "type": "keyUp",
+      "key": "Enter",
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(1) > div > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 96.5,
+      "offsetY": 35.40625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(1) > div > input"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 22.5,
+      "offsetY": 18.015625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(2) > div > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 118.5,
+      "offsetY": 29.609375
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(2) > div > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 118.5,
+      "offsetY": 29.609375
+    },
+    {
+      "type": "change",
+      "value": "add another one",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li.editing > input"
+        ]
+      ],
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(3) > div > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 169.5,
+      "offsetY": 27.8125
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(3) > div > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 169.5,
+      "offsetY": 27.8125
+    },
+    {
+      "type": "change",
+      "value": "and another",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li.editing > input"
+        ]
+      ],
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > footer > p:nth-child(1)"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 451.5,
+      "offsetY": 1.015625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/Active"
+        ],
+        [
+          "body > section > div > footer > ul > li:nth-child(3) > a"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 34.71875,
+      "offsetY": 6.015625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/All"
+        ],
+        [
+          "body > section > div > footer > ul > li:nth-child(1) > a"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 20.640625,
+      "offsetY": 14.8125
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/Clear completed"
+        ],
+        [
+          "body > section > div > footer > button"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 25.578125,
+      "offsetY": 4.015625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/Active"
+        ],
+        [
+          "body > section > div > footer > ul > li:nth-child(3) > a"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 38.71875,
+      "offsetY": 13.8125
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > footer > ul"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 34.5,
+      "offsetY": 8.8125
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(1) > div > input"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 28.5,
+      "offsetY": 18.015625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/All"
+        ],
+        [
+          "body > section > div > footer > ul > li:nth-child(1) > a"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 5.640625,
+      "offsetY": 14.609375
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(2) > div > input"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 26.5,
+      "offsetY": 29.21875
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 27.5,
+      "offsetY": 30.40625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 27.5,
+      "offsetY": 30.40625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > label"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 27.5,
+      "offsetY": 30.40625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "body > section > div > section > ul > li:nth-child(1) > div > input"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 29.5,
+      "offsetY": 15.015625
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "aria/todos"
+        ],
+        [
+          "body > section > div > header > h1"
+        ]
+      ],
+      "target": "main",
+      "offsetX": 353.5,
+      "offsetY": 30
+    }
+  ]
+}
