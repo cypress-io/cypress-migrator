@@ -14,23 +14,18 @@
     limitations under the License.
  */
 
-import { selectors } from '@cypress-dx/markdown'
 import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay'
 
 import { RecorderChangeTypes, recorderChangeTypes } from './constants'
 
 export class CypressStringifyExtension extends StringifyExtension {
   async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
-    console.log(
-      '🚀 ~ file: CypressStringifyExtension.ts ~ line 23 ~ CypressStringifyExtension ~ beforeAllSteps ~ flow',
-      flow,
-    )
     out.appendLine(`describe(${flow.title}, function() {`)
-    out.appendLine(`  it(tests ${flow.title}, function() {`).startBlock()
+    out.appendLine(`it(tests ${flow.title}, function() {`).startBlock()
   }
 
   async afterAllSteps(out: LineWriter): Promise<void> {
-    out.appendLine('  });').endBlock()
+    out.appendLine('});').endBlock()
     out.appendLine('});')
   }
 
@@ -54,20 +49,21 @@ export class CypressStringifyExtension extends StringifyExtension {
         return this.#appendScrollStep(out, step)
       case 'navigate':
         return this.#appendNavigationStep(out, step)
-      //   case 'customStep':
-      //     return; // TODO: implement these
-      //   default:
-      //     return assertAllStepTypesAreHandled(step);
+      default:
+        return assertAllValidStepTypesAreHandled(step)
     }
   }
 
   #appendChangeStep(out: LineWriter, step: Schema.ChangeStep): void {
-    console.log(
-      '🚀 ~ file: CypressStringifyExtension.ts ~ line 85 ~ CypressStringifyExtension ~ #appendChangeStep ~ step',
-      step,
-    )
+    const cySelector = handleSelectors(step.selectors)
+
+    if (cySelector) {
+      handleChangeStep(step)
+      out.appendLine(`${cySelector}.type(${formatAsJSLiteral(step.value)});`)
+    }
+
+    out.appendLine('')
     // Handle text entry and form elements that update.
-    handleChangeStep(out, step)
   }
 
   #appendClickStep(out: LineWriter, step: Schema.ClickStep): void {
@@ -122,18 +118,25 @@ function handleSelectors(selectors: Schema.Selector[]): string | undefined {
   }
 }
 
-function handleChangeStep(out: LineWriter, step: Schema.ChangeStep): string {
+function handleChangeStep(step: Schema.ChangeStep): string {
   console.log('🚀 ~ file: CypressStringifyExtension.ts ~ line 130 ~ handleChangeStep ~ step', step)
+  // eslint-disable-next-line prefer-spread
   const stepSelectors = step.selectors
+  console.log('🚀 ~ file: CypressStringifyExtension.ts ~ line 127 ~ handleChangeStep ~ stepSelectors', stepSelectors)
 
-  const findChangeElement = stepSelectors.find((selector) =>
-    recorderChangeTypes.includes(selector as RecorderChangeTypes),
-  )
-  console.log(
-    '🚀 ~ file: CypressStringifyExtension.ts ~ line 132 ~ handleChangeStep ~ findChangeElement',
-    findChangeElement,
-  )
+  stepSelectors.map((selector) => {
+    console.log('🚀 ~ file: CypressStringifyExtension.ts ~ line 123 ~ stepSelectors.map ~ selector', selector)
+    const findChangeElementType = recorderChangeTypes.some((type) => selector[0].includes(type))
+    console.log(
+      '🚀 ~ file: CypressStringifyExtension.ts ~ line 132 ~ handleChangeStep ~ findChangeElement',
+      findChangeElementType,
+    )
+  })
 
   // stepSelectors.map((selector) => {})
   return ''
+}
+
+function assertAllValidStepTypesAreHandled(step: Schema.Step): void {
+  console.log(`Cypress does not currently handle migrating step type: ${step.type}`)
 }
