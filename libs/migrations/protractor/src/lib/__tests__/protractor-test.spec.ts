@@ -5,51 +5,72 @@
 
 import * as jscodeshiftTestUtils from 'jscodeshift/dist/testUtils'
 import * as transform from '../transformer'
-import { assertionsInput, assertionsOutput } from '../__testfixtures__/assertions'
-import { browserMethodsInput, browserMethodsOutput } from '../__testfixtures__/browser-methods';
-import { elementLocatorsInput, elementLocatorsOutput } from '../__testfixtures__/element-locators';
-import { elementInteractionsInput, elementInteractionsOutput } from '../__testfixtures__/element-interactions';
-import { exampleInput, exampleOutput } from '../__testfixtures__/example';
 
 describe('protractor', () => {
+  const browserMethodsInput = `
+  browser.get()
+  browser.get(page)
+  browser.driver.get('about:blank')
+  browser.refresh()
+  browser.navigate().forward()
+  browser.navigate().back()
+  browser.wait(5000)
+  browser.getTitle()
+  browser.getCurrentUrl()
+  browser.setLocation('faq')
+  browser.debugger()
+  browser.findElement(by.css('.list'))
+  browser.driver.findElement(by.css('.list'))
+  // Everything below this is removed via codemods
+  browser.restart()
+  browser.restartSync()
+  browser.ignoreSynchronization = true
+  browser.manage().timeouts().implicitlyWait(15000)
+  browser.driver.manage().timeouts().setScriptTimeout(55)
+  browser.waitForAngular()
+  browser.waitForAngularEnabled()
+  browser.pause()
+  browser.getId()
+  `
+
+  const browserMethodsOutput = `
+  cy.visit()
+  cy.visit(page)
+  cy.visit('about:blank')
+  cy.reload()
+  cy.go('forward')
+  cy.go('back')
+  cy.wait(5000)
+  cy.title()
+  cy.location('href')
+  cy.get('#faq').scrollIntoView()
+  cy.debug()
+  cy.get('.list')
+  cy.get('.list')
+  `
+
   // test removing protractor imports codemod
   jscodeshiftTestUtils.defineInlineTest(
     transform,
     {},
     browserMethodsInput,
     browserMethodsOutput,
-    'migrate browser methods',
+    'transform browser methods',
   )
 
-  jscodeshiftTestUtils.defineInlineTest(
-    transform,
-    {},
-    assertionsInput,
-    assertionsOutput,
-    'migrate assertions methods'
-  )
-
-  jscodeshiftTestUtils.defineInlineTest(
-    transform,
-    {},
-    elementLocatorsInput,
-    elementLocatorsOutput,
-    'migrate element locators'
-  )
-
-  jscodeshiftTestUtils.defineInlineTest(
-    transform,
-    {},
-    elementInteractionsInput,
-    elementInteractionsOutput,
-    'migrate element interactions'
-  )
-  
-  jscodeshiftTestUtils.defineInlineTest(
-    transform,
-    {},
-    exampleInput,
-    exampleOutput,
-    'migrate examples'
-  )
+  jscodeshiftTestUtils.defineTest(__dirname, 'transformer', null, 'assertions', {
+    parser: 'ts',
+  })
+  jscodeshiftTestUtils.defineTest(__dirname, 'transformer', null, 'element-locators', {
+    parser: 'ts',
+  })
+  jscodeshiftTestUtils.defineTest(__dirname, 'transformer', null, 'element-interactions', {
+    parser: 'ts',
+  })
+  jscodeshiftTestUtils.defineTest(__dirname, 'transformer', null, 'page-object', {
+    parser: 'ts',
+  })
+  jscodeshiftTestUtils.defineTest(__dirname, 'transformer', null, 'example-tests', {
+    parser: 'ts',
+  })
 })
