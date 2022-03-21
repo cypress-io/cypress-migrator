@@ -1,4 +1,4 @@
-import { MigrateResult } from '@cypress-dx/migrate-utils'
+import { MigrateResult } from '@cypress-dx/migrations-utils'
 import {
   checkIfXPathMigrationMade,
   IErrorAlerts,

@@ -2,12 +2,11 @@
   "version": 2,
   "projects": {
     "markdown": "libs/markdown",
-    "migrate": "libs/migrate",
-    "migrate-chrome-recorder": "libs/migrate/chrome-recorder",
-    "migrate-protractor": "libs/migrate/protractor",
-    "migrate-utils": "libs/migrate-utils",
+    "migrations-chrome-recorder": "libs/migrations/chrome-recorder",
+    "migrations-migrate": "libs/migrations/migrate",
+    "migrations-protractor": "libs/migrations/protractor",
+    "migrations-utils": "libs/migrations/utils",
     "migrator": "apps/migrator",
-    "migrator-e2e": "apps/migrator-e2e",
-    "vscode-migrator": "libs/vscode-migrator"
+    "migrator-e2e": "apps/migrator-e2e"
   }
 }

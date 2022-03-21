@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { migrate as cypressMigrate } from '@cypress-dx/migrate'
+import { migrate as cypressMigrate } from '@cypress-dx/migrations-migrate'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import Link from 'next/link'

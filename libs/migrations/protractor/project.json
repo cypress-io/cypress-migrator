@@ -1,0 +1,34 @@
+{
+  "root": "libs/migrations/protractor",
+  "sourceRoot": "libs/migrations/protractor/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/migrations/protractor/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/migrations/protractor"],
+      "options": {
+        "jestConfig": "libs/migrations/protractor/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/migrations/protractor",
+        "tsConfig": "libs/migrations/protractor/tsconfig.lib.json",
+        "packageJson": "libs/migrations/protractor/package.json",
+        "main": "libs/migrations/protractor/src/index.ts",
+        "assets": ["libs/migrations/protractor/*.md"]
+      }
+    }
+  },
+  "tags": ["type: feature"]
+}
