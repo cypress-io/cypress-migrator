@@ -1,4 +1,4 @@
-import { MigrateResult } from '@cypress-dx/codemods'
+import { MigrateResult } from '@cypress-dx/migrations-utils'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { defaultText } from '../constants'
 import { AppState } from './store'
@@ -15,12 +15,12 @@ export interface IDiffArrayApiItem {
   url: string
 }
 export interface IDiffArrayItem {
-  original: string
-  modified: string
+  original: string | Promise<string>
+  modified: string | Promise<string>
   api?: IDiffArrayApiItem[]
 }
 
-export type AvailableLanguages = 'protractor'
+export type AvailableLanguages = 'protractor' | 'chrome-recorder'
 
 export type IColors = {
   [colorId: string]: string
@@ -64,7 +64,7 @@ export interface IMigratorState {
 
 export const initialState: IMigratorState = {
   language: 'protractor',
-  availableLanguages: ['protractor'],
+  availableLanguages: ['protractor', 'chrome-recorder'],
   diffArray: [],
   original: defaultText['protractor'],
   modified: null,
@@ -91,12 +91,12 @@ export const migratorSlice = createSlice({
     }),
     migrate: (
       state: IMigratorState,
-      action: PayloadAction<{ input: string; result: MigrateResult }>,
+      action: PayloadAction<{ input: string; type: string; result: MigrateResult }>,
     ): IMigratorState => ({
       ...state,
       diffArray: action.payload.result.diff,
-      original: !action.payload.result.error ? format(action.payload.input) : action.payload.input,
-      modified: format(action.payload.result.output),
+      original: !action.payload.result.error ? format(action.payload.input, action.payload.type) : action.payload.input,
+      modified: format(action.payload.result.output, action.payload.type),
       error: action.payload.result.error ? action.payload.result.error : initialState.error,
       alerts: {
         ...state.alerts,
@@ -203,7 +203,18 @@ export const checkIfBrowserWaitMigrationMade = (diffArray: IDiffArrayItem[]): bo
 export const checkIfXPathMigrationMade = (diffArray: IDiffArrayItem[]): boolean =>
   diffArray.filter((diff) => diff.api.filter((api) => api.command === 'xpath').length > 0).length > 0
 
-const format = (value: string): string =>
-  value
-    ? prettier.format(value, { semi: false, singleQuote: true, parser: 'typescript', plugins: [typescriptParser] })
+const format = (value: string, type: string): string => {
+  // Don't use prettier on JSON
+  if (type === 'chrome-recorder') {
+    return value
+  }
+
+  return value
+    ? prettier.format(value, {
+        semi: false,
+        singleQuote: true,
+        parser: 'typescript',
+        plugins: [typescriptParser],
+      })
     : null
+}

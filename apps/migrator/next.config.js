@@ -16,6 +16,7 @@ module.exports = {
       child_process: false,
       net: false,
       crypto: false,
+      tls: false,
     }
 
     config.resolve.alias = {

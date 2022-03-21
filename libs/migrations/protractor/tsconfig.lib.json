@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"]
+  },
+  "include": ["**/*.ts", "../src/lib/utils/codemods-utils.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.input.ts", "**/*.output.ts"]
+}

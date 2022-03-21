@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { applyTransforms } from '@cypress-dx/codemods'
+import { migrate as cypressMigrate } from '@cypress-dx/migrations-migrate'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import Link from 'next/link'
@@ -66,10 +66,13 @@ const MigrateEditor = (): ReactElement => {
     diffEditorRef.current = editor
   }
 
-  const migrateEditorValue = (): void => {
+  const migrateEditorValue = async (): Promise<void> => {
     const input = diffEditorRef.current.getOriginalEditor().getValue()
-    const result = applyTransforms({ input })
-    dispatch(migrate({ input, result }))
+    const type = selectedLanguage
+
+    await cypressMigrate({ input, type }).then((data) => {
+      dispatch(migrate({ input, type, result: data }))
+    })
   }
 
   return (
@@ -98,7 +101,7 @@ const MigrateEditor = (): ReactElement => {
       <div className="flex h-full">
         <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
           <DiffEditor
-            language="javascript"
+            language={selectedLanguage === 'chrome-recorder' ? 'json' : 'javascript'}
             original={original}
             modified={!!migrated ? migrated : ''}
             keepCurrentOriginalModel={true}

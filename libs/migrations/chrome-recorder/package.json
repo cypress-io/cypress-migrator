@@ -1,0 +1,27 @@
+{
+  "name": "@cypress-dx/migrations-chrome-recorder",
+  "version": "0.0.1",
+  "description": "Export Cypress Tests from Chrome DevTools Recordings",
+  "bin": "bin/cypress-chrome-recorder.js",
+  "main": "dist/main.js",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cypress-io/cypress-migrator.git"
+  },
+  "keywords": [
+    "cypress",
+    "testing",
+    "automation",
+    "devtools"
+  ],
+  "author": "Cypress DX Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cypress-io/cypress-migrator/issues"
+  },
+  "homepage": "https://github.com/cypress-io/cypress-migrator#readme"
+}

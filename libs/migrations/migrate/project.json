@@ -1,0 +1,33 @@
+{
+  "root": "libs/migrations/migrate",
+  "sourceRoot": "libs/migrations/migrate/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/migrations/migrate",
+        "main": "libs/migrations/migrate/src/index.ts",
+        "tsConfig": "libs/migrations/migrate/tsconfig.lib.json",
+        "assets": ["libs/migrations/migrate/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/migrations/migrate/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/migrations/migrate"],
+      "options": {
+        "jestConfig": "libs/migrations/migrate/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}
