@@ -1,5 +1,5 @@
 import { ASTNode } from 'ast-types'
-import * as chalk from 'chalk'
+// import * as chalk from 'chalk'
 import { CallExpression, Collection, FileInfo, Identifier, JSCodeshift, Printable, SourceLocation } from 'jscodeshift'
 import { ProtractorSelectors, protractorSelectors } from '../constants'
 import { CodeModNode, ReplacementValues, Selector, TypedElementInExpression } from '../types'
@@ -210,9 +210,11 @@ export function errorMessage(message: string, expr: Printable, file: FileInfo): 
   const line = source.slice((expr.loc as SourceLocation)?.start.line - 1, (expr.loc as SourceLocation)?.end.line)[0]
   const expression = line.slice(0, (expr.loc as SourceLocation)?.end.column)
 
-  const chalkErrorMessage = chalk.bold.red
+  // const chalkErrorMessage = chalk.bold.red
 
-  const logMessage = chalkErrorMessage(message)
+  // const logMessage = chalkErrorMessage(message)
+
+  const logMessage = message;
 
   const fullMessage =
     '\n\n' +
