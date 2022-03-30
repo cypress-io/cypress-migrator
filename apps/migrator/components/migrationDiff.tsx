@@ -31,7 +31,7 @@ const MigrationDiff = (): ReactElement => {
                     <li className="flex items-center" key={i}>
                       <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
                       <a
-                        className="ml-2 text-green-400 hover:text-green-500"
+                        className="ml-2 text-jade-700 hover:text-jade-800"
                         href={d.url}
                         rel="noreferrer"
                         target="_blank"
