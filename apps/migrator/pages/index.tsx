@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { ReactElement } from 'react'
 import { Footer, Navigation, Notifications, SelectList, MigrateEditor, MigrationDiff } from '../components'
+import DigDeeper from '../components/digDeeper'
 
 const Index = (): ReactElement => {
   return (
@@ -14,22 +15,23 @@ const Index = (): ReactElement => {
 
       <Navigation />
 
-      <main className="h-full">
+      <main className="h-3/5">
         <div className="max-w-7xl h-full mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-center pb-6">
-            <p className="text-xl sm:text-3xl">Migrate</p>
+            <p className="lg:text-5xl sm:text-3xl font-bold leading-tight text-gray-1000">Migrate</p>
             <div className="px-3">
               <SelectList />
             </div>
 
-            <p className="text-xl sm:text-3xl"> code to Cypress.</p>
+            <p className="lg:text-5xl sm:text-3xl font-bold leading-tight text-gray-1000"> code to Cypress.</p>
           </div>
 
           <MigrateEditor />
-          <MigrationDiff />
-          <Notifications />
         </div>
       </main>
+        <MigrationDiff />
+        <DigDeeper />
+        <Notifications />
       <Footer />
     </div>
   )

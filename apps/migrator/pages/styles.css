@@ -7,3 +7,7 @@ html,
 #__next {
   height: 100%;
 }
+
+.bg-home-features {
+  background-image: url(/features-bg.png);
+}

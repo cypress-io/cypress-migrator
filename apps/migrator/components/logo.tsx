@@ -9,7 +9,7 @@ interface Props {
 const Logo = forwardRef<HTMLAnchorElement, Props>(({ href, onClick }, ref) => (
   <a className="flex-shrink-0 flex items-center" href={href} onClick={onClick} ref={ref}>
     <Image src="/logo.png" alt="Cypress Logo" width="50" height="50" />
-    <span className="text-xl font-bold mx-2">Migrator</span>
+    <span className="text-xl font-bold mx-3">Migrator</span>
   </a>
 ))
 

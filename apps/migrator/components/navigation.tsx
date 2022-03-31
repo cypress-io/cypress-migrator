@@ -12,7 +12,7 @@ const Navigation = (): ReactElement => {
   }
 
   return (
-    <>
+    <div className="shadow">
       <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">
         <div className="flex w-full justify-between items-center">
           <Link href="/" passHref>
@@ -27,7 +27,7 @@ const Navigation = (): ReactElement => {
               <li key={migrationGuides[selectedLanguage]}>
                 <a
                   href={migrationGuides[selectedLanguage].url}
-                  className="text-jade-700 py-2 rounded-md text-xs sm:text-sm font-medium capitalize"
+                  className="text-gray-500 py-2 rounded-md text-xs sm:text-sm font-medium capitalize hover:text-gray-900"
                 >
                   {`${selectedLanguage} Migration Guide`}
                 </a>
@@ -37,7 +37,7 @@ const Navigation = (): ReactElement => {
               <li key={link.title}>
                 <a
                   href={link.url}
-                  className="text-jade-700 py-2 rounded-md text-xs sm:text-sm font-medium"
+                  className="text-jade-500 py-2 rounded-md text-xs sm:text-sm font-medium hover:text-gray-900"
                 >
                   {link.title}
                 </a>
@@ -46,8 +46,7 @@ const Navigation = (): ReactElement => {
           </ul>
         </div>
       </nav>
-      <hr />
-    </>
+    </div>
   )
 }
 
