@@ -1,19 +1,13 @@
-import Head from 'next/head'
 import { applyTransforms } from '@cypress-dx/codemods'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
-import Link from 'next/link'
+import Head from 'next/head'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { CopyButton, DiffToggle, LanguagePills } from '.'
 import {
-  selectDiffEditorThemeColors,
-  selectError,
-  selectLanguage,
-  selectModified,
-  selectOriginal,
-  migrate,
-  useAppDispatch,
-  useAppSelector,
+  migrate, selectDiffEditorThemeColors, selectModified,
+  selectOriginal, useAppDispatch,
+  useAppSelector
 } from '../app'
 
 function classNames(...classes: string[]) {

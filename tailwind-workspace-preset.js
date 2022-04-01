@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         sans: ["Poppins", ...defaultTheme.fontFamily.sans],
       },
+      backgroundImage: {
+        "home-features": "url('/features-bg.png')",
+      },
     },
     colors: {
       yellow: colors.amber,

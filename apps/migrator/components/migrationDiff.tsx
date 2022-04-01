@@ -10,7 +10,7 @@ const MigrationDiff = (): ReactElement => {
   return (
     <div className={`features relative bg-jade-300 bg-home-features bg-cover bg-center bg-no-repeat py-16 sm:py-24 lg:py-16 ${showDetails ? 'opacity-100 mt-24' : 'opacity-0 mt-0'}`} data-test="more-details">
       <div className="mx-auto max-w-md px-4  sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-        <p className="mt-2 text-center text-3xl font-extrabold tracking-tight text-gray-50 sm:text-4xl lg:text-left">
+        <p className="mt-2 text-center text-5xl font-extrabold tracking-tight text-gray-50 lg:text-left">
           More details about your migration:
         </p>
         <ErrorAlerts />
@@ -18,7 +18,7 @@ const MigrationDiff = (): ReactElement => {
           <div data-test="api-details">
             {diff.length > 0 ? (
               <>
-                <p className="py-4 text-gray-50">
+                <p className="py-4 text-gray-50 text-lg">
                   The following Cypress API items were found in the migrated code. For more detailed information about
                   each item, click the link to its page within our documentation.
                 </p>
@@ -39,32 +39,13 @@ const MigrationDiff = (): ReactElement => {
                           {d.command}
                         </h3>
                         <p className="mt-5 text-base text-gray-500">
-                          {/* {feature.description} */} A Short Description Goes Here
+                          A Short Description Goes Here
                         </p>
                       </div>
                     </a>
                   </div>
                 ))}
               </div>
-                
-                {/* <div className="overflow-hidden" data-test="api-details-list">
-                  {diff.map((d: IDiffArrayApiItem, i: number) => (
-                    <a href={d.url} key={i} rel="noreferrer" target="_blank">
-                      <div className="relative mb-6 rounded border border-gray-400 py-4 pl-4 lg:py-6">
-                        <div className="relative flex items-center">
-                          <span className="flex h-9 items-center">
-                            <span className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 border-gray-400 bg-white group-hover:border-gray-400">
-                              <span className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"></span>
-                            </span>
-                          </span>
-                          <span className="ml-2 flex w-full flex-row lg:ml-4">
-                            <span className="grow font-normal text-jade-300">{d.command}</span>
-                          </span>
-                        </div>
-                      </div>
-                    </a>
-                  ))}
-                </div>                 */}
               </>
             ) : null}
           </div>

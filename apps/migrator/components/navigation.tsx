@@ -37,7 +37,7 @@ const Navigation = (): ReactElement => {
               <li key={link.title}>
                 <a
                   href={link.url}
-                  className="text-jade-500 py-2 rounded-md text-xs sm:text-sm font-medium hover:text-gray-900"
+                  className="text-gray-500 py-2 rounded-md text-xs sm:text-sm font-medium hover:text-gray-900"
                 >
                   {link.title}
                 </a>
