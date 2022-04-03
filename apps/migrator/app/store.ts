@@ -2,13 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import migratorReducer from './migratorSlice'
 
-export function makeStore() {
-  return configureStore({
+export const getStore = () =>
+  configureStore({
     reducer: { migrator: migratorReducer },
   })
-}
 
-const store = makeStore()
+const store = getStore()
 
 export type AppState = ReturnType<typeof store.getState>
 
