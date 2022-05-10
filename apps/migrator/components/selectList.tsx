@@ -46,7 +46,7 @@ const SelectList = (): ReactElement => {
                     key={item}
                     className={({ active, selected }) =>
                       classNames(
-                        active || selected ? 'text-gray-900 bg-green-200' : 'text-gray-900',
+                        active || selected ? 'text-gray-900 bg-jade-200' : 'text-gray-900',
                         'cursor-default select-none relative py-2 pl-3 pr-9 language-option',
                       )
                     }

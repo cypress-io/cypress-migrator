@@ -132,7 +132,7 @@ const MigrateEditor = (): ReactElement => {
           <h4 className="font-bold">Want to dig deeper?</h4>
           <p>
             <Link href="/migrations">
-              <a className="text-green-400 hover:text-green-500" data-test="all-migrations-link">
+              <a className="text-jade-400 hover:text-jade-500" data-test="all-migrations-link">
                 {' '}
                 See the full list of <span className="capitalize">{selectedLanguage}</span> migrations &rarr;{' '}
               </a>
@@ -141,7 +141,7 @@ const MigrateEditor = (): ReactElement => {
         </div>
         <button
           type="button"
-          className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
+          className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
           onClick={migrateEditorValue}
           data-test="migrate-button"
         >
