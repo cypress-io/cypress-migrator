@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ReactElement } from 'react'
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/solid'
 
 import { selectAvailableLanguages, selectLanguage, setLanguage, useAppDispatch, useAppSelector } from '../app'
 
@@ -20,13 +20,13 @@ const SelectList = (): ReactElement => {
       {({ open }) => (
         <>
           <div className="mt-1 relative">
-            <Listbox.Button
-              className="language-selected bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          <Listbox.Button
+              className="language-selected bg-white relative w-full pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               data-test="language-select-button"
             >
-              <span className="block text-2xl capitalize">{selectedLanguage}</span>
+              <span className="text-indigo-400 lg:text-5xl sm:text-3xl font-semibold capitalize mr-2">{selectedLanguage}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+              <ChevronDownIcon className="h-10 w-10 text-indigo-400" aria-hidden="true"/>
               </span>
             </Listbox.Button>
 
@@ -47,7 +47,7 @@ const SelectList = (): ReactElement => {
                     className={({ active, selected }) =>
                       classNames(
                         active || selected ? 'text-gray-900 bg-jade-200' : 'text-gray-900',
-                        'cursor-default select-none relative py-2 pl-3 pr-9 language-option',
+                        'cursor-default select-none relative py-2 pl-3 pr-9 language-option capitalize',
                       )
                     }
                     value={item.toLowerCase()}
