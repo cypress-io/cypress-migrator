@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { applyTransforms } from '@cypress-dx/codemods'
 import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
-import Link from 'next/link'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { CopyButton, DiffToggle, LanguagePills } from '.'
 import {
@@ -27,7 +26,6 @@ const MigrateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const original = useAppSelector(selectOriginal)
   const migrated = useAppSelector(selectModified)
-  const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -75,7 +73,8 @@ const MigrateEditor = (): ReactElement => {
   return (
     <div className="flex pt-4 h-3/5 gap-2 flex-col">
       <Head>
-        {/* Fix from https://github.com/suren-atoyan/monaco-react/issues/272#issuecomment-893672844
+        {/*
+          * Fix from https://github.com/suren-atoyan/monaco-react/issues/272#issuecomment-893672844 
           * Fixes https://github.com/vercel/next.js/issues/11012 that causes Monaco Editor CSS to be removed
         */}
         <link
@@ -129,17 +128,6 @@ const MigrateEditor = (): ReactElement => {
         </div>
       </div>
       <div className="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
-        <div>
-          <h4 className="font-bold">Want to dig deeper?</h4>
-          <p>
-            <Link href="/migrations">
-              <a className="text-jade-400 hover:text-jade-500" data-test="all-migrations-link">
-                {' '}
-                See the full list of <span className="capitalize">{selectedLanguage}</span> migrations &rarr;{' '}
-              </a>
-            </Link>
-          </p>
-        </div>
         <button
           type="button"
           className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"

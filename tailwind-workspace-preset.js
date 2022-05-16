@@ -67,7 +67,7 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    padding: ['first', 'last'],
   },
   plugins: [require('@tailwindcss/typography')],
 }
