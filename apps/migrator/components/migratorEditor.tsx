@@ -76,8 +76,8 @@ const MigrateEditor = (): ReactElement => {
     <div className="flex pt-4 h-3/5 gap-2 flex-col">
       <Head>
         {/* Fix from https://github.com/suren-atoyan/monaco-react/issues/272#issuecomment-893672844
-  Fixes https://github.com/vercel/next.js/issues/11012 that causes Monaco Editor CSS to be removed
-  */}
+          * Fixes https://github.com/vercel/next.js/issues/11012 that causes Monaco Editor CSS to be removed
+        */}
         <link
           rel="stylesheet"
           type="text/css"
@@ -86,17 +86,17 @@ const MigrateEditor = (): ReactElement => {
         ></link>
       </Head>
       <LanguagePills />
-      <div className={classNames(isMobile ? 'justify-end pt-2' : 'justify-between', 'flex')}>
+      <div className="flex">
+        <div className="px-4 py-4 sm:p-2 w-full border-solid border-4 border-gray-200 rounded-md">
+        <div className={classNames(isMobile ? 'justify-end pt-2' : 'justify-between', 'flex')}>
         {!isMobile ? (
           <>
             <DiffToggle />
           </>
         ) : null}
-        <CopyButton />
-      </div>
-
-      <div className="flex h-full">
-        <div className="px-4 py-4 sm:p-2 w-full border-solid border-2 border-gray-200 rounded">
+        {/* <CopyButton /> */}
+        </div>
+          <div className="h-96">
           <DiffEditor
             language="javascript"
             original={original}
@@ -125,6 +125,7 @@ const MigrateEditor = (): ReactElement => {
               overviewRulerLanes: 0,
             }}
           />
+          </div>
         </div>
       </div>
       <div className="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">

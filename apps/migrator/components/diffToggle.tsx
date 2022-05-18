@@ -11,7 +11,7 @@ const DiffToggle = () => {
   const setEnabled = () => dispatch(setDisplayDiff(!enabled))
 
   return (
-    <Switch.Group as="div" className="flex items-center">
+    <Switch.Group as="div" className="flex items-center pt-2 pb-4 pl-4">
       <Switch
         checked={enabled}
         onChange={() => setEnabled()}
