@@ -27,7 +27,7 @@ const Navigation = (): ReactElement => {
               <li key={migrationGuides[selectedLanguage]}>
                 <a
                   href={migrationGuides[selectedLanguage].url}
-                  className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-sm font-medium capitalize"
+                  className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-sm font-normal capitalize text-gray-600"
                 >
                   {`${selectedLanguage} Migration Guide`}
                 </a>
@@ -37,7 +37,7 @@ const Navigation = (): ReactElement => {
               <li key={link.title}>
                 <a
                   href={link.url}
-                  className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-sm font-medium"
+                  className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-sm font-normal text-gray-600"
                 >
                   {link.title}
                 </a>

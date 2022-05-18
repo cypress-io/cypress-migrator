@@ -17,14 +17,13 @@ const Index = (): ReactElement => {
       <main className="h-full">
         <div className="max-w-7xl h-full mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-center pb-6">
-            <p className="text-xl sm:text-3xl">Migrate</p>
+          <p className="lg:text-5xl sm:text-3xl font-semibold">Migrate</p>
             <div className="px-3">
               <SelectList />
             </div>
 
-            <p className="text-xl sm:text-3xl"> code to Cypress.</p>
-          </div>
-
+            <p className="lg:text-5xl sm:text-3xl font-semibold"> code to Cypress.</p>
+        </div>
           <MigrateEditor />
           <MigrationDiff />
           <Notifications />

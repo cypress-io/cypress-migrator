@@ -10,8 +10,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto', 'Helvetica Neue', 'Arial', ...defaultTheme.fontFamily.sans],
-        serif: ['Roboto', 'Helvetica Neue', 'Arial', ...defaultTheme.fontFamily.serif],
+        sans: ["Poppins", ...defaultTheme.fontFamily.sans],
         mono: ['Consolas', 'Monaco', 'Andale Mono', 'monospace'],
         ...defaultTheme.fontFamily.mono,
       },
