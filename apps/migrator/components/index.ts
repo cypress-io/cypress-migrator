@@ -1,5 +1,6 @@
 import AvailableCodeMods from './availableCodemods'
 import CopyButton from './copyButton'
+import NPMCopy from './npmCopy'
 import LanguagePills from './languagePills'
 import Navigation from './navigation'
 import SelectList from './selectList'
@@ -17,6 +18,7 @@ import Logo from './logo'
 export {
   AvailableCodeMods,
   CopyButton,
+  NPMCopy,
   LanguagePills,
   Navigation,
   SelectList,

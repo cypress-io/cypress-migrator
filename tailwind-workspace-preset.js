@@ -34,6 +34,9 @@ module.exports = {
         900: '#4f0018',
         1000: '#490018',
       },
+      orange: {
+        100: '#F3ECB3'
+      },
       indigo: {
         50: "#F0F1FF",
         100: "#DADDFE",
