@@ -11,7 +11,7 @@ const DiffToggle = () => {
   const setEnabled = () => dispatch(setDisplayDiff(!enabled))
 
   return (
-    <Switch.Group as="div" className="flex items-center pt-2 pb-4 pl-4">
+    <Switch.Group as="div" className="flex items-center pl-4">
       <Switch
         checked={enabled}
         onChange={() => setEnabled()}
@@ -29,7 +29,7 @@ const DiffToggle = () => {
         />
       </Switch>
       <Switch.Label as="span" className="ml-3">
-        <span className="text-sm font-medium text-gray-900">Display Diff Coloring</span>
+        <span className="text-md font-medium text-gray-900">Display Diff Coloring</span>
       </Switch.Label>
     </Switch.Group>
   )

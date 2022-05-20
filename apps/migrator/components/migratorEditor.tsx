@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { applyTransforms } from '@cypress-dx/codemods'
-import { ArrowCircleRightIcon } from '@heroicons/react/solid'
+import { ArrowSmRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { CopyButton, DiffToggle, LanguagePills } from '.'
@@ -71,7 +71,7 @@ const MigrateEditor = (): ReactElement => {
   }
 
   return (
-    <div className="flex pt-4 h-3/5 gap-2 flex-col">
+    <div className="flex pt-4 h-2/3 gap-2 flex-col">
       <Head>
         {/*
           * Fix from https://github.com/suren-atoyan/monaco-react/issues/272#issuecomment-893672844 
@@ -85,59 +85,60 @@ const MigrateEditor = (): ReactElement => {
         ></link>
       </Head>
       <LanguagePills />
-      <div className="flex">
-        <div className="px-4 py-4 sm:p-2 w-full border-solid border-4 border-gray-200 rounded-md">
-        <div className={classNames(isMobile ? 'justify-end pt-2' : 'justify-between', 'flex')}>
-        {!isMobile ? (
-          <>
-            <DiffToggle />
-          </>
-        ) : null}
-        {/* <CopyButton /> */}
-        </div>
-          <div className="h-96">
-          <DiffEditor
-            language="javascript"
-            original={original}
-            modified={!!migrated ? migrated : ''}
-            keepCurrentOriginalModel={true}
-            keepCurrentModifiedModel={true}
-            beforeMount={handleEditorWillMount}
-            onMount={handleEditorMount}
-            theme={'cypress-light'}
-            options={{
-              lineNumbers: 'on',
-              originalEditable: true,
-              fontSize: 14,
-              codeLens: true,
-              wordWrap: 'on',
-              scrollbar: {
-                vertical: 'hidden',
-              },
-              renderSideBySide: !isMobile,
-              colorDecorators: false,
-              minimap: { enabled: false },
-              renderIndicators: false,
-              renderLineHighlight: 'none',
-              renderOverviewRuler: false,
-              readOnly: true,
-              overviewRulerLanes: 0,
-            }}
-          />
+
+      <div className="h-full w-full px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
+
+        <div className={classNames(isMobile ? 'justify-end pt-2' : 'grid', 'md:grid-cols-3', 'gap-60', 'pt-2', 'pb-5', 'pr-1')}>
+          {!isMobile ? ( <DiffToggle /> ) : null}
+
+          <div className="flex flex-wrap-reverse justify-center sm:justify-between items-center">
+            <button
+              type="button"
+              className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-normal rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
+              onClick={migrateEditorValue}
+              data-test="migrate-button"
+            >
+              Migrate
+              <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+            </button>
           </div>
+
+          <CopyButton />
         </div>
+
+        <div className="h-5/6 pt-1 sm:p-2 border-solid border border-gray-100 rounded-md overflow-hidden">
+        <DiffEditor
+          language="javascript"
+          original={original}
+          modified={!!migrated ? migrated : ''}
+          keepCurrentOriginalModel={true}
+          keepCurrentModifiedModel={true}
+          beforeMount={handleEditorWillMount}
+          onMount={handleEditorMount}
+          theme={'cypress-light'}
+          options={{
+            lineNumbers: 'on',
+            originalEditable: true,
+            fontSize: 14,
+            codeLens: true,
+            wordWrap: 'on',
+            scrollbar: {
+              vertical: 'hidden',
+            },
+            renderSideBySide: !isMobile,
+            colorDecorators: false,
+            minimap: { enabled: false },
+            renderIndicators: false,
+            renderLineHighlight: 'none',
+            renderOverviewRuler: false,
+            readOnly: true,
+            overviewRulerLanes: 0,
+          }}
+        />
+        </div>
+
       </div>
-      <div className="pb-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
-        <button
-          type="button"
-          className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-6 py-3 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
-          onClick={migrateEditorValue}
-          data-test="migrate-button"
-        >
-          Migrate to Cypress
-          <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-        </button>
-      </div>
+
     </div>
   )
 }

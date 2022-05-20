@@ -14,7 +14,7 @@ const MigrationDiff = (): ReactElement => {
 
   return (
       <div
-        className={`md:w-full transition duration-500 ease-in-out flex ${showDetails ? 'opacity-100' : 'opacity-0'}`}
+        className={`md:w-full transition duration-500 ease-in-out flex mt-24 ${showDetails ? 'opacity-100' : 'opacity-0'}`}
         data-test="more-details"
       >
         <div className="flex flex-col w-1/2">
