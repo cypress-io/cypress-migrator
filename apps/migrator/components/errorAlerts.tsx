@@ -82,7 +82,7 @@ const ErrorAlert = ({
               <AlertType alertType={alertType} />
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
-              <p className="text-sm text-red-700" dangerouslySetInnerHTML={{ __html: description }} />
+              <p className="text-md text-red-700" dangerouslySetInnerHTML={{ __html: description }} />
               <ErrorCTA cta={cta} />
             </div>
           </div>
