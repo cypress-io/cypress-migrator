@@ -3,7 +3,7 @@ import { NPMCopy } from '../components'
 
 export default function GetCypress() {
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section className="flex flex-col items-center justify-center mt-20">
       <p className="lg:text-4xl sm:text-3xl font-semibold">Test your code, not your patience.</p>
       <div className="flex flex-row space-x-4 pt-8 pb-12">
         <NPMCopy />
@@ -14,7 +14,7 @@ export default function GetCypress() {
               Download Now
         </a>
       </div>
-      <Image src="/test_runner.svg" alt="Cypress App" width="1120" height="274" />
+      <Image src="/cypress_app.svg" alt="Cypress App" width="1200" height="274" />
     </section>
   )
 }

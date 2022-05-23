@@ -28,7 +28,6 @@ const Index = (): ReactElement => {
           <Notifications />
         </div>
       </main>
-
       <GetCypress />
       <Footer />
     </div>

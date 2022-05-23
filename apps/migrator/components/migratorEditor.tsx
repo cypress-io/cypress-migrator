@@ -85,12 +85,9 @@ const MigrateEditor = (): ReactElement => {
         ></link>
       </Head>
       <LanguagePills />
-
-      <div className="h-full w-full px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
-
+      <div className="h-full w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
         <div className={classNames(isMobile ? 'justify-end pt-2' : 'grid', 'md:grid-cols-3', 'gap-60', 'pt-2', 'pb-5', 'pr-1')}>
           {!isMobile ? ( <DiffToggle /> ) : null}
-
           <div className="flex flex-wrap-reverse justify-center sm:justify-between items-center">
             <button
               type="button"
@@ -102,43 +99,39 @@ const MigrateEditor = (): ReactElement => {
               <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
             </button>
           </div>
-
           <CopyButton />
         </div>
-
-        <div className="h-5/6 pt-1 sm:p-2 border-solid border border-gray-100 rounded-md overflow-hidden">
-        <DiffEditor
-          language="javascript"
-          original={original}
-          modified={!!migrated ? migrated : ''}
-          keepCurrentOriginalModel={true}
-          keepCurrentModifiedModel={true}
-          beforeMount={handleEditorWillMount}
-          onMount={handleEditorMount}
-          theme={'cypress-light'}
-          options={{
-            lineNumbers: 'on',
-            originalEditable: true,
-            fontSize: 14,
-            codeLens: true,
-            wordWrap: 'on',
-            scrollbar: {
-              vertical: 'hidden',
-            },
-            renderSideBySide: !isMobile,
-            colorDecorators: false,
-            minimap: { enabled: false },
-            renderIndicators: false,
-            renderLineHighlight: 'none',
-            renderOverviewRuler: false,
-            readOnly: true,
-            overviewRulerLanes: 0,
-          }}
-        />
+        <div className="h-full pt-1 sm:p-2 overflow-hidden">
+          <DiffEditor
+            language="javascript"
+            original={original}
+            modified={!!migrated ? migrated : ''}
+            keepCurrentOriginalModel={true}
+            keepCurrentModifiedModel={true}
+            beforeMount={handleEditorWillMount}
+            onMount={handleEditorMount}
+            theme={'cypress-light'}
+            options={{
+              lineNumbers: 'on',
+              originalEditable: true,
+              fontSize: 14,
+              codeLens: true,
+              wordWrap: 'on',
+              scrollbar: {
+                vertical: 'hidden',
+              },
+              renderSideBySide: !isMobile,
+              colorDecorators: false,
+              minimap: { enabled: false },
+              renderIndicators: false,
+              renderLineHighlight: 'none',
+              renderOverviewRuler: false,
+              readOnly: true,
+              overviewRulerLanes: 0,
+            }}
+          />
         </div>
-
       </div>
-
     </div>
   )
 }

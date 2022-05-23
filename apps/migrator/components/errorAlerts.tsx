@@ -82,7 +82,7 @@ const ErrorAlert = ({
               <AlertType alertType={alertType} />
             </div>
             <div className="ml-3 flex-1 md:flex md:justify-between">
-              <p className="text-md text-red-700" dangerouslySetInnerHTML={{ __html: description }} />
+              <p className="text-sm text-red-700" dangerouslySetInnerHTML={{ __html: description }} />
               <ErrorCTA cta={cta} />
             </div>
           </div>
@@ -134,10 +134,17 @@ const ErrorAlerts = (): ReactElement => {
 
   return (
     <>
+      {alerts.browserWaitMigrated ? (
+        <ErrorAlert
+          title="Potential Anti-Pattern Found"
+          alertType="Warning"
+          description="You typically should not need to use hard coded 'waits' in your test code. Learn more about about cy.wait() and retry-ability from the <a class='text-yellow-500 hover:underline font-medium' href='https://on.cypress.io/wait' target='_blank'>Cypress Docs.</a>"
+        />
+      ) : null}
       {alerts.noMigrationsMade ? (
         <ErrorAlert
           title="No Migrations Found"
-          alertType="Warning"
+          alertType="Error"
           description="We were unable to find any migrations. If you think there is an issue with a migrated item, please submit an issue below."
           cta={
             migrationSent
@@ -147,13 +154,6 @@ const ErrorAlerts = (): ReactElement => {
                   action: submitAnIssue,
                 }
           }
-        />
-      ) : null}
-      {alerts.browserWaitMigrated ? (
-        <ErrorAlert
-          title="Potential Anti-Pattern Found"
-          alertType="Warning"
-          description="You typically should not need to use hard code waits in your test code. Learn more about about cy.wait and retry-ability from the <a class='text-yellow-500 text-underline' href='https://on.cypress.io/wait' target='_blank'>Cypress Docs.</a>"
         />
       ) : null}
       {alerts.xPath ? (

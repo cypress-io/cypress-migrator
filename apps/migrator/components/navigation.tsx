@@ -46,7 +46,6 @@ const Navigation = (): ReactElement => {
           </ul>
         </div>
       </nav>
-      <hr />
     </>
   )
 }
