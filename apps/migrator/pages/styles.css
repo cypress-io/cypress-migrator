@@ -7,3 +7,17 @@ html,
 #__next {
   height: 100%;
 }
+
+.left-shape {
+  position: absolute;
+  z-index: -1;
+  top: -280px;
+  left: -280px;
+}
+
+.right-shape {
+  position: absolute;
+  z-index: -1;
+  top: -360px;
+  right: -580px;
+}
