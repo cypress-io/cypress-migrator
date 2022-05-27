@@ -144,7 +144,7 @@ const ErrorAlerts = (): ReactElement => {
       {alerts.noMigrationsMade ? (
         <ErrorAlert
           title="No Migrations Found"
-          alertType="Error"
+          alertType="Warning"
           description="We were unable to find any migrations. If you think there is an issue with a migrated item, please submit an issue below."
           cta={
             migrationSent

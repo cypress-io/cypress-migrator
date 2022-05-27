@@ -27,6 +27,7 @@ const MigrationDiff = (): ReactElement => {
                   <button
                       type="button"
                       className="px-6 py-3 my-4 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-indigo-50 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
+                      data-test="all-migrations-button"
                       >
                         See all Protractor Migrations
                   </button>
