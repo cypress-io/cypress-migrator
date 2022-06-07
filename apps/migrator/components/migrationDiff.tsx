@@ -10,7 +10,7 @@ const MigrationDiff = (): ReactElement => {
 
   return (
       <div
-        className={`md:w-full transition duration-500 ease-in-out mt-20 relative ${showDetails ? 'opacity-100' : 'opacity-0'}`}
+        className={`md:w-full transition duration-500 ease-in-out mt-20 relative ${showDetails ? 'opacity-100' : 'opacity-0 hidden'}`}
         data-test="more-details"
       >
         <ErrorAlerts />

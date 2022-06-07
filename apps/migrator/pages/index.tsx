@@ -5,7 +5,7 @@ import { Footer, Navigation, Notifications, SelectList, MigrateEditor, Migration
 
 const Index = (): ReactElement => {
   return (
-    <div className={'h-full'}>
+    <div>
       <Head>
         <title>Cypress Migrator | Interactive Code Transformer</title>
         <meta property="og:title" content="Cypress Migrator | Interactive Code Transformer" key="title" />
@@ -27,8 +27,8 @@ const Index = (): ReactElement => {
       </svg>
 
 
-      <main className="h-full">
-        <div className="max-w-7xl h-full mx-auto py-6 px-6 lg:px-8">
+      <main>
+        <div className="max-w-screen-2xl mx-auto py-6 px-6 lg:px-8">
           <div className="flex items-center justify-center pb-6">
             <p className="lg:text-5xl sm:text-3xl font-semibold mr-1">Migrate</p>
             <div>

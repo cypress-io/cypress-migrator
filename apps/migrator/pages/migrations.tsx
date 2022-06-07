@@ -4,7 +4,7 @@ import { Navigation, AvailableCodeMods, Notifications, BackButton } from '../com
 import { getAllCodeMods } from '../api'
 
 const Migrations = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => (
-  <div className={'h-full'}>
+  <div>
     <Head>
       <title>Cypress Migrator | Interactive Code Transformer</title>
       <meta property="og:title" content="Cypress Migrator | Interactive Code Transformer" key="title" />

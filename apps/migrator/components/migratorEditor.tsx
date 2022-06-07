@@ -71,7 +71,7 @@ const MigrateEditor = (): ReactElement => {
   }
 
   return (
-    <div className="flex pt-4 h-2/3 gap-2 flex-col">
+    <div className="flex pt-4 gap-2 flex-col">
       <Head>
         {/*
           * Fix from https://github.com/suren-atoyan/monaco-react/issues/272#issuecomment-893672844 
@@ -85,7 +85,7 @@ const MigrateEditor = (): ReactElement => {
         ></link>
       </Head>
       <LanguagePills />
-      <div className="h-full w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
+      <div className="w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
         <div className={classNames(isMobile ? 'justify-end pt-2' : 'grid', 'md:grid-cols-3', 'gap-60', 'pt-2', 'pb-5', 'pr-1')}>
           {!isMobile ? ( <DiffToggle /> ) : null}
           <div className="flex flex-wrap-reverse justify-center sm:justify-between items-center">
@@ -101,7 +101,7 @@ const MigrateEditor = (): ReactElement => {
           </div>
           <CopyButton />
         </div>
-        <div className="h-full pt-1 sm:p-2 overflow-hidden">
+        <div className="pt-1 sm:p-2" style={{height: '40vh'}}>
           <DiffEditor
             language="javascript"
             original={original}

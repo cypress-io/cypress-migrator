@@ -6,6 +6,12 @@ body,
 html,
 #__next {
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
 }
 
 .left-shape {
