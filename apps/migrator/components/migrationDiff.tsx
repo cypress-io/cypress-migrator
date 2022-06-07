@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ReactElement } from 'react'
-import { selectDiffApiItems, shouldShowDetails, useAppSelector } from '../app'
+import { selectDiffApiItems, shouldShowDetails, useAppSelector, selectLanguage } from '../app'
 import { ErrorAlerts } from '.'
 
 const MigrationDiff = (): ReactElement => {
   const diff = useAppSelector(selectDiffApiItems)
   const showDetails = useAppSelector(shouldShowDetails)
+  const selectedLanguage = useAppSelector(selectLanguage)
 
   return (
       <div
@@ -18,19 +19,24 @@ const MigrationDiff = (): ReactElement => {
             <div className="flex w-full">
               <div className="w-1/2">
                 <h2 className="text-2xl leading-10 font-bold text-gray-900 max-w-lg">
-                  Great! The following Cypress commands were found in the migrated code.
+                  Great! Here are the Cypress commands that were found in the migrated code.
                 </h2>
                 <p className="text-gray-600 py-4 max-w-md">
                   For more detailed information about each item, click the link to its page within our documentation.
                 </p>
-                <Link href="/migrations" passHref>
-                  <button
-                      type="button"
-                      className="px-6 py-3 my-4 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-indigo-50 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
-                      data-test="all-migrations-button"
-                      >
-                        See all Protractor Migrations
-                  </button>
+                <h2 className="text-2xl leading-10 font-bold text-gray-900 max-w-lg">
+                  Want to dig deeper?
+                </h2>
+                <p className="text-base sm:text-sm text-gray-600 mt-3 lg:w-9/12">
+                  See the full list of <span className="capitalize">{selectedLanguage}</span> migrations.
+                </p>
+                <Link href={"/migrations"} passHref>
+                  <a
+                  type="button"
+                  className="px-6 py-3 my-4 text-base font-medium rounded-md shadow-sm text-indigo-500 bg-indigo-50 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
+                  >
+                    View All Migrations
+                  </a>
                 </Link>
               </div>
               <div className="bg-white w-1/2" data-test="api-details">
