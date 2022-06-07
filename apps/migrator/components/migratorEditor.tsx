@@ -128,6 +128,7 @@ const MigrateEditor = (): ReactElement => {
               renderOverviewRuler: false,
               readOnly: true,
               overviewRulerLanes: 0,
+              scrollBeyondLastLine: false
             }}
           />
         </div>
