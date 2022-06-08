@@ -12,8 +12,8 @@ const Migrations = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement =>
       <link rel="shortcut icon" href="public/favicon.ico" type="image/x-icon" />
     </Head>
     <Navigation />
-    <main className="h-full">
-      <div className="max-w-7xl h-full mx-auto py-6 sm:px-6 lg:px-8">
+    <main>
+      <div className="max-w-7xl h-full mx-auto py-6 px-8 sm:px-6 lg:px-8">
         <BackButton />
         <AvailableCodeMods allCodeMods={allCodeMods} />
         <Notifications />
