@@ -40,9 +40,9 @@ const MigrationDiff = (): ReactElement => {
                 </Link>
               </div>
               <div className="bg-white w-1/2" data-test="api-details">
-                <ul className="list-inside list-none divide-y divide-gray-50 p-6 rounded shadow" data-test="api-details-list">
+                <ul className="list-inside list-none divide-y divide-gray-50 p-6 rounded shadow " data-test="api-details-list">
                   {diff.map((d, i: number) => (
-                    <li className="flex items-center py-4 first:pt-0 last:pb-0" key={i}>
+                    <li className="flex items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105 hover:underline" key={i}>
                       <Image src="/docs_icon.svg" alt="" width="40" height="40" />
                       <a
                         className="ml-2 text-gray-900 hover:text-indigo-400 hover:underline"
