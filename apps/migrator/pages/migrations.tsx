@@ -13,7 +13,7 @@ const Migrations = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement =>
     </Head>
     <Navigation />
     <main>
-      <div className="max-w-7xl h-full mx-auto py-6 px-8 sm:px-6 lg:px-8">
+      <div className="max-w-7xl h-full mx-auto py-6 px-8">
         <BackButton />
         <AvailableCodeMods allCodeMods={allCodeMods} />
         <Notifications />

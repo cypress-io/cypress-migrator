@@ -26,7 +26,7 @@ const Index = (): ReactElement => {
       </svg>
 
       <main>
-        <div className="max-w-screen-2xl mx-auto py-6 px-6 lg:px-8">
+        <div className="max-w-screen-2xl mx-auto py-6 px-8">
           <LanguageSelect />
           <MigrateEditor />
           <MigrationDiff />

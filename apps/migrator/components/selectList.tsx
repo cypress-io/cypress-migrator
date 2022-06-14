@@ -21,12 +21,13 @@ const SelectList = (): ReactElement => {
         <>
           <div className="mt-1 relative">
           <Listbox.Button
-              className="language-selected bg-white relative w-full pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="language-selected bg-white relative w-1/2 sm:w-full pl-3 pr-10 py-2 px-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
               data-test="language-select-button"
             >
-              <span className="text-indigo-400 lg:text-5xl sm:text-3xl font-semibold capitalize mr-2">{selectedLanguage}</span>
+              <span className="text-indigo-400 lg:text-5xl md:text-4xl text-2xl font-semibold capitalize mr-2">{selectedLanguage}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <ChevronDownIcon className="h-10 w-10 text-indigo-400" aria-hidden="true"/>
+              <ChevronDownIcon className="lg:h-10 lg:w-10 md:h-9 md:w-9 h-6 w-6
+              text-indigo-400" aria-hidden="true"/>
               </span>
             </Listbox.Button>
 
@@ -54,7 +55,7 @@ const SelectList = (): ReactElement => {
                   >
                     {({ selected, active }) => (
                       <>
-                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block text-2xl')}>
+                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block lg:text-3xl md:text-2xl sm:text-xl')}>
                           {item}
                         </span>
 

@@ -13,12 +13,12 @@ const Navigation = (): ReactElement => {
 
   return (
     <nav className="bg-white bg-opacity-50 shadow">
-      <div className="flex w-full justify-between max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 h-16 items-center">
+      <div className="flex w-full justify-between max-w-screen-2xl mx-auto px-6 sm:px-6 lg:px-8 h-16 items-center">
         <Link href="/" passHref>
           <Logo />
         </Link>
         <ul
-          className="nav-list flex items-center sm:space-x-3 md:space-x-4 lg:space-x-8 leading-3 px-2"
+          className="nav-list flex items-center gap-1.5 sm:gap-3 md:gap-6 leading-3 px-2"
           data-test="nav-list"
         >
           {migrationGuides[selectedLanguage] && (

@@ -84,12 +84,12 @@ const MigrateEditor = (): ReactElement => {
       </Head>
       <LanguagePills />
       <div className="w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
-        <div className={classNames(isMobile ? 'justify-end pt-2' : 'grid', 'md:grid-cols-3', 'gap-60', 'pt-2', 'pb-5', 'pr-1')}>
+        <div className='grid md:grid-cols-3 lg:grid-cols-4 gap-y-3 pt-2 pb-5 pr-1'>
           {!isMobile ? ( <DiffToggle /> ) : null}
-          <div className="flex flex-wrap-reverse justify-center sm:justify-between items-center">
+          <div className="flex md:justify-end">
             <button
               type="button"
-              className="w-full sm:w-auto sm:max-w-1/2 inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-normal rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
+              className="w-full md:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-normal rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
               onClick={migrateEditorValue}
               data-test="migrate-button"
             >
