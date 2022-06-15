@@ -1,7 +1,15 @@
 import Image from 'next/image'
+import { ReactElement, useState, useEffect } from 'react'
 import { NPMCopy } from '../components'
 
-export default function GetCypress() {
+const GetCypress = (): ReactElement => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('load', () => setIsMobile(window.innerWidth <= 768))
+    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 768))
+  }, [])
+
   return (
     <section className="flex flex-col items-center justify-center mt-20">
       <p className="lg:text-4xl sm:text-3xl font-semibold">Test your code, not your patience.</p>
@@ -18,3 +26,4 @@ export default function GetCypress() {
     </section>
   )
 }
+export default GetCypress

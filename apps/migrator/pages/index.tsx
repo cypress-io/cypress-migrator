@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { ReactElement } from 'react'
-import { Footer, Navigation, Notifications, SelectList, MigrateEditor, MigrationDiff, GetCypress } from '../components'
+import { Footer, Navigation, Notifications, MigrateEditor, MigrationDiff, GetCypress, LanguageSelect } from '../components'
 
 const Index = (): ReactElement => {
   return (
@@ -27,11 +27,7 @@ const Index = (): ReactElement => {
 
       <main>
         <div className="max-w-screen-2xl mx-auto py-6 px-6 lg:px-8">
-          <div className="flex items-center justify-center pb-6">
-            <h1 className="lg:text-5xl sm:text-3xl font-semibold mr-1">Migrate</h1>
-            <SelectList />
-            <h1 className="lg:text-5xl sm:text-3xl font-semibold"> code to Cypress.</h1>
-          </div>
+          <LanguageSelect />
           <MigrateEditor />
           <MigrationDiff />
           <Notifications />

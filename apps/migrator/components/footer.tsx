@@ -115,49 +115,46 @@ const footerData = {
   ]
 }
 
-
 const Footer = (): ReactElement => {
   return (
-    <>
-      <footer className="bg-indigo-500 px-16 pt-14 pb-4 md:p-0">
-        <section className="max-w-7xl h-full mx-auto py-6 border-b border-indigo-400">
-          <nav className="flex flex-row justify-between">
-            {footerData.primary.map(({ heading, links }) => (
-            <div className="" key={heading}>
-              <p className="text-gray-50 text-sm font-medium mb-3">{heading}</p>
-              <ul className="space-y-2">
-                {links.map(({href, text}) => (
-                <li className="text-indigo-200 hover:text-white text-sm font-light" key={text}>
-                  <a href={href} target={`_blank`}>{text}</a>
-                </li>
-                ))}
-              </ul>
-            </div>
-            ))}
-          <div className="max-w-sm">
-            <h1 className="text-gray-50 text-sm font-medium mb-3">Stay in the loop</h1>
-            <p className="text-indigo-200 text-sm font-light mb-6">Sign up to our newsletter for monthly updates on product releases, news, and articles direct to your inbox.</p>
-              <form className="flex">
-                <input type="email" placeholder="Enter your email" name="email" className="px-3 h-10 w-64 text-sm"></input>
-                <button type="button" className="text-indigo-900 bg-indigo-100 hover:text-indigo-500 rounded-r px-0.5 w-28">Subscribe</button>
-              </form>
-            </div>
-          </nav>
-        </section>
-        <section className="flex flex-row text-indigo-200 text-sm font-light pb-20 pt-4 max-w-7xl h-full mx-auto">
-          <nav>
-            <ul className="flex flex-row space-x-6">
-              <li className="hover:text-white">© Cypress.io</li>
-              {footerData.secondary.map(({href, text}) => (
-              <li className="hover:text-white" key={text}>
+    <footer className="bg-indigo-500 px-16 pt-14 pb-4 md:p-0">
+      <section className="max-w-7xl h-full mx-auto py-6 border-b border-indigo-400">
+        <nav className="flex flex-row justify-between">
+          {footerData.primary.map(({ heading, links }) => (
+          <div className="" key={heading}>
+            <p className="text-gray-50 text-sm font-medium mb-3">{heading}</p>
+            <ul className="space-y-2">
+              {links.map(({href, text}) => (
+              <li className="text-indigo-200 hover:text-white text-sm font-light" key={text}>
                 <a href={href} target={`_blank`}>{text}</a>
               </li>
               ))}
             </ul>
-          </nav>
-        </section>
-      </footer>
-    </>
+          </div>
+          ))}
+        <div className="max-w-sm">
+          <h1 className="text-gray-50 text-sm font-medium mb-3">Stay in the loop</h1>
+          <p className="text-indigo-200 text-sm font-light mb-6">Sign up to our newsletter for monthly updates on product releases, news, and articles direct to your inbox.</p>
+            <form className="flex">
+              <input type="email" placeholder="Enter your email" name="email" className="px-3 h-10 w-64 text-sm"></input>
+              <button type="button" className="text-indigo-900 bg-indigo-100 hover:text-indigo-500 rounded-r px-0.5 w-28">Subscribe</button>
+            </form>
+          </div>
+        </nav>
+      </section>
+      <section className="flex flex-row text-indigo-200 text-sm font-light pb-20 pt-4 max-w-7xl h-full mx-auto">
+        <nav>
+          <ul className="flex flex-row space-x-6">
+            <li className="hover:text-white">© Cypress.io</li>
+            {footerData.secondary.map(({href, text}) => (
+            <li className="hover:text-white" key={text}>
+              <a href={href} target={`_blank`}>{text}</a>
+            </li>
+            ))}
+          </ul>
+        </nav>
+      </section>
+    </footer>
   )
 }
 

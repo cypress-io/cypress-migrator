@@ -2,6 +2,7 @@ import AvailableCodeMods from './availableCodemods'
 import CopyButton from './copyButton'
 import NPMCopy from './npmCopy'
 import LanguagePills from './languagePills'
+import LanguageSelect from './languageSelect'
 import Navigation from './navigation'
 import SelectList from './selectList'
 import Toast from './toast'
@@ -21,6 +22,7 @@ export {
   CopyButton,
   NPMCopy,
   LanguagePills,
+  LanguageSelect,
   Navigation,
   SelectList,
   Toast,

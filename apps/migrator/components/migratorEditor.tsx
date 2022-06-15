@@ -6,8 +6,6 @@ import { ReactElement, useEffect, useRef, useState } from 'react'
 import { CopyButton, DiffToggle, LanguagePills } from '.'
 import {
   selectDiffEditorThemeColors,
-  selectError,
-  selectLanguage,
   selectModified,
   selectOriginal,
   migrate,

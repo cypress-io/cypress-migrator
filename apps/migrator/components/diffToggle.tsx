@@ -28,8 +28,8 @@ const DiffToggle = () => {
           )}
         />
       </Switch>
-      <Switch.Label as="span" className="ml-3">
-        <span className="text-md font-medium text-gray-900">Display Diff Coloring</span>
+      <Switch.Label as="span" className="ml-3 sm:text-md font-medium text-gray-900">
+        Display Diff Coloring
       </Switch.Label>
     </Switch.Group>
   )
