@@ -9,7 +9,7 @@ const Migrations = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement =>
       <title>Cypress Migrator | Interactive Code Transformer</title>
       <meta property="og:title" content="Cypress Migrator | Interactive Code Transformer" key="title" />
       <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-      <link rel="shortcut icon" href="public/favicon.ico" type="image/x-icon" />
+      <link rel="shortcut icon" type="image/svg+xml" href="/public/favicon.svg" />
     </Head>
     <Navigation />
     <main>
