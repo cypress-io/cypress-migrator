@@ -1,10 +1,11 @@
 import { ClipboardCopyIcon } from '@heroicons/react/outline'
 import { ReactElement } from 'react'
-import { selectModified, setCopiedNotification, useAppDispatch, useAppSelector } from '../app'
+import { selectModified, setCopiedNotification, useAppDispatch, useAppSelector, shouldShowCopy } from '../app'
 
 const CopyButton = (): ReactElement => {
   const dispatch = useAppDispatch()
   const migrated = useAppSelector(selectModified)
+  const showCopyButton = useAppSelector(shouldShowCopy)
 
   const copy = (): void => {
     dispatch(setCopiedNotification(true))
@@ -12,7 +13,8 @@ const CopyButton = (): ReactElement => {
   }
 
   return (
-    <div className="flex justify-end">
+    showCopyButton ? (
+    <div className="flex justify-end transition duration-500 ease-in-out 'opacity-100' : 'opacity-0 hidden'">
       <button
         type="button"
         title="Copy Button"
@@ -23,6 +25,7 @@ const CopyButton = (): ReactElement => {
         Copy
       </button>
     </div>
+    ) : null
   )
 }
 export default CopyButton

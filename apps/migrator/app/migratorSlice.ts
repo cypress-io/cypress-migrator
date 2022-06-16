@@ -191,6 +191,8 @@ export const shouldShowDetails = (state: AppState): boolean =>
   state.migrator.alerts.browserWaitMigrated ||
   state.migrator.alerts.noMigrationsMade ||
   state.migrator.alerts.xPath
+export const shouldShowCopy = (state: AppState): boolean =>
+  state.migrator.diffArray.length > 0
 
 export default migratorSlice.reducer
 
