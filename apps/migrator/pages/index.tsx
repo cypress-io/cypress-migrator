@@ -1,17 +1,9 @@
-import Head from 'next/head'
 import { ReactElement } from 'react'
 import { Footer, Navigation, Notifications, MigrateEditor, MigrationDiff, GetCypress, LanguageSelect } from '../components'
 
 const Index = (): ReactElement => {
   return (
     <div>
-      <Head>
-        <html lang={'en'} />
-        <title>Cypress Migrator | Interactive Code Transformer</title>
-        <meta property="og:title" content="Cypress Migrator | Interactive Code Transformer" key="title" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <link rel="shortcut icon" type="image/svg+xml" href="/public/favicon.svg" />
-      </Head>
       <Navigation />
 
       <svg className="left-shape" aria-hidden="true" width="730" height="856" viewBox="0 0 730 856" fill="none" xmlns="http://www.w3.org/2000/svg">
