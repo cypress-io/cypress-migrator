@@ -51,7 +51,6 @@ const MigrationDiff = (): ReactElement => {
                         target="_blank"
                       >
                         {d.command}
-                        <p>Some text here</p>
                       </a>
                     </li>
                   ))}
