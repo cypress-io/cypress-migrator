@@ -27,3 +27,7 @@ body {
   top: -360px;
   right: -580px;
 }
+
+tr:nth-child(even) {
+  background-color: #f3f4fa;
+}
