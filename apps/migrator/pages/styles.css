@@ -28,6 +28,13 @@ body {
   right: -580px;
 }
 
+.editor-wrapper {
+  /* tailwind vh equvalent is clunky,
+  moving everything here for simplicity */
+  height: 40vh;
+  padding-top: 0.25rem;
+}
+
 tr:nth-child(even) {
   background-color: #f3f4fa;
 }

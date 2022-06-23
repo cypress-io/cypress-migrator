@@ -99,7 +99,7 @@ const MigrateEditor = (): ReactElement => {
           </div>
           <CopyButton />
         </div>
-        <div className="pt-1 sm:p-2" style={{height: '40vh'}}>
+        <div className="editor-wrapper">
           <DiffEditor
             language="javascript"
             original={original}
