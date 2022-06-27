@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { Footer, Navigation, Notifications, MigrateEditor, MigrationDiff, GetCypress, LanguageSelect } from '../components'
+import { Footer, Navigation, Notifications, MigrateEditor, MigrationDiff, GetCypress, LanguageSelect, DigDeeper } from '../components'
 
 const Index = (): ReactElement => {
   return (
@@ -18,14 +18,14 @@ const Index = (): ReactElement => {
       </svg>
 
       <main>
-        <div className="max-w-screen-2xl mx-auto py-6 px-8">
+        <div className="max-w-screen-2xl mx-auto pt-6 pb-40 px-8">
           <LanguageSelect />
           <MigrateEditor />
           <MigrationDiff />
           <Notifications />
         </div>
       </main>
-      <GetCypress />
+      <DigDeeper />
       <Footer />
     </div>
   )

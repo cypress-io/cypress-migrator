@@ -14,7 +14,7 @@ import Footer from './footer'
 import AlertType from './alertType'
 import ErrorAlerts from './errorAlerts'
 import Logo from './logo'
-import GetCypress from './getCypress'
+import DigDeeper from './digDeeper'
 
 export {
   AvailableCodeMods,
@@ -33,5 +33,5 @@ export {
   AlertType,
   ErrorAlerts,
   Logo,
-  GetCypress
+  DigDeeper
 }
