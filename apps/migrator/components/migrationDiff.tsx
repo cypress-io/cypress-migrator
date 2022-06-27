@@ -23,12 +23,6 @@ const MigrationDiff = (): ReactElement => {
                 <p className="text-gray-600 text-sm md:text-base py-4 max-w-md">
                   For more detailed information about each item, click the link to its page within our documentation.
                 </p>
-                <h2 className="md:text-2xl sm:text-xl leading-10 font-bold text-gray-900 max-w-lg mt-4">
-                  Want to dig deeper?
-                </h2>
-                <p className="text-gray-600 text-sm md:text-base mt-3 w-9/12">
-                  See the full list of <span className="capitalize">{selectedLanguage}</span> migrations.
-                </p>
               </div>
               <div className="bg-white" data-test="api-details">
                 <ul className="list-inside list-none divide-y divide-gray-50 p-6 rounded shadow " data-test="api-details-list">
