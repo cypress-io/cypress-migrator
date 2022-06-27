@@ -20,11 +20,11 @@ const SelectList = (): ReactElement => {
       {({ open }) => (
         <div className="mt-1 relative">
           <Listbox.Button
-              className="language-selected bg-white relative w-1/2 sm:w-full pl-3 pr-10 py-2 px-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+              className="language-selected bg-white relative w-1/2 sm:w-full pl-3 pr-10 py-2 px-3 text-left cursor-default ring-1 ring-indigo-500"
               data-test="language-select-button"
             >
-              <span className="text-indigo-400 lg:text-5xl md:text-4xl text-2xl font-semibold capitalize mr-2 ">{selectedLanguage}</span>
-              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none ">
+              <span className="text-indigo-400 lg:text-5xl md:text-4xl text-2xl font-semibold capitalize mr-2">{selectedLanguage}</span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <ChevronDownIcon className="lg:h-10 lg:w-10 md:h-9 md:w-9 h-6 w-6
               text-indigo-400" aria-hidden="true"/>
               </span>
@@ -62,7 +62,7 @@ const SelectList = (): ReactElement => {
                           <span
                             className={classNames(
                               active ? 'text-gray-900' : 'text-gray-900',
-                              'absolute inset-y-0 right-0 flex items-center px-4 outline outline-offset-2 outline-indigo-500',
+                              'absolute inset-y-0 right-0 flex items-center px-4',
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
