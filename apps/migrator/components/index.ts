@@ -1,6 +1,5 @@
 import AvailableCodeMods from './availableCodemods'
 import CopyButton from './copyButton'
-import NPMCopy from './npmCopy'
 import LanguagePills from './languagePills'
 import LanguageSelect from './languageSelect'
 import Navigation from './navigation'
@@ -20,7 +19,6 @@ import GetCypress from './getCypress'
 export {
   AvailableCodeMods,
   CopyButton,
-  NPMCopy,
   LanguagePills,
   LanguageSelect,
   Navigation,
