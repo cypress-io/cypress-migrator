@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { applyTransforms } from '@cypress-dx/codemods'
 import { ArrowSmRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
@@ -11,6 +12,7 @@ import {
   migrate,
   useAppDispatch,
   useAppSelector,
+  selectLanguage
 } from '../app'
 
 function classNames(...classes: string[]) {
@@ -24,6 +26,7 @@ const MigrateEditor = (): ReactElement => {
   const dispatch = useAppDispatch()
   const original = useAppSelector(selectOriginal)
   const migrated = useAppSelector(selectModified)
+  const selectedLanguage = useAppSelector(selectLanguage)
   const themeColors = useAppSelector(selectDiffEditorThemeColors)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -84,19 +87,8 @@ const MigrateEditor = (): ReactElement => {
       </Head>
       <LanguagePills />
       <div className="w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
-        <div className='grid md:grid-cols-3 lg:grid-cols-4 gap-y-3 pt-2 pb-5 pr-1'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-y-3 pt-2 pb-5 pr-1'>
           {!isMobile ? ( <DiffToggle /> ) : null}
-          <div className="flex md:justify-end">
-            <button
-              type="button"
-              className="w-full md:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-normal rounded-md shadow-sm text-white bg-indigo-500 hover:bg-jade-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-jade-500 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
-              onClick={migrateEditorValue}
-              data-test="migrate-button"
-            >
-              Migrate
-              <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
           <CopyButton />
         </div>
         <div className="editor-wrapper">
@@ -130,6 +122,28 @@ const MigrateEditor = (): ReactElement => {
             }}
           />
         </div>
+      </div>
+      <div className="px-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
+        <div className="text-center sm:text-left">
+          <h4 className="font-bold">Want to dig deeper?</h4>
+          <p>
+            <Link href="/migrations">
+            <a className="text-jade-400 hover:underline" data-test="all-migrations-link">
+                {' '}
+                See the full list of <span className="capitalize">{selectedLanguage}</span> migrations &rarr;{' '}
+              </a>
+            </Link>
+          </p>
+        </div>
+        <button
+          type="button"
+          className="w-full md:w-auto inline-flex justify-center items-center px-5 py-2.5 my-4 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-900 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
+          onClick={migrateEditorValue}
+          data-test="migrate-button"
+        >
+          Migrate to Cypress
+          <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+        </button>
       </div>
     </div>
   )

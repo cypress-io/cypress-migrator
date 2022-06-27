@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import { ReactElement } from 'react'
 import { selectDiffApiItems, shouldShowDetails, useAppSelector, selectLanguage } from '../app'
@@ -30,14 +29,6 @@ const MigrationDiff = (): ReactElement => {
                 <p className="text-gray-600 text-sm md:text-base mt-3 w-9/12">
                   See the full list of <span className="capitalize">{selectedLanguage}</span> migrations.
                 </p>
-                <Link href={"/migrations"} passHref>
-                  <a
-                  type="button"
-                  className="px-6 py-3 my-4 text-sm md:text-base font-medium rounded-md shadow-sm text-indigo-500 bg-indigo-50 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105"
-                  >
-                    View All Migrations
-                  </a>
-                </Link>
               </div>
               <div className="bg-white" data-test="api-details">
                 <ul className="list-inside list-none divide-y divide-gray-50 p-6 rounded shadow " data-test="api-details-list">
