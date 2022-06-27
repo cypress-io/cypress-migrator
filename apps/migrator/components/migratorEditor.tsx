@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { applyTransforms } from '@cypress-dx/codemods'
-import { ArrowSmRightIcon } from '@heroicons/react/solid'
+import { ArrowCircleRightIcon } from '@heroicons/react/solid'
 import { DiffEditor, useMonaco } from '@monaco-editor/react'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { CopyButton, DiffToggle, LanguagePills } from '.'
@@ -87,7 +87,7 @@ const MigrateEditor = (): ReactElement => {
       </Head>
       <LanguagePills />
       <div className="w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-y-3 pt-2 pb-5 pr-1'>
+        <div className='md:flex md:justify-between py-2 px-4'>
           {!isMobile ? ( <DiffToggle /> ) : null}
           <CopyButton />
         </div>
@@ -123,8 +123,8 @@ const MigrateEditor = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="px-4 flex flex-wrap-reverse justify-center sm:justify-between items-center">
-        <div className="text-center sm:text-left">
+      <div className="flex flex-wrap-reverse justify-center md:justify-between items-center p-4 md:py-0 gap-y-4">
+        <div className="text-center md:text-left">
           <h4 className="font-bold">Want to dig deeper?</h4>
           <p>
             <Link href="/migrations">
@@ -142,7 +142,7 @@ const MigrateEditor = (): ReactElement => {
           data-test="migrate-button"
         >
           Migrate to Cypress
-          <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+          <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
         </button>
       </div>
     </div>

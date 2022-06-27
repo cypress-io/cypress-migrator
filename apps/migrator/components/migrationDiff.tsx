@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { ReactElement } from 'react'
+import { ArrowSmRightIcon } from '@heroicons/react/solid'
 import { selectDiffApiItems, shouldShowDetails, useAppSelector, selectLanguage } from '../app'
 import { ErrorAlerts } from '.'
 
@@ -10,38 +11,44 @@ const MigrationDiff = (): ReactElement => {
 
   return (
       <div
-        className={`md:w-full transition duration-500 ease-in-out mt-16 relative ${showDetails ? 'opacity-100' : 'opacity-0 hidden'}`}
+        className={`md:w-full transition duration-500 ease-in-out my-12 md:mt-24 relative ${showDetails ? 'opacity-100' : 'opacity-0 hidden'}`}
         data-test="more-details"
       >
         <ErrorAlerts />
         {diff.length > 0 ? (
-            <div className="grid gap-8 p-6 md:grid-cols-2 lg:px-16">
-              <div>
-                <h2 className="md:text-2xl sm:text-xl md:leading-10 font-bold text-gray-900 max-w-lg">
-                  Great! Here are the Cypress commands that were found in the migrated code.
+            <>
+              <div className="text-center">
+                <h2 className="md:text-2xl sm:text-xl md:leading-10 font-bold text-gray-900">
+                  Here are the Cypress commands that were found in the migrated code.
                 </h2>
-                <p className="text-gray-600 text-sm md:text-base py-4 max-w-md">
+                <p className="text-gray-600 text-sm md:text-base py-4">
                   For more detailed information about each item, click the link to its page within our documentation.
                 </p>
               </div>
-              <div className="bg-white" data-test="api-details">
-                <ul className="list-inside list-none divide-y divide-gray-50 p-6 rounded shadow " data-test="api-details-list">
+              <div className="lg:px-60" data-test="api-details">
+                <ul className="bg-white list-inside list-none divide-y divide-gray-50 p-6 rounded shadow" data-test="api-details-list">
                   {diff.map((d, i: number) => (
-                    <li className="flex items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105 hover:underline" key={i}>
-                      <Image src="/docs_icon.svg" alt="" width="40" height="40" />
-                      <a
-                        className="ml-2 text-gray-900 hover:text-indigo-400 hover:underline"
-                        href={d.url}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {d.command}
-                      </a>
+                    <li className="flex justify-between items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:translate-x-2 hover:scale-100 hover:underline text-gray-900 hover:text-indigo-400" key={i}>
+                      <div className="flex items-center">
+                        <Image src="/docs_icon.svg" alt="" width="40" height="40" />
+                        <a
+                          className="ml-2"
+                          href={d.url}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {`cy.${d.command}()`}
+                        </a>
+                      </div>
+                      <div className="flex text-sm">
+                        <span className="hidden sm:block">Learn More</span>
+                        <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                      </div>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
+            </>
           ) : null}
       </div>
   )
