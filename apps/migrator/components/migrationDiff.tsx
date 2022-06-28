@@ -40,9 +40,9 @@ const MigrationDiff = (): ReactElement => {
                           {`cy.${d.command}()`}
                         </a>
                       </div>
-                      <div className="flex text-sm">
+                      <div className="flex items-center text-xs">
                         <span className="hidden sm:block">Learn More</span>
-                        <ArrowSmRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                        <ArrowSmRightIcon className="ml-2 -mr-1 h-4 w-5" aria-hidden="true" />
                       </div>
                     </li>
                   ))}

@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { Footer, Navigation, Notifications, MigrateEditor, MigrationDiff, GetCypress, LanguageSelect, DigDeeper } from '../components'
+import { Footer, Navigation, Notifications, MigrateEditor, MigrationDiff, LanguageSelect, DigDeeper } from '../components'
 
 const Index = (): ReactElement => {
   return (
