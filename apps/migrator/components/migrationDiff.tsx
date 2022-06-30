@@ -28,22 +28,25 @@ const MigrationDiff = (): ReactElement => {
               <div className="lg:px-60" data-test="api-details">
                 <ul className="bg-white list-inside list-none divide-y divide-gray-50 p-6 rounded shadow" data-test="api-details-list">
                   {diff.map((d, i: number) => (
-                    <li className="flex justify-between items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:translate-x-2 hover:scale-100 hover:underline text-gray-900 hover:text-indigo-400 cursor-pointer" key={i}>
-                      <div className="flex items-center">
-                        <Image src="/docs_icon.svg" alt="" width="40" height="40" />
-                        <a
-                          className="ml-2"
-                          href={d.url}
-                          rel="noreferrer"
-                          target="_blank"
-                        >
-                          {`cy.${d.command}()`}
-                        </a>
-                      </div>
-                      <div className="flex items-center text-xs">
-                        <span className="hidden sm:block">Learn More</span>
-                        <ArrowSmRightIcon className="ml-2 -mr-1 h-4 w-5" aria-hidden="true" />
-                      </div>
+                    <li className="py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:translate-x-2 hover:scale-100 hover:underline text-gray-900 hover:text-indigo-400 cursor-pointer" key={i}>
+                      <a
+                        href={d.url}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        <div className='flex justify-between'>
+                          <div className="flex items-center">
+                            <Image src="/docs_icon.svg" alt="" width="40" height="40" />
+                            <span className="ml-2">
+                              {`cy.${d.command}()`}
+                            </span>
+                          </div>
+                          <div className="flex items-center text-xs">
+                            <span className="hidden sm:block">Learn More</span>
+                            <ArrowSmRightIcon className="ml-2 -mr-1 h-4 w-5" aria-hidden="true" />
+                          </div>
+                        </div>
+                      </a>
                     </li>
                   ))}
                 </ul>
