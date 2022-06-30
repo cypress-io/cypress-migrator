@@ -15,10 +15,6 @@ import {
   selectLanguage
 } from '../app'
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const monacoPackage = require('../../../node_modules/monaco-editor/package.json')
 
@@ -42,8 +38,8 @@ const MigrateEditor = (): ReactElement => {
     })
 
   useEffect(() => {
-    window.addEventListener('load', () => setIsMobile(window.innerWidth <= 768))
-    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 768))
+    window.addEventListener('load', () => setIsMobile(window.innerWidth < 768))
+    window.addEventListener('resize', () => setIsMobile(window.innerWidth < 768))
   }, [])
 
   useEffect(() => {
@@ -87,7 +83,7 @@ const MigrateEditor = (): ReactElement => {
       </Head>
       <LanguagePills />
       <div className="w-full bg-white px-4 pt-4 pb-2 sm:p-2 border-solid border-4 border-gray-200 rounded-md overflow-hidden">
-        <div className='md:flex md:justify-between py-2 px-4'>
+        <div className='md:flex md:justify-between pt-2 pb-4 px-4'>
           {!isMobile ? ( <DiffToggle /> ) : null}
           <CopyButton />
         </div>

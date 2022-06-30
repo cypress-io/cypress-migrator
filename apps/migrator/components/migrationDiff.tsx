@@ -1,13 +1,12 @@
 import Image from 'next/image'
 import { ReactElement } from 'react'
 import { ArrowSmRightIcon } from '@heroicons/react/solid'
-import { selectDiffApiItems, shouldShowDetails, useAppSelector, selectLanguage } from '../app'
+import { selectDiffApiItems, shouldShowDetails, useAppSelector } from '../app'
 import { ErrorAlerts } from '.'
 
 const MigrationDiff = (): ReactElement => {
   const diff = useAppSelector(selectDiffApiItems)
   const showDetails = useAppSelector(shouldShowDetails)
-  const selectedLanguage = useAppSelector(selectLanguage)
 
   return (
       <div
