@@ -14,7 +14,7 @@ const CopyButton = (): ReactElement => {
 
   return (
     showCopyButton ? (
-    <div className="md:col-end-3 flex justify-end">
+    <div className="flex justify-end">
       <button
         type="button"
         title="Copy Button"
