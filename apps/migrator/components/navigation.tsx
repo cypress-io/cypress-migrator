@@ -24,7 +24,9 @@ const Navigation = (): ReactElement => {
           {migrationGuides[selectedLanguage] && (
             <li key={migrationGuides[selectedLanguage]}>
               <a
+                rel="noreferrer"
                 href={migrationGuides[selectedLanguage].url}
+                target="_blank"      
                 className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal capitalize text-gray-600"
               >
                 {`${selectedLanguage} Migration Guide`}
@@ -34,7 +36,9 @@ const Navigation = (): ReactElement => {
           {navLinks.map((link) => (
             <li key={link.title}>
               <a
+                rel="noreferrer"
                 href={link.url}
+                target="_blank"
                 className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal text-gray-600"
               >
                 {link.title}

@@ -40,7 +40,7 @@ export default function Footer() {
           ))}
         </nav>
         <p className="mt-8 text-center text-base text-gray-50">
-          &copy; {`${new Date().getFullYear()}`} Cypress. All rights reserved. | <a className="hover:text-gray-900 hover:underline" href="https://github.com/cypress-io/cypress-migrator/issues">Submit An Issue</a>
+          &copy; {`${new Date().getFullYear()}`} Cypress. All rights reserved. | <a className="hover:text-gray-900 hover:underline" rel="noreferrer" href="https://github.com/cypress-io/cypress-migrator/issues" target="_blank">Submit An Issue</a>
         </p>
       </div>
     </footer>

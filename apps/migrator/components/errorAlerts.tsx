@@ -39,7 +39,7 @@ const ErrorCTA = ({ cta }: { cta: CTA }): ReactElement => (
             onClick={cta.action}
             className="inline-flex items-center px-2.5 py-1.5 border border-yellow-300 shadow-sm text-xs font-medium rounded text-yellow-700 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
           >
-            {cta.text} <span aria-hidden="true">&rarr;</span>
+            <a rel="noreferrer" href="https://github.com/cypress-io/cypress-migrator/issues" target="_blank">{cta.text}</a> <span aria-hidden="true">&rarr;</span>
           </button>
         )}
       </p>
@@ -138,14 +138,14 @@ const ErrorAlerts = (): ReactElement => {
         <ErrorAlert
           title="Potential Anti-Pattern Found"
           alertType="Warning"
-          description="You typically should not need to use hard coded 'waits' in your test code. Learn more about about cy.wait() and retry-ability from the <a class='text-yellow-500 hover:underline font-medium' href='https://on.cypress.io/wait' target='_blank'>Cypress Docs.</a>"
+          description="You typically should not need to use hard coded 'waits' in your test code. Learn more about about cy.wait() and retry-ability from the <a class='text-yellow-500 hover:underline font-medium' rel='noreferrer' href='https://on.cypress.io/wait' target='_blank'>Cypress Docs.</a>"
         />
       ) : null}
       {alerts.noMigrationsMade ? (
         <ErrorAlert
           title="No Migrations Found"
           alertType="Warning"
-          description="We were unable to find any migrations. If you think there is an issue with a migrated item, please submit an issue below."
+          description="We were unable to find any migrations. If you think there is an issue with a migrated item, please submit an issue."
           cta={
             migrationSent
               ? { success: true }

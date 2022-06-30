@@ -23,12 +23,14 @@ export default function DigDeeper() {
           </div>
           <div className="hidden sm:flex justify-center border-solid border border-gray-200 rounded-md shadow cursor-pointer">
             <Link href="https://docs.cypress.io/guides/end-to-end-testing/protractor-to-cypress" passHref>
-              <Image
-                src="/protractor-migration.png"
-                alt="View All Migrations"
-                width={500}
-                height={400}
+              <a rel="noreferrer" target="_blank">
+                <Image
+                  src="/protractor-migration.png"
+                  alt="View All Migrations"
+                  width={500}
+                  height={400}
                 />
+              </a>
             </Link> 
           </div>
         </div>
