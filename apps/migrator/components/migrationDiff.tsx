@@ -28,7 +28,7 @@ const MigrationDiff = (): ReactElement => {
               <div className="lg:px-60" data-test="api-details">
                 <ul className="bg-white list-inside list-none divide-y divide-gray-50 p-6 rounded shadow" data-test="api-details-list">
                   {diff.map((d, i: number) => (
-                    <li className="flex justify-between items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:translate-x-2 hover:scale-100 hover:underline text-gray-900 hover:text-indigo-400" key={i}>
+                    <li className="flex justify-between items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:translate-x-2 hover:scale-100 hover:underline text-gray-900 hover:text-indigo-400 cursor-pointer" key={i}>
                       <div className="flex items-center">
                         <Image src="/docs_icon.svg" alt="" width="40" height="40" />
                         <a
