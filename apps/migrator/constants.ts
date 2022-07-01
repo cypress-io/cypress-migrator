@@ -7,3 +7,8 @@ export const defaultText = {
   });
 });`,
 }
+
+export const cypressDocsURL = 'https://on.cypress.io/docs'
+export const protractorDocsURL = 'https://on.cypress.io/protractor-to-cypress'
+export const migratorIssuesURL = 'https://github.com/cypress-io/cypress-migrator/issues'
+export const API_URL = 'https://api.github.com/repos/cypress-io/cypress-migrator/issues'

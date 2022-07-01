@@ -3,12 +3,13 @@ import Link from 'next/link'
 
 import { useAppSelector, selectLanguage } from '../app'
 import { Logo } from '../components'
+import { protractorDocsURL, cypressDocsURL } from '../constants'
 
 const Navigation = (): ReactElement => {
   const selectedLanguage: string = useAppSelector(selectLanguage).toLowerCase()
-  const navLinks = [{ title: 'Cypress Docs', url: 'https://on.cypress.io/docs' }]
+  const navLinks = [{ title: 'Cypress Docs', url: cypressDocsURL }]
   const migrationGuides = {
-    protractor: { url: 'https://on.cypress.io/protractor-to-cypress' },
+    protractor: { url: protractorDocsURL },
   }
 
   return (
