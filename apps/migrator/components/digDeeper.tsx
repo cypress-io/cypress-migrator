@@ -8,7 +8,7 @@ export default function DigDeeper() {
 
     return (
       <>
-        <div className="sm:flex sm:justify-center items-center bg-indigo-50 py-8 px-16 md:gap-24 xl:gap-60">
+        <div className="sm:flex sm:justify-center items-center bg-indigo-50 p-16 md:gap-24 xl:gap-60">
           <div className="text-center sm:text-left">
             <h3 className="mt-2 mb-4 lg:mb-8 text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
               Want to learn more?
@@ -28,8 +28,8 @@ export default function DigDeeper() {
                 <Image
                   src="/protractor-migration.png"
                   alt="View All Migrations"
-                  width={500}
-                  height={400}
+                  width={550}
+                  height={450}
                 />
               </a>
             </Link> 
