@@ -1,5 +1,6 @@
-import { ArrowCircleRightIcon } from '@heroicons/react/outline'
+import Image from 'next/image'
 import { ReactElement } from 'react'
+import { ArrowSmRightIcon } from '@heroicons/react/solid'
 import { selectDiffApiItems, shouldShowDetails, useAppSelector } from '../app'
 import { ErrorAlerts } from '.'
 
@@ -8,45 +9,54 @@ const MigrationDiff = (): ReactElement => {
   const showDetails = useAppSelector(shouldShowDetails)
 
   return (
-    <>
       <div
-        className={`md:w-full transition duration-500 ease-in-out ${showDetails ? 'opacity-100' : 'opacity-0'}`}
+        className={`md:w-full transition duration-500 ease-in-out my-12 md:mt-24 relative ${showDetails ? 'opacity-100' : 'opacity-0 hidden'}`}
         data-test="more-details"
       >
-        <h2 className="text-3xl leading-6 font-bold text-gray-900 my-4 capitalize">
-          More details about your migration:
-        </h2>
-        <hr />
         <ErrorAlerts />
-        <div className="flex justify-between">
-          <div data-test="api-details">
-            {diff.length > 0 ? (
-              <>
-                <p className="py-4">
-                  The following Cypress API items were found in the migrated code. For more detailed information about
-                  each item, click the link to its page within our documentation.
+        {diff.length > 0 ? (
+            <>
+              <div className="text-center">
+                <h2 className="md:text-2xl sm:text-xl md:leading-10 font-bold text-gray-900">
+                  Here are the Cypress commands that were found in the migrated code.
+                </h2>
+                <p className="text-gray-600 text-sm md:text-base py-4">
+                  For more detailed information about each item, click the link to its page within our documentation.
                 </p>
-                <ul className="list-inside list-none mb-4" data-test="api-details-list">
+              </div>
+              <div className="lg:px-60" data-test="api-details">
+                <ul className="bg-white list-inside list-none divide-y divide-gray-50 p-6 rounded shadow" data-test="api-details-list">
                   {diff.map((d, i: number) => (
-                    <li className="flex items-center" key={i}>
-                      <ArrowCircleRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                    <li className="flex justify-between items-center py-4 first:pt-0 last:pb-0 transition duration-300 ease-in-out transform hover:translate-x-2 hover:scale-100 hover:underline text-gray-900 hover:text-indigo-400 cursor-pointer" key={i}>
                       <a
-                        className="ml-2 text-green-400 hover:text-green-500"
                         href={d.url}
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {d.command}
+                        <div className="flex items-center">
+                          <Image src="/docs_icon.svg" alt="" width="40" height="40" />
+                          <span className="ml-2">
+                            {`cy.${d.command}()`}
+                          </span>
+                        </div>
+                      </a>
+                      <a
+                        href={d.url}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        <div className="flex items-center text-xs">
+                          <span className="hidden sm:block">Learn More</span>
+                          <ArrowSmRightIcon className="ml-2 -mr-1 h-4 w-5" aria-hidden="true" />
+                        </div>
                       </a>
                     </li>
                   ))}
                 </ul>
-              </>
-            ) : null}
-          </div>
-        </div>
+              </div>
+            </>
+          ) : null}
       </div>
-    </>
   )
 }
 export default MigrationDiff

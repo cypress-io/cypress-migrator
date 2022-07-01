@@ -14,9 +14,9 @@ export const parser = 'babel'
 
 export function applyTransforms({
   input,
-  warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR in the cypress-dx repo.',
+  warningMessage = 'We currently do not support transforming this. If you think this should be added, submit an issue or PR to the <a class="text-indigo-500 hover:underline font-medium" rel="noreferrer" href="https://github.com/cypress-io/cypress-migrator/issues" target="_blank">Cypress Migrator repo</a>.',
   notSupportedMessage = 'We currently do not support transforming this. There is no Cypress equivalent.',
-  errorMessage = 'We are not able to transform this. If you think this should be added submit an issue or PR in the cypress-dx repo.',
+  errorMessage = 'We are not able to transform this. If you think this should be added, submit an issue or PR to the <a class="text-indigo-500 hover:underline font-medium" rel="noreferrer" href="https://github.com/cypress-io/cypress-migrator/issues" target="_blank">Cypress Migrator repo</a>.',
   noInputProvided = 'Please provide an input value to migrate.',
 }: TransformProps): MigrateResult {
   // eslint-disable-next-line @typescript-eslint/no-var-requires

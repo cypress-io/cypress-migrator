@@ -12,42 +12,42 @@ const Navigation = (): ReactElement => {
   }
 
   return (
-    <>
-      <nav className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 items-center">
-        <div className="flex w-full justify-between items-center">
-          <Link href="/" passHref>
-            <Logo />
-          </Link>
-
-          <ul
-            className="nav-list flex items-center sm:space-x-3 md:space-x-4 lg:space-x-8 leading-3 px-2"
-            data-test="nav-list"
-          >
-            {migrationGuides[selectedLanguage] && (
-              <li key={migrationGuides[selectedLanguage]}>
-                <a
-                  href={migrationGuides[selectedLanguage].url}
-                  className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-sm font-medium capitalize"
-                >
-                  {`${selectedLanguage} Migration Guide`}
-                </a>
-              </li>
-            )}
-            {navLinks.map((link) => (
-              <li key={link.title}>
-                <a
-                  href={link.url}
-                  className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-sm font-medium"
-                >
-                  {link.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-      <hr />
-    </>
+    <nav className="bg-white bg-opacity-50 shadow">
+      <div className="flex w-full justify-between max-w-screen-2xl mx-auto px-6 sm:px-6 lg:px-8 h-16 items-center">
+        <Link href="/" passHref>
+          <Logo />
+        </Link>
+        <ul
+          className="nav-list flex items-center gap-1.5 sm:gap-3 md:gap-6 leading-3 px-2"
+          data-test="nav-list"
+        >
+          {migrationGuides[selectedLanguage] && (
+            <li key={migrationGuides[selectedLanguage]}>
+              <a
+                rel="noreferrer"
+                href={migrationGuides[selectedLanguage].url}
+                target="_blank"      
+                className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal capitalize text-gray-600"
+              >
+                {`${selectedLanguage} Migration Guide`}
+              </a>
+            </li>
+          )}
+          {navLinks.map((link) => (
+            <li key={link.title}>
+              <a
+                rel="noreferrer"
+                href={link.url}
+                target="_blank"
+                className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal text-gray-600"
+              >
+                {link.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
   )
 }
 

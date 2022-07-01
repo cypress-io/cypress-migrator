@@ -41,7 +41,7 @@ describe('Migrator app', () => {
     cy.visit('/')
   })
 
-  it('correctly displays and migrates', () => {
+  it('correctly displays and migrations', () => {
     // displays logo and nav links correctly
     cy.get('[alt="Cypress Logo"]').click()
     cy.location().should((loc) => {
@@ -56,7 +56,6 @@ describe('Migrator app', () => {
     cy.getBySel('language-select-options').contains('li', 'protractor').click()
     // test page elements that are dynamic based on selected language
     cy.getBySel('nav-list').contains('li', 'protractor')
-    cy.getBySel('all-migrations-link').contains('span', 'protractor')
 
     // correctly migrates code
     //cy.get('.original-in-monaco-diff-editor').find('.view-line').should('have.length', 7)
@@ -67,8 +66,10 @@ describe('Migrator app', () => {
     // shows more details section
     cy.getBySel('more-details').should('be.visible')
     cy.getBySel('more-details').find('h2').should('be.visible')
-    cy.getBySel('api-details').find('p').should('be.visible')
+    cy.contains('button', /^protractor/)
+    cy.getBySel('api-details').should('be.visible')
     cy.getBySel('api-details-list').find('li').should('have.length', 4)
+
   })
 
   it('correctly displays antipattern warning', () => {

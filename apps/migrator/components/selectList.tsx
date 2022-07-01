@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ReactElement } from 'react'
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/solid'
 
 import { selectAvailableLanguages, selectLanguage, setLanguage, useAppDispatch, useAppSelector } from '../app'
 
@@ -18,15 +18,15 @@ const SelectList = (): ReactElement => {
   return (
     <Listbox value={selectedLanguage} onChange={(value) => dispatch(setLanguage(value))}>
       {({ open }) => (
-        <>
-          <div className="mt-1 relative">
-            <Listbox.Button
-              className="language-selected bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        <div className="mt-1 relative">
+          <Listbox.Button
+              className="language-selected bg-white relative w-3/4 sm:w-full pl-3 pr-10 py-2 px-3 text-left cursor-default ring-1 ring-indigo-500 rounded-md"
               data-test="language-select-button"
             >
-              <span className="block text-2xl capitalize">{selectedLanguage}</span>
+              <span className="text-indigo-400 lg:text-5xl md:text-3xl text-2xl font-semibold capitalize mr-2">{selectedLanguage}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+              <ChevronDownIcon className="lg:h-10 lg:w-10 md:h-9 md:w-9 h-6 w-6
+              text-indigo-400" aria-hidden="true"/>
               </span>
             </Listbox.Button>
 
@@ -46,15 +46,15 @@ const SelectList = (): ReactElement => {
                     key={item}
                     className={({ active, selected }) =>
                       classNames(
-                        active || selected ? 'text-gray-900 bg-green-200' : 'text-gray-900',
-                        'cursor-default select-none relative py-2 pl-3 pr-9 language-option',
+                        active || selected ? 'text-gray-900 bg-jade-200' : 'text-gray-900',
+                        'cursor-default select-none relative py-2 pl-3 pr-9 language-option capitalize',
                       )
                     }
                     value={item.toLowerCase()}
                   >
                     {({ selected, active }) => (
                       <>
-                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block text-2xl')}>
+                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block lg:text-3xl md:text-2xl sm:text-xl')}>
                           {item}
                         </span>
 
@@ -74,8 +74,7 @@ const SelectList = (): ReactElement => {
                 ))}
               </Listbox.Options>
             </Transition>
-          </div>
-        </>
+        </div>
       )}
     </Listbox>
   )

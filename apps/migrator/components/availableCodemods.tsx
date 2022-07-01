@@ -6,7 +6,7 @@ import { useAppSelector, selectLanguage } from '../app'
 const tableComponent = {
   table: ({ children, ...props }) => (
     <div className="flex flex-col mb-12 mt-4">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="-my-2 overflow-x-auto px-8 sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200" {...props}>
@@ -17,9 +17,9 @@ const tableComponent = {
       </div>
     </div>
   ),
-  thead: ({ ...props }) => <thead className="bg-gray-50" {...props} />,
+  thead: ({ ...props }) => <thead className="bg-gray-100" {...props} />,
   th: ({ children }) => (
-    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
       {children}
     </th>
   ),

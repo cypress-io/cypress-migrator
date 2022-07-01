@@ -1,6 +1,7 @@
 import AvailableCodeMods from './availableCodemods'
 import CopyButton from './copyButton'
 import LanguagePills from './languagePills'
+import LanguageSelect from './languageSelect'
 import Navigation from './navigation'
 import SelectList from './selectList'
 import Toast from './toast'
@@ -13,11 +14,13 @@ import Footer from './footer'
 import AlertType from './alertType'
 import ErrorAlerts from './errorAlerts'
 import Logo from './logo'
+import DigDeeper from './digDeeper'
 
 export {
   AvailableCodeMods,
   CopyButton,
   LanguagePills,
+  LanguageSelect,
   Navigation,
   SelectList,
   Toast,
@@ -30,4 +33,5 @@ export {
   AlertType,
   ErrorAlerts,
   Logo,
+  DigDeeper
 }

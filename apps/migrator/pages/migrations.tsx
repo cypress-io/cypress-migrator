@@ -1,19 +1,12 @@
 import { ReactElement } from 'react'
-import Head from 'next/head'
 import { Navigation, AvailableCodeMods, Notifications, BackButton } from '../components'
 import { getAllCodeMods } from '../api'
 
 const Migrations = ({ allCodeMods }: { allCodeMods: string[] }): ReactElement => (
-  <div className={'h-full'}>
-    <Head>
-      <title>Cypress Migrator | Interactive Code Transformer</title>
-      <meta property="og:title" content="Cypress Migrator | Interactive Code Transformer" key="title" />
-      <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-      <link rel="shortcut icon" href="public/favicon.ico" type="image/x-icon" />
-    </Head>
+  <div>
     <Navigation />
-    <main className="h-full">
-      <div className="max-w-7xl h-full mx-auto py-6 sm:px-6 lg:px-8">
+    <main>
+      <div className="max-w-7xl h-full mx-auto py-6 px-8">
         <BackButton />
         <AvailableCodeMods allCodeMods={allCodeMods} />
         <Notifications />
