@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { selectLanguage, useAppSelector } from '../app';
+import { protractorDocsURL } from '../constants'
 
 export default function DigDeeper() {
   const selectedLanguage = useAppSelector(selectLanguage)
@@ -15,14 +16,14 @@ export default function DigDeeper() {
             <p className="mt-3 text-base text-gray-600 lg:w-9/12">
                 See our Migrating from <span className="capitalize">{selectedLanguage}</span> to Cypress Guide.
             </p>
-            <Link href="https://docs.cypress.io/guides/end-to-end-testing/protractor-to-cypress">
+            <Link href={protractorDocsURL}>
               <a rel="noreferrer" target="_blank" className="my-6 inline-block rounded-md bg-indigo-500 py-2 px-4 text-center text-sm text-gray-50 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-900 transition duration-300 ease-in-out transform hover:-translate-y-0 hover:scale-105">
                 Migration Guide &rarr;{' '}
               </a>
             </Link>
           </div>
           <div className="hidden sm:flex justify-center border-solid border border-gray-200 rounded-md shadow cursor-pointer">
-            <Link href="https://docs.cypress.io/guides/end-to-end-testing/protractor-to-cypress" passHref>
+            <Link href={protractorDocsURL} passHref>
               <a className="flex" rel="noreferrer" target="_blank">
                 <Image
                   src="/protractor-migration.png"

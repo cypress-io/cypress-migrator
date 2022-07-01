@@ -10,6 +10,8 @@ import {
 } from '../app'
 import AlertType, { AlertIconType } from './alertType'
 
+import { migratorIssuesURL } from '../constants'
+
 type CTA = {
   text?: string
   success?: boolean
@@ -39,7 +41,7 @@ const ErrorCTA = ({ cta }: { cta: CTA }): ReactElement => (
             onClick={cta.action}
             className="inline-flex items-center px-2.5 py-1.5 border border-yellow-300 shadow-sm text-xs font-medium rounded text-yellow-700 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
           >
-            <a rel="noreferrer" href="https://github.com/cypress-io/cypress-migrator/issues" target="_blank">{cta.text}</a> <span aria-hidden="true">&rarr;</span>
+            <a rel="noreferrer" href={migratorIssuesURL} target="_blank">{cta.text}</a> <span aria-hidden="true">&rarr;</span>
           </button>
         )}
       </p>
