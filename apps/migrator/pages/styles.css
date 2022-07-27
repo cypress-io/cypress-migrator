@@ -121,3 +121,36 @@ tr:nth-child(even) {
       display: none;
     }
 }
+
+/* ----------- Laptop ----------- */
+
+/* ----------- Non-Retina Screens ----------- */
+@media screen
+  and (min-device-width: 1200px)
+  and (max-device-width: 1600px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .left-shape {
+      top: -490px;
+      left: -350px;
+    }
+    .right-shape {
+      top: -460px;
+      right: -700px;
+    }
+}
+
+/* ----------- Retina Screens ----------- */
+@media screen
+  and (min-device-width: 1200px)
+  and (max-device-width: 1600px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (min-resolution: 192dpi) {
+    .left-shape {
+      top: -490px;
+      left: -350px;
+    }
+    .right-shape {
+      top: -460px;
+      right: -700px;
+    }
+}
