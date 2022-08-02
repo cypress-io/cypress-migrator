@@ -39,6 +39,7 @@ const verifyEmptyMigration = (value: string): void => {
 describe('Migrator app', () => {
   beforeEach(() => {
     cy.visit('/')
+    cy.injectAxe()
   })
 
   it('correctly displays and migrations', () => {
@@ -137,5 +138,6 @@ describe('Migrator app', () => {
     cy.fixture('assertions').then((migrations: IMigration[]) => {
       migrations.forEach((migration: IMigration) => verifyMigration(migration))
     })
+    cy.checkA11y()
   })
 })
