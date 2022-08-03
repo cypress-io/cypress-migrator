@@ -20,7 +20,7 @@ const SelectList = (): ReactElement => {
       {({ open }) => (
         <div className="mt-1 relative">
           <Listbox.Button
-              className="language-selected bg-white relative w-3/4 sm:w-full pl-3 pr-10 py-2 px-3 text-left cursor-default ring-1 ring-indigo-500 rounded-md"
+              className="language-selected bg-white relative w-3/4 sm:w-full pl-3 pr-10 pt-2 pb-1 px-3 text-left cursor-default ring-1 ring-indigo-500 rounded-md"
               data-test="language-select-button"
             >
               <span className="text-indigo-400 lg:text-5xl md:text-3xl text-2xl font-semibold capitalize mr-2">{selectedLanguage}</span>
