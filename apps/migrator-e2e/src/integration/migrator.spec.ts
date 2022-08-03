@@ -11,6 +11,7 @@ const clearProtractor = (): Cypress.Chainable<JQuery<HTMLElement>> => {
 
 const enterProtractor = (value: string): void => {
   cy.get('textArea').first().type(value, { parseSpecialCharSequences: false })
+  cy.get('textArea').first().should('exist')
 }
 
 const expectCypressMigrationToEqual = (value: string): void => {
@@ -138,6 +139,15 @@ describe('Migrator app', () => {
     cy.fixture('assertions').then((migrations: IMigration[]) => {
       migrations.forEach((migration: IMigration) => verifyMigration(migration))
     })
+  })
+
+  it.only('Has no detectable a11y violations on load', () => {
+    // Test the page at initial load
+    // there is a "moderate" aria role issue in monaco-editor that we
+    // don't control https://github.com/microsoft/monaco-editor/issues/2448 - filtering on critial errors only
     cy.checkA11y()
+    // cy.checkA11y(null, {
+    //   includedImpacts: ['critical']
+    // })
   })
 })
