@@ -28,7 +28,7 @@ const Navigation = (): ReactElement => {
                 rel="noreferrer"
                 href={migrationGuides[selectedLanguage].url}
                 target="_blank"      
-                className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal capitalize text-gray-600"
+                className="dark:bg-gray-800 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal capitalize text-gray-700"
               >
                 {`${selectedLanguage} Migration Guide`}
               </a>
@@ -40,7 +40,7 @@ const Navigation = (): ReactElement => {
                 rel="noreferrer"
                 href={link.url}
                 target="_blank"
-                className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal text-gray-600"
+                className="dark:bg-gray-00 hover:underline bg-transparent dark:text-white py-2 rounded-md text-xs sm:text-base font-normal text-gray-700"
               >
                 {link.title}
               </a>

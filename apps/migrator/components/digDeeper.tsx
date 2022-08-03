@@ -13,7 +13,7 @@ export default function DigDeeper() {
             <h3 className="mt-2 mb-4 lg:mb-8 text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
               Want to learn more?
             </h3>
-            <p className="mt-3 text-base text-gray-600 lg:w-9/12">
+            <p className="mt-3 text-base text-gray-700 lg:w-9/12">
                 See our Migrating from <span className="capitalize">{selectedLanguage}</span> to Cypress Guide.
             </p>
             <Link href={protractorDocsURL}>
