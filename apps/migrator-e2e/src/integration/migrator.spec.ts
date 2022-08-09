@@ -1,5 +1,9 @@
 /// <reference types="cypress" />
 
+import{ slowCypressDown } from 'cypress-slow-down'; 
+
+slowCypressDown()
+
 interface IMigration {
   protractor: string
   cypress: string
