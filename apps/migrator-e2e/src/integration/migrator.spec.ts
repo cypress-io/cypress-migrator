@@ -2,7 +2,7 @@
 
 import{ slowCypressDown } from 'cypress-slow-down'; 
 
-slowCypressDown()
+slowCypressDown(500)
 
 interface IMigration {
   protractor: string
