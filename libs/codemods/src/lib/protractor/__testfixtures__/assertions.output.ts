@@ -1,6 +1,7 @@
 describe('Assertions', () => {
   it('should transform count()', () => {
     cy.get('.list').its('length').should('equal', 3)
+    todoList.its('length').should('equal', 3)
     cy.get('[ng-options="n in names"]').its('length').should('equal', 3)
   })
 

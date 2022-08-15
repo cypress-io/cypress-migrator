@@ -33,6 +33,7 @@ export type CyGetLocators =
   | 'binding'
   | '$$'
   | 'options'
+  | 'repeater'
 export const cyGetLocators: CyGetLocators[] = [
   'className',
   'css',
@@ -44,6 +45,7 @@ export const cyGetLocators: CyGetLocators[] = [
   'binding',
   '$$',
   'options',
+  'repeater'
 ]
 
 // protractor locators that resolve to cy.contains

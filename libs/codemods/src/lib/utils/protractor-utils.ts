@@ -1,5 +1,4 @@
 import { ASTNode } from 'ast-types'
-import * as chalk from 'chalk'
 import { CallExpression, Collection, FileInfo, Identifier, JSCodeshift, Printable, SourceLocation } from 'jscodeshift'
 import { ProtractorSelectors, protractorSelectors } from '../protractor/constants'
 import { CodeModNode, ReplacementValues, Selector, TypedElementInExpression } from '../types'
@@ -154,6 +153,7 @@ export function replaceValue(value: string, selector?: string): string {
     model: `[ng-model="${value}"]`,
     binding: `[ng-bind="${value}"]`,
     options: `[ng-options="${value}"]`,
+    repeater: `[ng-repeater="${value}"]`,
   }
 
   return selector && replacements[selector] ? replacements[selector] : value
@@ -210,16 +210,12 @@ export function errorMessage(message: string, expr: Printable, file: FileInfo): 
   const line = source.slice((expr.loc as SourceLocation)?.start.line - 1, (expr.loc as SourceLocation)?.end.line)[0]
   const expression = line.slice(0, (expr.loc as SourceLocation)?.end.column)
 
-  const chalkErrorMessage = chalk.bold.red
-
-  const logMessage = chalkErrorMessage(message)
-
   const fullMessage =
     '\n\n' +
     `> ${expression}\n` +
     ' '.repeat((expr.loc as SourceLocation)?.start.column + 2) +
     '^\n\n' +
-    logMessage +
+    message +
     '\n\n'
 
   return fullMessage

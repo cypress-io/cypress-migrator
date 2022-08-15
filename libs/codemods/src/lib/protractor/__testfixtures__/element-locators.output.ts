@@ -102,6 +102,12 @@ describe('ElementLocators', () => {
     cy.get('[ng-options="n in names"]')
   })
 
+  it('should transform repeater', () => {
+    cy.get('[ng-repeater="todo in todos"]')
+    cy.get('[ng-repeater="todo in todos"]')
+    var cats = () => cy.get('[ng-repeater="cat in pets"]')
+  })
+
   it('should transform getWebElement', () => {
     cy.get('.parent')
     cy.get('.my-class')

@@ -1,6 +1,7 @@
 describe('Assertions', () => {
   it('should transform count()', () => {
     expect(by.css('.list').count()).toEqual(3)
+    expect(todoList.count()).toEqual(3)
     expect(element.all(by.options('n in names')).count()).toEqual(3)
   })
 

@@ -102,6 +102,12 @@ describe('ElementLocators', () => {
     element.all(by.options('n in names'))
   })
 
+  it('should transform repeater', () => {
+    by.repeater('todo in todos')
+    element.all(by.repeater('todo in todos'))
+    var cats = element(by.repeater('cat in pets');
+  })
+
   it('should transform getWebElement', () => {
     $('.parent').getWebElement()
     element(by.css('.my-class')).getWebElement()
