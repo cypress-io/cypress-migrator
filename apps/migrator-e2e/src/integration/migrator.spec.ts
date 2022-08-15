@@ -1,5 +1,9 @@
 /// <reference types="cypress" />
 
+import{ slowCypressDown } from 'cypress-slow-down'; 
+
+slowCypressDown(500)
+
 interface IMigration {
   protractor: string
   cypress: string
@@ -39,6 +43,7 @@ const verifyEmptyMigration = (value: string): void => {
 describe('Migrator app', () => {
   beforeEach(() => {
     cy.visit('/')
+    cy.injectAxe()
   })
 
   it('correctly displays and migrations', () => {
@@ -136,6 +141,14 @@ describe('Migrator app', () => {
   it('verifies all the assertion method migrations work', () => {
     cy.fixture('assertions').then((migrations: IMigration[]) => {
       migrations.forEach((migration: IMigration) => verifyMigration(migration))
+    })
+  })
+
+  it('Has no detectable a11y violations on load', () => {
+    // Test the page at initial load
+    // Note: here is a "moderate" aria role issue in monaco-editor that we don't control https://github.com/microsoft/monaco-editor/issues/2448 - filtering on critial errors only
+    cy.checkA11y(null, {
+      includedImpacts: ['critical']
     })
   })
 })

@@ -8,7 +8,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <html lang={'en'} />
         <title>Cypress Migrator | Interactive Code Transformer</title>
         <meta property="og:title" content="Cypress Migrator | Interactive Code Transformer" key="title" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />

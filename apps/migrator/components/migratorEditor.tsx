@@ -119,12 +119,12 @@ const MigrateEditor = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="flex flex-wrap-reverse justify-center md:justify-between items-center p-4 md:py-0 gap-y-4">
+      <div className="flex flex-wrap-reverse justify-center md:justify-between items-center p-4 md:py-0 gap-y-4 bg-white bg-opacity-50 rounded">
         <div className="text-center md:text-left">
-          <h4 className="font-bold">Want to dig deeper?</h4>
+          <h2 className="font-bold">Want to dig deeper?</h2>
           <p>
             <Link href="/migrations">
-            <a className="text-jade-400 hover:underline" data-test="all-migrations-link">
+            <a className="text-jade-500 hover:underline" data-test="all-migrations-link">
                 {' '}
                 See the full list of <span className="capitalize">{selectedLanguage}</span> migrations &rarr;{' '}
               </a>
