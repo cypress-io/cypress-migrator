@@ -22,7 +22,7 @@ describe('Protractor Demo App', () => {
   })
 })
 
-it('should greet the named user', function () {
+it('should greet the named user', function() {
   cy.visit('http://www.angularjs.org')
   cy.get('[ng-model="yourName"]').type('Julie')
   var greeting = () => cy.get('[ng-bind="yourName"]')

@@ -1,4 +1,5 @@
 import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
+import path = require('path')
 import { CodeModNode, ExpressionKind, Selector } from '../types'
 import { getPropertyName, isSelector, removeByPath, sanitize } from '../utils'
 import { transformAssertions } from './assertions'
@@ -23,8 +24,6 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   const classMethods: Collection<ClassMethod> = root.find(j.ClassMethod)
   // all awaits
   const awaitExpressions: Collection<AwaitExpression> = root.find(j.AwaitExpression)
-  console.log('🚀 ~ file: index.ts ~ line 26 ~ awaitExpressions', awaitExpressions)
-  console.log('🚀 ~ file: index.ts ~ line 141 ~ awaitExpressions.size()', awaitExpressions.size())
 
   // remove await expressions
   if (awaitExpressions.size() > 0) {
@@ -142,6 +141,7 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // transform locators
   transformLocators(j, callExpressions)
 
+
   // transform non-selector expressions
   callExpressions
     .filter((path: ASTPath<CodeModNode>) =>
@@ -154,6 +154,15 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
           ? getPropertyName(node.callee)
           : node.callee.name
       const pathArguments = path.get('arguments')
+
+      // transform async function expressions
+      if(pathArguments) {
+        pathArguments.value.forEach(argument => {
+          if (argument.type === "FunctionExpression" && argument.async === true) {
+            argument.async = false
+          }
+        })
+      }
 
       if ((nonLocatorMethodTransforms as any)[propertyName]) {
         node.callee.property.name = (nonLocatorMethodTransforms as any)[propertyName]
