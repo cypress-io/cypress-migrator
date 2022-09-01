@@ -21,3 +21,10 @@ describe('Protractor Demo App', () => {
     cy.get('#total').should('have.text', '3')
   })
 })
+
+it('should greet the named user', function () {
+  cy.visit('http://www.angularjs.org')
+  cy.get('[ng-model="yourName"]').type('Julie')
+  var greeting = () => cy.get('[ng-bind="yourName"]')
+  greeting.should('have.text', 'Hello Julie!')
+})

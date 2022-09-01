@@ -210,16 +210,12 @@ export function errorMessage(message: string, expr: Printable, file: FileInfo): 
   const line = source.slice((expr.loc as SourceLocation)?.start.line - 1, (expr.loc as SourceLocation)?.end.line)[0]
   const expression = line.slice(0, (expr.loc as SourceLocation)?.end.column)
 
-  const chalkErrorMessage = chalk.bold.red
-
-  const logMessage = chalkErrorMessage(message)
-
   const fullMessage =
     '\n\n' +
     `> ${expression}\n` +
     ' '.repeat((expr.loc as SourceLocation)?.start.column + 2) +
     '^\n\n' +
-    logMessage +
+    message +
     '\n\n'
 
   return fullMessage

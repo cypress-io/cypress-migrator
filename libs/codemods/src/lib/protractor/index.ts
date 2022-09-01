@@ -23,6 +23,13 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   const classMethods: Collection<ClassMethod> = root.find(j.ClassMethod)
   // all awaits
   const awaitExpressions: Collection<AwaitExpression> = root.find(j.AwaitExpression)
+  console.log('🚀 ~ file: index.ts ~ line 26 ~ awaitExpressions', awaitExpressions)
+  console.log('🚀 ~ file: index.ts ~ line 141 ~ awaitExpressions.size()', awaitExpressions.size())
+
+  // remove await expressions
+  if (awaitExpressions.size() > 0) {
+    awaitExpressions.replaceWith((path: ASTPath<any>) => path.node.argument)
+  }
 
   // generic ast call expressions
   const callExpressions: Collection<CodeModNode> = getCallExpressions()
@@ -134,11 +141,6 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
 
   // transform locators
   transformLocators(j, callExpressions)
-
-  // remove await expressions
-  if (awaitExpressions.size() > 0) {
-    awaitExpressions.replaceWith((path: ASTPath<any>) => path.node.argument)
-  }
 
   // transform non-selector expressions
   callExpressions
