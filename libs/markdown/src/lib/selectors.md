@@ -9,11 +9,11 @@
 | by.model('user.name')                        | cy.get('[ng-model="user.name"]');        |
 | by.binding('value')                          | cy.get('[ng-bind="value"]')              |
 | by.options('n in name')                      | cy.get('[ng-options="n in name"]')       |
-| by.linkText('Google')                        | cy.get('a').contains('Google')           |
-| by.partialLinkText('Goo')                    | cy.get('a').contains('Goo')              |
-| by.cssContainingText('.my-class', 'text')    | cy.get('.my-class').contains('text')     |
-| by.buttonText('Save')                        | cy.get('button').contains('Save')        |
-| by.partialButtonText('Save')                 | cy.get('button').contains('Save')        |
+| by.linkText('Google')                        | cy.contains('a', 'Google')           |
+| by.partialLinkText('Goo')                    | cy.contains('a', 'Goo')              |
+| by.cssContainingText('.my-class', 'text')    | cy.contains('.my-class', 'text')     |
+| by.buttonText('Save')                        | cy.contains('button', 'Save')        |
+| by.partialButtonText('Save')                 | cy.contains('button', 'Save')        |
 | by.tagName('h1')                             | cy.get('h1')                             |
 | by.xpath('//ul[@class="todo-list"]//li')     | cy.xpath('//ul[@class="todo-list"]//li') |
 | $('this-example')                            | cy.get('this-example')                   |
