@@ -24,6 +24,11 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // all awaits
   const awaitExpressions: Collection<AwaitExpression> = root.find(j.AwaitExpression)
 
+  // remove await expressions
+  if (awaitExpressions.size() > 0) {
+    awaitExpressions.replaceWith((path: ASTPath<any>) => path.node.argument)
+  }
+
   // generic ast call expressions
   const callExpressions: Collection<CodeModNode> = getCallExpressions()
 
@@ -135,10 +140,6 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
   // transform locators
   transformLocators(j, callExpressions)
 
-  // remove await expressions
-  if (awaitExpressions.size() > 0) {
-    awaitExpressions.replaceWith((path: ASTPath<any>) => path.node.argument)
-  }
 
   // transform non-selector expressions
   callExpressions
@@ -152,6 +153,15 @@ const transformer: Transform = (file: FileInfo, api: API): string => {
           ? getPropertyName(node.callee)
           : node.callee.name
       const pathArguments = path.get('arguments')
+
+      // transform async function expressions
+      if(pathArguments) {
+        pathArguments.value.forEach(argument => {
+          if (argument.type === "FunctionExpression" && argument.async === true) {
+            argument.async = false
+          }
+        })
+      }
 
       if ((nonLocatorMethodTransforms as any)[propertyName]) {
         node.callee.property.name = (nonLocatorMethodTransforms as any)[propertyName]
