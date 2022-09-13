@@ -50,27 +50,27 @@ describe('ElementLocators', () => {
   })
 
   it('should transform buttonText', () => {
-    cy.get('button').contains('Submit')
-    cy.get('button').contains('Submit')
-    cy.get('button').contains('Submit')
+    cy.contains('button', 'Submit')
+    cy.contains('button', 'Submit')
+    cy.contains('button', 'Submit')
   })
 
   it('should transform partialButtonText', () => {
-    cy.get('button').contains('Subm')
-    cy.get('button').contains('Subm')
-    cy.get('button').contains('Subm')
+    cy.contains('button', 'Subm')
+    cy.contains('button', 'Subm')
+    cy.contains('button', 'Subm')
   })
 
   it('should transform linkText', () => {
-    cy.get('a').contains('click')
-    cy.get('a').contains('click')
-    cy.get('a').contains('click')
+    cy.contains('a', 'click')
+    cy.contains('a', 'click')
+    cy.contains('a', 'click')
   })
 
   it('should transform partialLinkText', () => {
-    cy.get('a').contains('cli')
-    cy.get('a').contains('cli')
-    cy.get('a').contains('cli')
+    cy.contains('a', 'cli')
+    cy.contains('a', 'cli')
+    cy.contains('a', 'cli')
   })
 
   it('should transform model', () => {
@@ -93,8 +93,8 @@ describe('ElementLocators', () => {
   })
 
   it('should transform cssContainingText()', () => {
-    cy.get('.my-class').contains('text')
-    cy.get('.my-class').contains('text')
+    cy.contains('.my-class', 'text')
+    cy.contains('.my-class', 'text')
   })
 
   it('should transform options', () => {
