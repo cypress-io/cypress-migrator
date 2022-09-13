@@ -1,5 +1,4 @@
 import { API, ASTPath, AwaitExpression, ClassMethod, Collection, FileInfo, JSCodeshift, Transform } from 'jscodeshift'
-import path = require('path')
 import { CodeModNode, ExpressionKind, Selector } from '../types'
 import { getPropertyName, isSelector, removeByPath, sanitize } from '../utils'
 import { transformAssertions } from './assertions'
